@@ -1,5 +1,7 @@
 #include "DeviceSelector.hh"
 
+#include "HidLib.hh"
+
 #include <QVBoxLayout>
 #include <QListWidget>
 #include <QPushButton>
@@ -10,18 +12,22 @@ DeviceSelector::DeviceSelector() : QDialog{} {
     setWindowTitle("Device selector");
     auto layout = new QVBoxLayout{};
 
-    layout->addWidget(new QLabel{"Select device from following listWidget:"});
+    layout->addWidget(new QLabel{"Select device from following list:"});
     listWidget = new QListWidget{};
-    listWidget->addItem("A");
-    listWidget->addItem("B");
-    listWidget->addItem("C");
-    listWidget->addItem("D");
     layout->addWidget(listWidget);
 
     auto submitButton = new QPushButton{"Select"};
     connect(submitButton, &QPushButton::pressed, this,
             &DeviceSelector::selectDevice);
     layout->addWidget(submitButton);
+
+    auto lib = HidLib{};
+    auto devices = lib.enumerateDevices();
+    for(const auto& device: devices){
+        auto strings = device.getStrings();
+        auto str = strings.manufacturer + " " + strings.product;
+        listWidget->addItem(str.c_str());
+    }
 
     setLayout(layout);
 }
