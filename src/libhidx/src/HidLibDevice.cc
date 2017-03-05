@@ -1,6 +1,6 @@
-#include "HidLibDevice.hh"
+#include "libhidx/HidLibDevice.hh"
 
-#include "HidLibDeviceHandle.hh"
+#include "libhidx/HidLibDeviceHandle.hh"
 
 HidLibDevice::HidLibDevice(libusb_device* device) {
     m_device = device;

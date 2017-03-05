@@ -1,4 +1,4 @@
-#include "HidLibDeviceHandle.hh"
+#include "libhidx/HidLibDeviceHandle.hh"
 
 HidLibDeviceHandle::HidLibDeviceHandle(const HidLibDevice& device) : m_device{device} {
     // TODO: check value

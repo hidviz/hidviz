@@ -1,6 +1,6 @@
 #include "DeviceSelector.hh"
 
-#include "HidLib.hh"
+#include "libhidx/HidLib.hh"
 
 #include <QVBoxLayout>
 #include <QListWidget>

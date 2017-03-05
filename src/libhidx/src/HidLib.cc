@@ -1,4 +1,4 @@
-#include "HidLib.hh"
+#include "libhidx/HidLib.hh"
 
 HidLib::HidLib() {
     //TODO: check return value

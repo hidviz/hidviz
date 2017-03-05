@@ -48,61 +48,31 @@
 **
 ****************************************************************************/
 
-/*
-    treeitem.cpp
+#ifndef TREEITEM_H
+#define TREEITEM_H
 
-    A container for items of data supplied by the simple tree model.
-*/
+#include <QList>
+#include <QVariant>
 
-#include <QStringList>
-
-#include "TreeItem.hh"
-
-TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent)
+class TreeItem
 {
-    m_parentItem = parent;
-    m_itemData = data;
-}
+public:
+    explicit TreeItem(const QList<QVariant> &data, TreeItem *parentItem = 0);
+    ~TreeItem();
 
-TreeItem::~TreeItem()
-{
-    qDeleteAll(m_childItems);
-}
+    void appendChild(TreeItem *child);
 
-void TreeItem::appendChild(TreeItem *item)
-{
-    m_childItems.append(item);
-}
+    TreeItem *child(int row);
+    int childCount() const;
+    int columnCount() const;
+    QVariant data(int column) const;
+    int row() const;
+    TreeItem *parentItem();
 
-TreeItem *TreeItem::child(int row)
-{
-    return m_childItems.value(row);
-}
+private:
+    QList<TreeItem*> m_childItems;
+    QList<QVariant> m_itemData;
+    TreeItem *m_parentItem;
+};
 
-int TreeItem::childCount() const
-{
-    return m_childItems.count();
-}
-
-int TreeItem::columnCount() const
-{
-    return m_itemData.count();
-}
-
-QVariant TreeItem::data(int column) const
-{
-    return m_itemData.value(column);
-}
-
-TreeItem *TreeItem::parentItem()
-{
-    return m_parentItem;
-}
-
-int TreeItem::row() const
-{
-    if (m_parentItem)
-        return m_parentItem->m_childItems.indexOf(const_cast<TreeItem*>(this));
-
-    return 0;
-}
+#endif // TREEITEM_H

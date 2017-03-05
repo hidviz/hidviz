@@ -3,7 +3,7 @@
 
 #include "HidLibDeviceStrings.hh"
 
-#include <libusb.h>
+#include <libusb-1.0/libusb.h>
 
 class HidLibDevice {
 public:
