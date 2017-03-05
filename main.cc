@@ -1,7 +1,6 @@
-#include <QApplication>
-#include <QMainWindow>
-#include <QVBoxLayout>
 #include "Window.hh"
+
+#include <QApplication>
 
 int main(int argc, char** argv) {
     QApplication app(argc, argv);

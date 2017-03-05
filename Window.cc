@@ -1,15 +1,12 @@
-//
-// Created by ondrej on 2.3.17.
-//
+#include "Window.hh"
 
-#include <QDialog>
+#include "TreeModel.hh"
+#include "DeviceSelector.hh"
+
 #include <QGridLayout>
 #include <QPushButton>
 #include <QLabel>
 #include <QTreeView>
-#include "Window.hh"
-#include "TreeModel.hh"
-#include "DeviceSelector.hh"
 
 Window::Window() : QWidget{} {
     showMaximized();

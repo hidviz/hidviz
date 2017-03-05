@@ -1,8 +1,9 @@
+#include "DeviceSelector.hh"
+
 #include <QVBoxLayout>
 #include <QListWidget>
 #include <QPushButton>
 #include <QLabel>
-#include "DeviceSelector.hh"
 
 DeviceSelector::DeviceSelector() : QDialog{} {
     setModal(true);
