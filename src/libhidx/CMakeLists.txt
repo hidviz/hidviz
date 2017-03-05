@@ -1,9 +1,9 @@
 project(libhidx VERSION 0.0.1 LANGUAGES CXX)
 
 add_library(hidx
-        src/HidLib.cc
-        src/HidLibDevice.cc
-        src/HidLibDeviceHandle.cc
+        src/LibHidx.cc
+        src/Device.cc
+        src/DeviceHandle.cc
         )
 
 target_include_directories(hidx PUBLIC

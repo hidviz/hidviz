@@ -11,19 +11,24 @@
 
 class QListWidget;
 
-class DeviceSelector : public QDialog {
+namespace hidviz {
+
+    class DeviceSelector : public QDialog {
     Q_OBJECT
-private:
-    QListWidget* listWidget;
-public:
-    DeviceSelector();
-signals:
-    void deviceSelected(std::string);
+    private:
+        QListWidget* listWidget;
+    public:
+        DeviceSelector();
 
-public slots:
-    void selectDevice();
+    signals:
+        void deviceSelected(std::string);
 
-};
+    public slots:
+
+        void selectDevice();
+
+    };
+}
 
 
 #endif //HIDVIZ_DEVICESELECTOR_HH

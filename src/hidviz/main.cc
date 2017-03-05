@@ -5,7 +5,7 @@
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
 
-    Window o;
+    hidviz::Window o;
 
     return app.exec();
 }

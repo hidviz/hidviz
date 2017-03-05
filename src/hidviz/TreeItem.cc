@@ -54,55 +54,49 @@
     A container for items of data supplied by the simple tree model.
 */
 
-#include <QStringList>
 
 #include "TreeItem.hh"
 
-TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent)
-{
-    m_parentItem = parent;
-    m_itemData = data;
-}
+namespace hidviz {
 
-TreeItem::~TreeItem()
-{
-    qDeleteAll(m_childItems);
-}
+    TreeItem::TreeItem(const QList<QVariant>& data, TreeItem* parent) {
+        m_parentItem = parent;
+        m_itemData = data;
+    }
 
-void TreeItem::appendChild(TreeItem *item)
-{
-    m_childItems.append(item);
-}
+    TreeItem::~TreeItem() {
+        qDeleteAll(m_childItems);
+    }
 
-TreeItem *TreeItem::child(int row)
-{
-    return m_childItems.value(row);
-}
+    void TreeItem::appendChild(TreeItem* item) {
+        m_childItems.append(item);
+    }
 
-int TreeItem::childCount() const
-{
-    return m_childItems.count();
-}
+    TreeItem* TreeItem::child(int row) {
+        return m_childItems.value(row);
+    }
 
-int TreeItem::columnCount() const
-{
-    return m_itemData.count();
-}
+    int TreeItem::childCount() const {
+        return m_childItems.count();
+    }
 
-QVariant TreeItem::data(int column) const
-{
-    return m_itemData.value(column);
-}
+    int TreeItem::columnCount() const {
+        return m_itemData.count();
+    }
 
-TreeItem *TreeItem::parentItem()
-{
-    return m_parentItem;
-}
+    QVariant TreeItem::data(int column) const {
+        return m_itemData.value(column);
+    }
 
-int TreeItem::row() const
-{
-    if (m_parentItem)
-        return m_parentItem->m_childItems.indexOf(const_cast<TreeItem*>(this));
+    TreeItem* TreeItem::parentItem() {
+        return m_parentItem;
+    }
 
-    return 0;
+    int TreeItem::row() const {
+        if (m_parentItem)
+            return m_parentItem->m_childItems.indexOf(
+                const_cast<TreeItem*>(this));
+
+        return 0;
+    }
 }

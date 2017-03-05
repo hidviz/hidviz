@@ -3,20 +3,24 @@
 
 #include <QWidget>
 
-#include <iostream>
+#include <string>
 
-class Window : public QWidget
-{
+namespace hidviz {
+
+    class Window : public QWidget {
     Q_OBJECT
 
-public:
-    Window();
+    public:
+        Window();
 
-public slots:
-    void openDeviceSelector();
-    void selectDevice(std::string);
+    public slots:
 
-};
+        void openDeviceSelector();
+
+        void selectDevice(std::string);
+
+    };
+}
 
 
 #endif //HIDVIZ_WINDOW_HH
