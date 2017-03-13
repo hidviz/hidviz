@@ -1,6 +1,7 @@
 #include "DeviceSelector.hh"
 
 #include "libhidx/LibHidx.hh"
+#include "libhidx/LibHidxFactory.hh"
 
 #include <QVBoxLayout>
 #include <QListWidget>
@@ -23,15 +24,31 @@ namespace hidviz {
                 &DeviceSelector::selectDevice);
         layout->addWidget(submitButton);
 
-        auto lib = libhidx::LibHidx{};
-        auto devices = lib.enumerateDevices();
-        for (const auto& device: devices) {
-            auto strings = device.getStrings();
-            auto str = strings.manufacturer + " " + strings.product;
-            listWidget->addItem(str.c_str());
-        }
+        initListWidget();
 
         setLayout(layout);
+    }
+
+    void DeviceSelector::initListWidget() const {
+        auto& lib = libhidx::LibHidxFactory::get();
+        lib.loadDevices();
+        const auto& devices = lib.getDevices();
+        for (const auto& device: devices) {
+            const auto& interfaces = device.getInterfaces();
+            for(const auto& interface: interfaces){
+                if(!interface.isHid()){
+                    continue;
+                }
+
+                const auto& strings = device.getStrings();
+                auto interfaceNum = interface.getNumber();
+                auto str = strings.manufacturer + " " + strings.product;
+
+                str += " (interface " + std::to_string(interfaceNum) + ")";
+
+                listWidget->addItem(str.c_str());
+            }
+        }
     }
 
     void DeviceSelector::selectDevice() {

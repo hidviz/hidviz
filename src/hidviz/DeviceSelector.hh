@@ -27,6 +27,7 @@ namespace hidviz {
 
         void selectDevice();
 
+        void initListWidget() const;
     };
 }
 

@@ -25,7 +25,7 @@ namespace hidviz {
 //    devicesButton->setFixedSize(100, 75);
         auto devicesButtonLayout = new QVBoxLayout{};
         auto usbLabel = new QLabel{};
-        auto usbImage = QImage{"../img/usb.png"};
+        auto usbImage = QImage{"../../img/usb.png"};
         auto usbPixmap = QPixmap::fromImage(usbImage);
         usbPixmap = usbPixmap.scaledToWidth(64, Qt::SmoothTransformation);
         usbLabel->setPixmap(usbPixmap);

@@ -6,19 +6,24 @@
 #include <libusb-1.0/libusb.h>
 
 #include <vector>
+#include <list>
 
 namespace libhidx {
 
     class LibHidx {
     public:
         LibHidx();
-
+        LibHidx(const LibHidx&) = delete;
+        LibHidx(LibHidx&&);
         ~LibHidx();
 
-        std::vector<Device> enumerateDevices();
+        void loadDevices();
+        const auto& getDevices(){return m_devices;}
 
     private:
-        libusb_context* ctx;
+        libusb_context* ctx = nullptr;
+        std::vector<Device> m_devices;
+        libusb_device** m_deviceList;
     };
 
 }

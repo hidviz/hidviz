@@ -8,20 +8,29 @@ namespace libhidx {
     }
 
     LibHidx::~LibHidx() {
-        libusb_exit(ctx);
+        m_devices.clear();
+        libusb_free_device_list(m_deviceList, 0);
+        if(ctx) {
+            libusb_exit(ctx);
+        }
     }
 
-    std::vector<Device> LibHidx::enumerateDevices() {
-        libusb_device** deviceList;
-        auto deviceNum = libusb_get_device_list(ctx, &deviceList);
-        auto devices = std::vector<Device>{};
+    void LibHidx::loadDevices() {
+        auto deviceNum = libusb_get_device_list(ctx, &m_deviceList);
 
-        for (decltype(deviceNum) i = 0; i < deviceNum; ++i) {
-            devices.push_back(Device{deviceList[i]});
+        m_devices.clear();
+
+        for (auto i = 0; i < deviceNum; ++i) {
+            m_devices.emplace_back(m_deviceList[i]);
 
         }
+    }
 
-        return devices;
+    LibHidx::LibHidx(LibHidx&& a) {
+        ctx = a.ctx;
+        a.ctx = nullptr;
+
+        m_devices = std::move(a.m_devices);
     }
 
 }

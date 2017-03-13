@@ -4,7 +4,7 @@ add_library(hidx
         src/LibHidx.cc
         src/Device.cc
         src/DeviceHandle.cc
-        )
+        src/Interface.cc)
 
 target_include_directories(hidx PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
