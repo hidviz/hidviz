@@ -1,13 +1,9 @@
-//
-// Created by ondrej on 2.3.17.
-//
-
 #ifndef HIDVIZ_DEVICESELECTOR_HH
 #define HIDVIZ_DEVICESELECTOR_HH
 
+#include "libhidx/Interface.hh"
 
 #include <QDialog>
-
 
 class QListWidget;
 
@@ -21,7 +17,7 @@ namespace hidviz {
         DeviceSelector();
 
     signals:
-        void deviceSelected(std::string);
+        void deviceSelected(const libhidx::Interface&);
 
     public slots:
 

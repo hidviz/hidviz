@@ -1,9 +1,13 @@
 #ifndef HIDVIZ_WINDOW_HH
 #define HIDVIZ_WINDOW_HH
 
+#include "libhidx/Interface.hh"
+
 #include <QWidget>
 
 #include <string>
+
+class QLabel;
 
 namespace hidviz {
 
@@ -13,11 +17,14 @@ namespace hidviz {
     public:
         Window();
 
+    private:
+        QLabel* deviceName;
+
     public slots:
 
         void openDeviceSelector();
 
-        void selectDevice(std::string);
+        void selectDevice(const libhidx::Interface&);
 
     };
 }

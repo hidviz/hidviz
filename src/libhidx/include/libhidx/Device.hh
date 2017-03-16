@@ -7,8 +7,12 @@
 #include <libusb-1.0/libusb.h>
 
 #include <vector>
+#include <memory>
 
 namespace libhidx {
+
+    class Interface;
+
     class Device {
     public:
 
@@ -28,7 +32,8 @@ namespace libhidx {
         libusb_device_descriptor m_descriptor;
         libusb_config_descriptor* m_config_descriptor = nullptr;
         DeviceStrings m_strings;
-        std::vector<Interface> m_interfaces;
+        std::vector<std::unique_ptr<Interface>> m_interfaces;
+        int m_id;
 
         void readStrings();
         void fillInterfaces();

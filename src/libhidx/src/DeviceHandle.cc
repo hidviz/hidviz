@@ -49,4 +49,20 @@ namespace libhidx {
         return std::string{reinterpret_cast<char*>(data),
                            static_cast<size_t>(size)};
     }
+
+    int DeviceHandle::controlTransfer(uint8_t requestType, uint8_t request,
+                                      uint16_t value, uint16_t index,
+                                      unsigned char* data, uint16_t length,
+                                      unsigned int timeout) {
+        return libusb_control_transfer(
+            m_handle,
+            requestType,
+            request,
+            value,
+            index,
+            data,
+            length,
+            timeout
+        );
+    }
 }

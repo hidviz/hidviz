@@ -21,7 +21,7 @@ namespace libhidx {
         m_devices.clear();
 
         for (auto i = 0; i < deviceNum; ++i) {
-            m_devices.emplace_back(m_deviceList[i]);
+            m_devices.emplace_back(std::make_unique<Device>(m_deviceList[i]));
 
         }
     }

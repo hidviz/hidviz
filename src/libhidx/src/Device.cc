@@ -2,8 +2,6 @@
 
 #include "libhidx/DeviceHandle.hh"
 
-#include <memory>
-
 namespace libhidx {
 
     Device::Device(libusb_device* device) {
@@ -35,21 +33,22 @@ namespace libhidx {
         const auto& numInterfaces = m_config_descriptor->bNumInterfaces;
         for(auto i = 0; i < numInterfaces; ++i){
             const auto& interface_descriptor = m_config_descriptor->interface[i];
-            m_interfaces.emplace_back(interface_descriptor);
+            m_interfaces.emplace_back(std::make_unique<Interface>(interface_descriptor, *this));
         }
     }
 
     Device::Device(Device&& d) {
-
         m_device = d.m_device;
         d.m_device = nullptr;
+
+        m_id = d.m_id;
 
         m_config_descriptor = d.m_config_descriptor;
         d.m_config_descriptor = nullptr;
 
         m_descriptor = d.m_descriptor;
         m_strings = d.m_strings;
-        m_interfaces = d.m_interfaces;
+        m_interfaces = std::move(d.m_interfaces);
 
     }
 }

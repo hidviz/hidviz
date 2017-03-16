@@ -6,7 +6,7 @@
 #include <libusb-1.0/libusb.h>
 
 #include <vector>
-#include <list>
+#include <memory>
 
 namespace libhidx {
 
@@ -22,7 +22,7 @@ namespace libhidx {
 
     private:
         libusb_context* ctx = nullptr;
-        std::vector<Device> m_devices;
+        std::vector<std::unique_ptr<Device>> m_devices;
         libusb_device** m_deviceList;
     };
 

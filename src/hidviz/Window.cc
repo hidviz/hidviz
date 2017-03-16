@@ -49,7 +49,7 @@ namespace hidviz {
         vSeparator1->setMaximumWidth(1);
         layout->addWidget(vSeparator1, 0, 1);
 
-        auto deviceName = new QLabel{"Logitech, Inc. Unifying Receiver"};
+        deviceName = new QLabel{"Logitech, Inc. Unifying Receiver"};
         QFont f;
         f.setPointSize(32);
         deviceName->setFont(f);
@@ -100,8 +100,8 @@ namespace hidviz {
                 &Window::selectDevice);
     }
 
-    void Window::selectDevice(std::string device) {
-        std::cerr << device << std::endl;
+    void Window::selectDevice(const libhidx::Interface& interface) {
+        deviceName->setText(QString::fromStdString(interface.getName()));
     }
 
 }

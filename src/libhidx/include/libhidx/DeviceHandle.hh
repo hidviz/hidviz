@@ -9,10 +9,15 @@ namespace libhidx {
     class DeviceHandle {
     public:
         DeviceHandle(const Device& device);
-
         ~DeviceHandle();
-
         DeviceStrings readStrings();
+        int controlTransfer(uint8_t requestType,
+                            uint8_t request,
+                            uint16_t value,
+                            uint16_t index,
+                            unsigned char *data,
+                            uint16_t length,
+                            unsigned int timeout);
 
     private:
         libusb_device_handle* m_handle = nullptr;

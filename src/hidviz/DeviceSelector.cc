@@ -1,5 +1,7 @@
 #include "DeviceSelector.hh"
 
+#include "DeviceSelectionListItem.hh"
+
 #include "libhidx/LibHidx.hh"
 #include "libhidx/LibHidxFactory.hh"
 
@@ -34,19 +36,21 @@ namespace hidviz {
         lib.loadDevices();
         const auto& devices = lib.getDevices();
         for (const auto& device: devices) {
-            const auto& interfaces = device.getInterfaces();
+            const auto& interfaces = device->getInterfaces();
             for(const auto& interface: interfaces){
-                if(!interface.isHid()){
+                if(!interface->isHid()){
                     continue;
                 }
 
-                const auto& strings = device.getStrings();
-                auto interfaceNum = interface.getNumber();
+                const auto& strings = device->getStrings();
+                auto interfaceNum = interface->getNumber();
                 auto str = strings.manufacturer + " " + strings.product;
 
                 str += " (interface " + std::to_string(interfaceNum) + ")";
 
-                listWidget->addItem(str.c_str());
+                auto item = new DeviceSelectionListItem{QString::fromStdString(str), *interface};
+
+                listWidget->addItem(item);
             }
         }
     }
@@ -57,9 +61,9 @@ namespace hidviz {
             return;
         }
 
-        auto selectedItem = selectedItems.first()->data(
-            Qt::DisplayRole).toString().toStdString();
+        auto selectedItem = static_cast<DeviceSelectionListItem*>(selectedItems.first());
 
-        emit deviceSelected(selectedItem);
+        emit deviceSelected(selectedItem->getInterface());
+        close();
     }
 }

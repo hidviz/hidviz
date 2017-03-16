@@ -9,7 +9,7 @@ add_executable(hidviz
         TreeItem.cc
         DeviceSelector.cc
         Window.cc
-        )
+        DeviceSelectionListItem.cc)
 
 target_link_libraries(hidviz
         hidx
