@@ -36,19 +36,4 @@ namespace libhidx {
             m_interfaces.emplace_back(std::make_unique<Interface>(interface_descriptor, *this));
         }
     }
-
-    Device::Device(Device&& d) {
-        m_device = d.m_device;
-        d.m_device = nullptr;
-
-        m_id = d.m_id;
-
-        m_config_descriptor = d.m_config_descriptor;
-        d.m_config_descriptor = nullptr;
-
-        m_descriptor = d.m_descriptor;
-        m_strings = d.m_strings;
-        m_interfaces = std::move(d.m_interfaces);
-
-    }
 }

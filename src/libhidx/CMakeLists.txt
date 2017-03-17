@@ -5,7 +5,11 @@ add_library(hidx
         src/Device.cc
         src/DeviceHandle.cc
         src/Interface.cc
-        src/HidParser.cc)
+        src/Parser.cc
+        src/hid/Item.cc
+        src/hid/Collection.cc
+        src/hid/Control.cc
+        )
 
 target_include_directories(hidx PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

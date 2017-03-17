@@ -18,7 +18,6 @@ namespace libhidx {
 
         Device(libusb_device* device);
         Device(const Device&) = delete;
-        Device(Device&&);
         ~Device();
 
         const auto& getDevice() const { return m_device; }

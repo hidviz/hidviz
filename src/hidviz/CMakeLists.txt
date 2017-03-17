@@ -6,7 +6,6 @@ set(CMAKE_AUTOMOC ON)
 add_executable(hidviz
         main.cc
         TreeModel.cc
-        TreeItem.cc
         DeviceSelector.cc
         Window.cc
         DeviceSelectionListItem.cc)

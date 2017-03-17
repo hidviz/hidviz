@@ -8,6 +8,7 @@
 #include <string>
 
 class QLabel;
+class QTreeView;
 
 namespace hidviz {
 
@@ -19,6 +20,7 @@ namespace hidviz {
 
     private:
         QLabel* deviceName;
+        QTreeView* content;
 
     public slots:
 

@@ -1,19 +1,32 @@
+#include <iostream>
 #include "libhidx/DeviceHandle.hh"
 
 namespace libhidx {
 
     DeviceHandle::DeviceHandle(const Device& device)
         : m_device{device} {
-        // TODO: check value
-        libusb_open(device.getDevice(), &m_handle);
+        int status;
+
+        status = libusb_open(device.getDevice(), &m_handle);
+        if(status){
+            std::cerr << "libusb_open failed: " << status << std::endl;
+        }
 
         // TODO: not supported everywhere :(
         libusb_set_auto_detach_kernel_driver(m_handle, true);
-        libusb_claim_interface(m_handle, 0);
+        status = libusb_claim_interface(m_handle, 0);
+
+        if(status){
+            std::cerr << "libusb_claim_interface failed: " << status << std::endl;
+        }
     }
 
     DeviceHandle::~DeviceHandle() {
-        libusb_release_interface(m_handle, 0);
+        int status;
+        status = libusb_release_interface(m_handle, 0);
+        if(status){
+            std::cerr << "libusb_release_interface failed: " << status  << std::endl;
+        }
 
         libusb_close(m_handle);
         m_handle = nullptr;
@@ -61,7 +74,7 @@ namespace libhidx {
             value,
             index,
             data,
-            length,
+            250,
             timeout
         );
     }

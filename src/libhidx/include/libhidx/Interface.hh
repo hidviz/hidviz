@@ -6,6 +6,9 @@
 #include <libusb-1.0/libusb.h>
 
 namespace libhidx {
+namespace hid {
+    class Item{};
+}
 
     class Device;
 
@@ -13,18 +16,21 @@ namespace libhidx {
     public:
         Interface(const libusb_interface&, Device& device);
         Interface(const Interface&) = delete;
-        Interface(Interface&&);
 
         bool isHid() const;
-        int getNumber() const {return m_interface.bInterfaceNumber;}
-        const Device& getDevice() const {return m_device;}
+        auto getNumber() const {return m_interface.bInterfaceNumber;}
+        const auto& getDevice() const {return m_device;}
         std::string getName() const;
+        const auto& getRootCollection() const {return m_rootCollection;}
 
     private:
         const libusb_interface_descriptor& m_interface;
         Device& m_device;
 
         void loadHidDescriptor();
+        hid::Item* m_rootCollection;
+
+        void parseHidDescriptor();
     };
 
 }

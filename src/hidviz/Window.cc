@@ -9,6 +9,7 @@
 #include <QTreeView>
 
 #include <iostream>
+#include <cassert>
 
 namespace hidviz {
 
@@ -83,14 +84,12 @@ namespace hidviz {
         vSeparator2->setMaximumWidth(1);
         layout->addWidget(vSeparator2, 2, 1);
 
-        auto content = new QTreeView;
+        content = new QTreeView;
         content->setSizePolicy(
             QSizePolicy{QSizePolicy::Expanding, QSizePolicy::Expanding});
         layout->addWidget(content, 2, 2);
 
-        auto model = new TreeModel{"ahoj    Čumák\nOndro    Bar"};
 
-        content->setModel(model);
     }
 
     void Window::openDeviceSelector() {
@@ -101,7 +100,12 @@ namespace hidviz {
     }
 
     void Window::selectDevice(const libhidx::Interface& interface) {
+        assert(interface.isHid());
+
         deviceName->setText(QString::fromStdString(interface.getName()));
+
+        auto model = new TreeModel{interface.getRootCollection()};
+        content->setModel(model);
     }
 
 }
