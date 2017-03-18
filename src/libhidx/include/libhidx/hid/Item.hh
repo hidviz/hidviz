@@ -13,10 +13,11 @@ namespace hid {
         void appendChild(Item* child);
         Item* child(int row);
         size_t childCount() const;
-        size_t columnCount() const;
         Item* parentItem();
-        int data(int column) const;
         size_t row() const;
+
+        bool m_collection = false;
+        bool m_control = false;
 
     private:
         std::vector<std::unique_ptr<Item>> m_children;

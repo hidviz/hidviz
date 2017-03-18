@@ -160,12 +160,9 @@ namespace libhidx {
         m_collectionStack.back()->appendChild(collection);
         m_collectionStack.emplace_back(collection);
 
-        /*TODO
-        auto usage = local.usage[0];
+        collection->m_type = m_currentItem.udata() & 0xff;
+        collection->m_usage = m_local.usagesStack.front();
 
-        collection->type = m_currentItem.udata() & 0xff;
-        collection->usage = usage;
-        */
     }
 
     void Parser::closeCollection() {
@@ -180,6 +177,7 @@ namespace libhidx {
             throw ParserError{"Field does not belong to collection."};
         }
         auto field = new hid::Control{m_collectionStack.back()};
+        m_collectionStack.back()->appendChild(field);
 
         /* Handle both signed and unsigned cases properly */
         if ((m_global.logicalMinimum < 0 &&

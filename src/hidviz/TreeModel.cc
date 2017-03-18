@@ -2,6 +2,10 @@
 
 #include "libhidx/hid/Item.hh"
 
+#include <QLabel>
+
+#include <iostream>
+
 using libhidx::hid::Item;
 
 namespace hidviz {
@@ -12,23 +16,23 @@ namespace hidviz {
         delete m_rootItem;
     }
 
-    int TreeModel::columnCount(const QModelIndex& parent) const {
-        if (parent.isValid())
-            return static_cast<Item*>(parent.internalPointer())->columnCount();
-        else
-            return m_rootItem->columnCount();
+    int TreeModel::columnCount(const QModelIndex&) const {
+        return 2;
     }
 
     QVariant TreeModel::data(const QModelIndex& index, int role) const {
         if (!index.isValid())
             return QVariant();
 
+        Item* item = static_cast<Item*>(index.internalPointer());
+        if (role == Qt::UserRole){
+            return QVariant::fromValue(static_cast<void*>(item));
+        }
+
         if (role != Qt::DisplayRole)
             return QVariant();
 
-        Item* item = static_cast<Item*>(index.internalPointer());
-
-        return item->data(index.column());
+        return "";
     }
 
     Qt::ItemFlags TreeModel::flags(const QModelIndex& index) const {
@@ -38,12 +42,8 @@ namespace hidviz {
         return QAbstractItemModel::flags(index);
     }
 
-    QVariant TreeModel::headerData(int section, Qt::Orientation orientation,
-                                   int role) const {
-        if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-            return m_rootItem->data(section);
-
-        return QVariant();
+    QVariant TreeModel::headerData(int, Qt::Orientation, int) const {
+        return "";
     }
 
     QModelIndex TreeModel::index(int row, int column, const QModelIndex& parent)
@@ -80,16 +80,44 @@ namespace hidviz {
 
     int TreeModel::rowCount(const QModelIndex& parent) const {
         Item* parentItem;
-        if (parent.column() > 0)
+        if (parent.column() > 0) {
             return 0;
+        }
 
         if (!parent.isValid())
             parentItem = m_rootItem;
         else
             parentItem = static_cast<Item*>(parent.internalPointer());
 
-        return static_cast<int>(parentItem->childCount());
+        auto rowCount = static_cast<int>(parentItem->childCount());
+
+        return rowCount;
     }
 
+    void TreeModel::forEach(std::function<void(const QModelIndex&)> f,
+                            QModelIndex parent) {
+        if (!parent.isValid()) {
+            parent = index(0, 0, QModelIndex());
+            auto numRows = rowCount();
+            auto numCols = columnCount();
+
+            for(int i = 0; i < numRows; ++i){
+                for(int j = 0; j < numCols; ++j){
+                    f(index(i, j));
+                }
+            }
+        } else {
+            f(parent);
+        }
+
+        auto numRows = rowCount(parent);
+        auto numCols = columnCount(parent);
+
+        for(int i = 0; i < numRows; ++i) {
+            for(int j = 0; j < numCols; ++j){
+                forEach(f,index(i, j, parent));
+            }
+        }
+    }
 
 }

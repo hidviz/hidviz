@@ -5,6 +5,8 @@
 #include <QModelIndex>
 #include <QVariant>
 
+#include <functional>
+
 namespace libhidx {
 namespace hid {
     class Item;
@@ -38,6 +40,11 @@ namespace hidviz {
         int
         columnCount(const QModelIndex& parent = QModelIndex()) const override;
 
+        void forEach(std::function<void(const QModelIndex&)>, QModelIndex parent = QModelIndex{});
+
+
+
+    private:
         libhidx::hid::Item* m_rootItem;
     };
 

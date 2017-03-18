@@ -8,7 +8,7 @@ namespace hid {
     class Control : public Item {
 
     public:
-        Control(Item* parent = nullptr) : Item{parent} {}
+        Control(Item* parent = nullptr) : Item{parent} {m_control=true;}
 
         std::size_t m_offset;
         std::vector<unsigned> m_usages{};

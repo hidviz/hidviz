@@ -34,15 +34,6 @@ namespace hid {
         return static_cast<size_t>(it - begin(parent->m_children));
     }
 
-    size_t Item::columnCount() const {
-        //TODO
-        return 1;
-    }
-
-    int Item::data(int column) const {
-        return 1;
-    }
-
 
 }
 }

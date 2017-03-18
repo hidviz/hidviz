@@ -7,7 +7,7 @@
 
 namespace libhidx {
 namespace hid {
-    class Item{};
+    class Item;
 }
 
     class Device;

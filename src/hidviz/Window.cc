@@ -2,15 +2,15 @@
 
 #include "TreeModel.hh"
 #include "DeviceSelector.hh"
+#include "hid/Collection.hh"
 
 #include <QGridLayout>
 #include <QPushButton>
 #include <QLabel>
 #include <QTreeView>
+#include <QSettings>
 
-#include <iostream>
 #include <cassert>
-#include <QtCore/QSettings>
 
 namespace hidviz {
 
@@ -86,6 +86,7 @@ namespace hidviz {
         content = new QTreeView;
         content->setSizePolicy(
             QSizePolicy{QSizePolicy::Expanding, QSizePolicy::Expanding});
+        content->setSelectionMode(QTreeView::NoSelection);
         layout->addWidget(content, 2, 2);
         QSettings settings{"hidviz"};
         restoreGeometry(settings.value( "geometry", saveGeometry() ).toByteArray());
@@ -109,6 +110,13 @@ namespace hidviz {
 
         auto model = new TreeModel{interface.getRootCollection()};
         content->setModel(model);
+        model->forEach([this](const QModelIndex& index){
+            if(index.column() == 0){
+                return;
+            }
+            auto item = static_cast<libhidx::hid::Item*>(index.data(Qt::UserRole).value<void*>());
+            content->setIndexWidget(index, new hid::Collection{item});
+        });
     }
 
     void Window::closeEvent(QCloseEvent* event) {
