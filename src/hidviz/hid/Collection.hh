@@ -1,21 +1,21 @@
 #ifndef HIDVIZ_COLLECTION_HH
 #define HIDVIZ_COLLECTION_HH
 
-#include <QWidget>
+#include "Control.hh"
 
 namespace libhidx {
 namespace hid {
-    class Item;
+    class Collection;
 }
 }
 
 namespace hidviz {
 namespace hid {
-    class Collection : public QWidget {
+    class Collection : public Item {
     public:
-        Collection(libhidx::hid::Item* item);
+        Collection(libhidx::hid::Collection* collection);
     private:
-        libhidx::hid::Item* m_item;
+        libhidx::hid::Collection* m_collection;
     };
 }
 }

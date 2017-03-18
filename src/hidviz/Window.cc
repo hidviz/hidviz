@@ -3,6 +3,11 @@
 #include "TreeModel.hh"
 #include "DeviceSelector.hh"
 #include "hid/Collection.hh"
+#include "hid/Control.hh"
+
+#include "libhidx/hid/Item.hh"
+#include "libhidx/hid/Collection.hh"
+#include "libhidx/hid/Control.hh"
 
 #include <QGridLayout>
 #include <QPushButton>
@@ -115,7 +120,16 @@ namespace hidviz {
                 return;
             }
             auto item = static_cast<libhidx::hid::Item*>(index.data(Qt::UserRole).value<void*>());
-            content->setIndexWidget(index, new hid::Collection{item});
+
+            if(item->m_collection){
+                auto collection = new hid::Collection{static_cast<libhidx::hid::Collection*>(item)};
+                content->setIndexWidget(index, collection);
+            } else if(item->m_control){
+                auto control = new hid::Control{static_cast<libhidx::hid::Control*>(item)};
+                content->setIndexWidget(index, control);
+            }
+
+            assert(true);
         });
     }
 
