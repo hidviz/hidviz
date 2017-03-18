@@ -18,6 +18,9 @@ namespace hidviz {
     public:
         Window();
 
+    protected:
+        void closeEvent(QCloseEvent* event) override;
+
     private:
         QLabel* deviceName;
         QTreeView* content;

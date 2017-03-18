@@ -10,12 +10,11 @@
 
 #include <iostream>
 #include <cassert>
+#include <QtCore/QSettings>
 
 namespace hidviz {
 
     Window::Window() : QWidget{} {
-        showMaximized();
-
         auto layout = new QGridLayout;
         layout->setContentsMargins(0, 0, 0, 0);
         layout->setSpacing(0);
@@ -88,8 +87,12 @@ namespace hidviz {
         content->setSizePolicy(
             QSizePolicy{QSizePolicy::Expanding, QSizePolicy::Expanding});
         layout->addWidget(content, 2, 2);
+        QSettings settings{"hidviz"};
+        restoreGeometry(settings.value( "geometry", saveGeometry() ).toByteArray());
+        move(settings.value( "pos", pos() ).toPoint());
+        resize(settings.value( "size", size() ).toSize());
 
-
+        show();
     }
 
     void Window::openDeviceSelector() {
@@ -106,6 +109,17 @@ namespace hidviz {
 
         auto model = new TreeModel{interface.getRootCollection()};
         content->setModel(model);
+    }
+
+    void Window::closeEvent(QCloseEvent* event) {
+        QSettings settings{"hidviz"};
+        settings.setValue( "geometry", saveGeometry() );
+        settings.setValue( "maximized", isMaximized() );
+        if ( !isMaximized() ) {
+            settings.setValue( "pos", pos() );
+            settings.setValue( "size", size() );
+        }
+        QWidget::closeEvent(event);
     }
 
 }
