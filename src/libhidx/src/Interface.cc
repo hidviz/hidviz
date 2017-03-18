@@ -59,7 +59,6 @@ namespace libhidx {
         name += " (interface ";
         name += std::to_string(getNumber());
         name += ")";
-        name += m_rootCollection ? "rdy" : "not";
 
         return name;
     }
