@@ -1,5 +1,5 @@
-#ifndef HIDVIZ_PARSER2
-#define HIDVIZ_PARSER2
+#ifndef LIBHIDX_PARSER
+#define LIBHIDX_PARSER
 
 #include <vector>
 #include <map>
@@ -150,4 +150,4 @@ namespace libhidx {
     };
 
 }
-#endif //HIDVIZ_PARSER2
+#endif //LIBHIDX_PARSER2

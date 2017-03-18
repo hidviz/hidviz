@@ -1,5 +1,5 @@
-#ifndef HIDVIZ_ITEM_HH
-#define HIDVIZ_ITEM_HH
+#ifndef LIBHIDX_ITEM_HH
+#define LIBHIDX_ITEM_HH
 
 #include <vector>
 #include <memory>
@@ -27,4 +27,4 @@ namespace hid {
 }
 
 
-#endif //HIDVIZ_ITEM_HH
+#endif //LIBHIDX_ITEM_HH

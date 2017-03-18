@@ -1,5 +1,5 @@
-#ifndef HIDVIZ_HIDLIBDEVICE_HH
-#define HIDVIZ_HIDLIBDEVICE_HH
+#ifndef LIBHIDX_HIDLIBDEVICE_HH
+#define LIBHIDX_HIDLIBDEVICE_HH
 
 #include "DeviceStrings.hh"
 #include "Interface.hh"
@@ -41,4 +41,4 @@ namespace libhidx {
 }
 
 
-#endif //HIDVIZ_HIDLIBDEVICE_HH
+#endif //LIBHIDX_HIDLIBDEVICE_HH

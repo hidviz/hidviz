@@ -1,5 +1,5 @@
-#ifndef HIDVIZ_COLLECTION_HH
-#define HIDVIZ_COLLECTION_HH
+#ifndef LIBHIDX_COLLECTION_HH
+#define LIBHIDX_COLLECTION_HH
 
 #include "Item.hh"
 
@@ -16,4 +16,4 @@ namespace hid {
 }
 
 
-#endif //HIDVIZ_COLLECTION_HH
+#endif //LIBHIDX_COLLECTION_HH

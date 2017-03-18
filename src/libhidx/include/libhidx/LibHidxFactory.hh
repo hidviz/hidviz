@@ -1,5 +1,5 @@
-#ifndef HIDVIZ_LIBHIDXFACTORY_HH
-#define HIDVIZ_LIBHIDXFACTORY_HH
+#ifndef LIBHIDX_LIBHIDXFACTORY_HH
+#define LIBHIDX_LIBHIDXFACTORY_HH
 
 #include "libhidx/LibHidx.hh"
 
@@ -17,4 +17,4 @@ namespace libhidx {
 }
 
 
-#endif //HIDVIZ_LIBHIDXFACTORY_HH
+#endif //LIBHIDX_LIBHIDXFACTORY_HH

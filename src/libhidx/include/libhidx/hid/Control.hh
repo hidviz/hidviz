@@ -1,5 +1,5 @@
-#ifndef HIDVIZ_CONTROL_HH
-#define HIDVIZ_CONTROL_HH
+#ifndef LIBHIDX_CONTROL_HH
+#define LIBHIDX_CONTROL_HH
 
 #include "Item.hh"
 
@@ -27,4 +27,4 @@ namespace hid {
 }
 
 
-#endif //HIDVIZ_CONTROL__HH
+#endif //LIBHIDX_CONTROL__HH

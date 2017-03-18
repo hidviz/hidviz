@@ -1,5 +1,5 @@
-#ifndef HIDVIZ_HIDLIB_HH
-#define HIDVIZ_HIDLIB_HH
+#ifndef LIBHIDX_HIDLIB_HH
+#define LIBHIDX_HIDLIB_HH
 
 #include "Device.hh"
 
@@ -29,4 +29,4 @@ namespace libhidx {
 }
 
 
-#endif //HIDVIZ_HIDLIB_HH
+#endif //LIBHIDX_HIDLIB_HH
