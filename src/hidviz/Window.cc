@@ -116,6 +116,7 @@ namespace hidviz {
         auto model = new TreeModel{interface.getRootCollection()};
         content->setModel(model);
         model->forEach([this](const QModelIndex& index){
+            content->expand(index);
             if(index.column() == 0){
                 return;
             }
