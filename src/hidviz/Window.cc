@@ -127,9 +127,10 @@ namespace hidviz {
             } else if(item->m_control){
                 auto control = new hid::Control{static_cast<libhidx::hid::Control*>(item)};
                 content->setIndexWidget(index, control);
+            } else {
+                assert(false);
             }
 
-            assert(true);
         });
     }
 
