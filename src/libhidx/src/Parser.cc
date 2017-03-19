@@ -143,9 +143,13 @@ namespace libhidx {
                 closeCollection();
                 break;
             case Item::TAG::MAIN::INPUT:
+                addField(hid::Control::Type::INPUT);
+                break;
             case Item::TAG::MAIN::OUTPUT:
+                addField(hid::Control::Type::OUTPUT);
+                break;
             case Item::TAG::MAIN::FEATURE:
-                addField(m_currentItem.tag);
+                addField(hid::Control::Type::FEATURE);
                 break;
             default:
                 throw ParserError{"Unknown main item tag."};

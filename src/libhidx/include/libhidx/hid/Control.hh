@@ -22,6 +22,12 @@ namespace hid {
         int32_t m_physicalMaximum;
         int32_t m_unitExponent;
         unsigned m_unit;
+
+        enum Type {
+            INPUT = 0,
+            OUTPUT  = 1,
+            FEATURE = 2
+        };
     };
 }
 }
