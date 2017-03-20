@@ -1,7 +1,10 @@
 #include "Control.hh"
 
+#include "libhidx/hid/Control.hh"
+#include "libhidx/Usages.hh"
+
+#include <QVBoxLayout>
 #include <QLabel>
-#include <libhidx/hid/Control.hh>
 
 namespace hidviz{
 namespace hid {
@@ -12,7 +15,14 @@ namespace hid {
 
         m_name->setText(types[m_control->m_reportType]);
 
-        m_usage->setText("Placeholder");
+        auto valuesLayout = new QVBoxLayout{};
+
+        for(auto usage: m_control->m_usages){
+            auto usageText = getHidUsageText(usage);
+            valuesLayout->addWidget(new QLabel{QString::fromStdString(usageText)});
+        }
+
+        m_mainLayout->addLayout(valuesLayout);
     }
 }
 }
