@@ -15,6 +15,7 @@ namespace hid {
         m_headerLayout = new QHBoxLayout{};
 
         m_name = new QLabel{};
+        m_name->setStyleSheet("font-weight: bold;");
         m_headerLayout->addWidget(m_name);
 
         m_usage = new QLabel{};
