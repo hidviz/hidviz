@@ -34,10 +34,11 @@ namespace hidviz {
     void DeviceSelector::initListWidget() const {
         auto& lib = libhidx::LibHidxFactory::get();
         lib.loadDevices();
+
         const auto& devices = lib.getDevices();
         for (const auto& device: devices) {
             const auto& interfaces = device->getInterfaces();
-            for(const auto& interface: interfaces){
+            for(auto& interface: interfaces){
                 if(!interface->isHid()){
                     continue;
                 }

@@ -165,7 +165,11 @@ namespace libhidx {
         m_collectionStack.emplace_back(collection);
 
         collection->m_type = m_currentItem.udata() & 0xff;
-        collection->m_usage = m_local.usagesStack.front();
+        if(m_local.usagesStack.size()) {
+            collection->m_usage = m_local.usagesStack.front();
+        } else {
+            collection->m_usage = 0;
+        }
 
     }
 

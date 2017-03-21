@@ -3,7 +3,7 @@ project(libhidx VERSION 0.0.1 LANGUAGES CXX)
 add_library(hidx
         src/LibHidx.cc
         src/Device.cc
-        src/DeviceHandle.cc
+        src/InterfaceHandle.cc
         src/Interface.cc
         src/Parser.cc
         src/hid/Item.cc

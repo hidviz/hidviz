@@ -12,10 +12,6 @@ namespace hidviz {
 
     TreeModel::TreeModel(Item* root) : m_rootItem{root}{}
 
-    TreeModel::~TreeModel() {
-        delete m_rootItem;
-    }
-
     int TreeModel::columnCount(const QModelIndex&) const {
         return 2;
     }

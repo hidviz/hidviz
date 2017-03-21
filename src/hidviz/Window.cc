@@ -108,12 +108,12 @@ namespace hidviz {
                 &Window::selectDevice);
     }
 
-    void Window::selectDevice(const libhidx::Interface& interface) {
+    void Window::selectDevice(libhidx::Interface& interface) {
         assert(interface.isHid());
 
         deviceName->setText(QString::fromStdString(interface.getName()));
 
-        auto model = new TreeModel{interface.getRootCollection()};
+        auto model = new TreeModel{interface.getHidReportDesc()};
         content->setModel(model);
         model->forEach([this](const QModelIndex& index){
             content->expand(index);

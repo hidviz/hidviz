@@ -17,7 +17,7 @@ namespace hidviz {
         DeviceSelector();
 
     signals:
-        void deviceSelected(const libhidx::Interface&);
+        void deviceSelected(libhidx::Interface&);
 
     public slots:
 

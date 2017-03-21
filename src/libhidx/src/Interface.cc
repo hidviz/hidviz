@@ -1,32 +1,52 @@
 #include "libhidx/Interface.hh"
 
-#include "libhidx/DeviceHandle.hh"
+#include "libhidx/InterfaceHandle.hh"
 #include "libhidx/Parser.hh"
 
 #include <iostream>
+#include <cassert>
 
 namespace libhidx {
 
-    Interface::Interface(const libusb_interface& interface, Device& device) : m_interface{interface.altsetting[0]}, m_device{device} {
-        loadHidDescriptor();
+    Interface::Interface(const libusb_interface& interface, Device& device) : m_interface{interface.altsetting[0]}, m_device{device}, readingRuns{false}, stopReadingRequest{false} {
+        for(unsigned i = 0; i < m_interface.bNumEndpoints; ++i){
+            const auto& endpoint = m_interface.endpoint[i];
+            bool isInterrupt =
+                (endpoint.bmAttributes & LIBUSB_TRANSFER_TYPE_MASK) == LIBUSB_TRANSFER_TYPE_INTERRUPT;
+            bool isInput =
+                (endpoint.bEndpointAddress & LIBUSB_ENDPOINT_DIR_MASK) == LIBUSB_ENDPOINT_IN;
+
+            if(isInterrupt && isInput){
+                m_inputAddress = endpoint.bEndpointAddress;
+                m_inputMaxSize = endpoint.wMaxPacketSize;
+                break;
+            }
+        }
+    }
+
+    Interface::~Interface() {
+        if(readingRuns) {
+            stopReadingRequest = true;
+            readingThread.join();
+        }
     }
 
     bool Interface::isHid() const {
         return m_interface.bInterfaceClass == 3;
     }
 
-    void Interface::loadHidDescriptor() {
-        if(!isHid()){
-            return;
-        }
+    hid::Item* Interface::getHidReportDesc() {
+        assert(isHid());
 
-        parseHidDescriptor();
+        if(m_hidReportDesc){
+            return m_hidReportDesc.get();
+        }
 
         constexpr uint16_t bufferLength = 1024;
         unsigned char buffer[bufferLength];
 
-        auto handle = DeviceHandle{m_device};
-        auto size = handle.controlTransfer(
+        auto handle = getHandle();
+        auto size = handle->controlTransfer(
             0x81,
             LIBUSB_REQUEST_GET_DESCRIPTOR,
             ((LIBUSB_DT_REPORT << 8) | 0),
@@ -36,16 +56,15 @@ namespace libhidx {
             1000
         );
         if(size <= 0){
-            return;
+            //TODO: throw an exception
+            return nullptr;
         }
 
-        unsigned length = m_interface.extra[8] << 8  | m_interface.extra[7];
+        auto parser = Parser{buffer, static_cast<size_t>(size)};
+        m_hidReportDesc.reset(parser.parse());
 
-        std::cerr << "returned: " << size << std::endl;
-        std::cerr << "desc:     " << length << std::endl;
+        return m_hidReportDesc.get();
 
-        auto parser = Parser{buffer, length};
-        m_rootCollection = parser.parse();
     }
 
     std::string Interface::getName() const {
@@ -63,56 +82,58 @@ namespace libhidx {
         return name;
     }
 
-    void Interface::parseHidDescriptor() {
-//        const auto& length = m_interface.extra_length;
-//        const auto& extra = m_interface.extra;
-//        if(length < 9){
-////            DEBUG("unknown additional register (size is too low), ending");
-//            // todo: return something meaningful
-//        }
-//
-//        // todo: extract me to a constant
-//        if(extra[1] != 0x21){
-////            DEBUG("unknown additional register (type is bad), ending");
-////            // todo: return something meaningful
-////            return desc;
-//        }
-//
-////        desc.descriptor_type = extra[1];
-//
-//        desc.length = extra[0];
-//        DEBUG("size: " << unsigned(desc.length));
-//
-//        if((length - 6) % 3 != 0){
-//            DEBUG("weird length of additional register, continuing, may crash...");
-//        }
-//
-//        desc.bcd_hid = (extra[3] << 8) | extra[2];
-//        DEBUG("bcd_hid: " << std::hex << unsigned(desc.bcd_hid) << std::dec);
-//
-//        desc.country_code = extra[4];
-//        DEBUG("country code: " << unsigned(desc.country_code));
-//
-//        desc.num_descriptors = extra[5];
-//        DEBUG("num descriptors: " << unsigned(desc.num_descriptors));
-//
-//        // todo: make C++ wrapper
-//        desc.extra_descriptors = (hid_extra_descriptor*)malloc(
-//            desc.num_descriptors * sizeof(hid_extra_descriptor)
-//        );
-//
-//        auto descriptors = &extra[6];
-//
-//        for(unsigned i = 0; i < desc.num_descriptors; ++i){
-//            desc.extra_descriptors[i].descriptor_type = descriptors[0];
-//            desc.extra_descriptors[i].descriptor_length =
-//                (descriptors[2] << 8) | descriptors[1];
-//            descriptors += 3;
-//            DEBUG("#" << i << " extra descriptor");
-//            DEBUG("type: " << std::hex << ((unsigned)desc.extra_descriptors[i].descriptor_type)) << std::dec;
-//            DEBUG("length: " << desc.extra_descriptors[i].descriptor_length);
-//        }
-//
-//        return desc;
+    void Interface::beginReading() {
+        if(readingRuns) {
+            std::cerr << "fail begin reading" << std::endl;
+            return;
+        }
+        if(readingThread.joinable()){
+            readingThread.join();
+        }
+
+        readingRuns = true;
+        std::thread t{&Interface::runner, this};
+
+        readingThread = std::move(t);
     }
+
+    void Interface::stopReading() {
+        stopReadingRequest = true;
+    }
+
+    void Interface::runner() {
+        std::cerr << "thread running" << std::endl;
+
+        auto handle = getHandle();
+
+        constexpr int bufferLength = 1000;
+        unsigned char buffer[bufferLength];
+
+        while(!stopReadingRequest){
+            int size = handle->interruptTransfer(
+                m_inputAddress,
+                buffer,
+                bufferLength,
+                nullptr,
+                1000
+            );
+
+            std::cerr << size << std::endl;
+        }
+
+        stopReadingRequest = false;
+        readingRuns = false;
+    }
+
+    std::shared_ptr<InterfaceHandle> Interface::getHandle() {
+        std::shared_ptr<InterfaceHandle> ptr;
+        if(m_handle.expired()){
+            ptr.reset(new InterfaceHandle{*this});
+            m_handle = ptr;
+        }
+
+        return m_handle.lock();
+    }
+
+
 }

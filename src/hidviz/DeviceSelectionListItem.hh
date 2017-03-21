@@ -8,11 +8,11 @@ namespace hidviz {
 
     class DeviceSelectionListItem : public QListWidgetItem {
     public:
-        DeviceSelectionListItem(const QString &text, const libhidx::Interface& interface);
-        const auto& getInterface(){return m_interface;}
+        DeviceSelectionListItem(const QString &text, libhidx::Interface& interface);
+        auto& getInterface(){return m_interface;}
 
     private:
-        const libhidx::Interface& m_interface;
+        libhidx::Interface& m_interface;
 
     };
 }

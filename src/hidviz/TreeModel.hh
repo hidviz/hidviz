@@ -21,8 +21,6 @@ namespace hidviz {
     public:
         explicit TreeModel(libhidx::hid::Item*);
 
-        ~TreeModel();
-
         QVariant data(const QModelIndex& index, int role) const override;
 
         Qt::ItemFlags flags(const QModelIndex& index) const override;

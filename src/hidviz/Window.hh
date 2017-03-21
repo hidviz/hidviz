@@ -29,7 +29,7 @@ namespace hidviz {
 
         void openDeviceSelector();
 
-        void selectDevice(const libhidx::Interface&);
+        void selectDevice(libhidx::Interface&);
 
     };
 }

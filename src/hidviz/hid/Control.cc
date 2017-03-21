@@ -10,10 +10,15 @@ namespace hidviz{
 namespace hid {
     Control::Control(libhidx::hid::Control* control) : Item{}, m_control{control} {
         const char *types[] = {
-            "Input", "Output", "Feature"
+            "Input", "Output", "Feature", "Padding"
         };
 
-        m_name->setText(types[m_control->m_reportType]);
+        auto reportType = m_control->m_reportType;
+        if(!m_control->m_usages.size()){
+            reportType = 3;
+        }
+
+        m_name->setText(types[reportType]);
 
         auto valuesLayout = new QVBoxLayout{};
 

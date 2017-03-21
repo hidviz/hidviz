@@ -6,10 +6,9 @@
 
 namespace libhidx {
 
-    class DeviceHandle {
+    class InterfaceHandle {
     public:
-        DeviceHandle(const Device& device);
-        ~DeviceHandle();
+        ~InterfaceHandle();
         DeviceStrings readStrings();
         int controlTransfer(uint8_t requestType,
                             uint8_t request,
@@ -19,11 +18,21 @@ namespace libhidx {
                             uint16_t length,
                             unsigned int timeout);
 
+        int interruptTransfer(unsigned char endpoint,
+                              unsigned char* data,
+                              int length,
+                              int* transferred,
+                              unsigned timeout);
+
+        friend class Interface;
+
     private:
-        libusb_device_handle* m_handle = nullptr;
-        const Device& m_device;
+        InterfaceHandle(const Interface& interface);
+        const Interface& m_interface;
 
         std::string extractString(uint8_t index) const;
+
+        libusb_device_handle* m_handle;
     };
 
 }

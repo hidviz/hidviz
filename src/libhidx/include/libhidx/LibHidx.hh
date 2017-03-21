@@ -14,7 +14,6 @@ namespace libhidx {
     public:
         LibHidx();
         LibHidx(const LibHidx&) = delete;
-        LibHidx(LibHidx&&);
         ~LibHidx();
 
         void loadDevices();

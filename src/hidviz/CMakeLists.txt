@@ -17,4 +17,5 @@ add_executable(hidviz
 target_link_libraries(hidviz
         hidx
         Qt5::Widgets
+        Threads::Threads
 )

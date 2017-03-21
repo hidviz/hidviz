@@ -10,7 +10,6 @@
 #include <memory>
 
 namespace libhidx {
-
     class Interface;
 
     class Device {
@@ -20,9 +19,9 @@ namespace libhidx {
         Device(const Device&) = delete;
         ~Device();
 
-        const auto& getDevice() const { return m_device; }
-        const auto& getDescriptor() const { return m_descriptor; }
-        const auto& getStrings() const { return m_strings; }
+        const auto& getPtr() const { return m_device; }
+        const auto& getDesc() const { return m_descriptor; }
+        const DeviceStrings& getStrings();
         const auto& getInterfaces() const {return m_interfaces;}
 
 
@@ -30,11 +29,9 @@ namespace libhidx {
         libusb_device* m_device = nullptr;
         libusb_device_descriptor m_descriptor;
         libusb_config_descriptor* m_config_descriptor = nullptr;
-        DeviceStrings m_strings;
+        std::unique_ptr<DeviceStrings> m_strings;
         std::vector<std::unique_ptr<Interface>> m_interfaces;
-        int m_id;
 
-        void readStrings();
         void fillInterfaces();
 
     };

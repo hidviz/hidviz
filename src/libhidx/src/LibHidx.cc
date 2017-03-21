@@ -22,15 +22,7 @@ namespace libhidx {
 
         for (auto i = 0; i < deviceNum; ++i) {
             m_devices.emplace_back(std::make_unique<Device>(m_deviceList[i]));
-
         }
-    }
-
-    LibHidx::LibHidx(LibHidx&& a) {
-        ctx = a.ctx;
-        a.ctx = nullptr;
-
-        m_devices = std::move(a.m_devices);
     }
 
 }

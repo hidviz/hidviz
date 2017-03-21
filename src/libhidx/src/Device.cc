@@ -1,6 +1,6 @@
 #include "libhidx/Device.hh"
 
-#include "libhidx/DeviceHandle.hh"
+#include "libhidx/InterfaceHandle.hh"
 
 namespace libhidx {
 
@@ -12,7 +12,6 @@ namespace libhidx {
             m_config_descriptor = nullptr;
         }
 
-        readStrings();
         fillInterfaces();
     }
 
@@ -20,13 +19,15 @@ namespace libhidx {
         if(m_config_descriptor != nullptr) {
             libusb_free_config_descriptor(m_config_descriptor);
         }
-
-        libusb_unref_device(m_device);
     }
 
-    void Device::readStrings() {
-        auto deviceHandle = DeviceHandle{*this};
-        m_strings = deviceHandle.readStrings();
+    const DeviceStrings& Device::getStrings() {
+        if(!m_strings) {
+            auto deviceHandle = m_interfaces.front()->getHandle();
+            m_strings = std::make_unique<DeviceStrings>(deviceHandle->readStrings());
+        }
+
+        return *m_strings.get();
     }
 
     void Device::fillInterfaces() {
