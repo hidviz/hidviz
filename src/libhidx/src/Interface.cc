@@ -104,19 +104,18 @@ namespace libhidx {
 
         auto handle = getHandle();
 
-        constexpr int bufferLength = 1000;
-        unsigned char buffer[bufferLength];
+        std::vector<unsigned char> buffer;
+        buffer.reserve(m_inputMaxSize);
 
         while(!stopReadingRequest){
+            int transferred;
             int size = handle->interruptTransfer(
                 m_inputAddress,
-                buffer,
-                bufferLength,
-                nullptr,
-                1000
+                buffer.data(),
+                m_inputMaxSize,
+                &transferred,
+                5000
             );
-
-            std::cerr << size << std::endl;
         }
 
         stopReadingRequest = false;
