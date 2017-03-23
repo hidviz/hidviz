@@ -29,6 +29,7 @@ namespace libhidx {
     private:
         InterfaceHandle(const Interface& interface);
         const Interface& m_interface;
+        uint8_t m_ifaceNumber;
 
         std::string extractString(uint8_t index) const;
 
