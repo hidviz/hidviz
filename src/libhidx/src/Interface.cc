@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <cassert>
+#include <mutex>
 
 namespace libhidx {
 
@@ -123,6 +124,9 @@ namespace libhidx {
     }
 
     std::shared_ptr<InterfaceHandle> Interface::getHandle() {
+        static std::mutex mtx;
+        std::lock_guard<std::mutex> lock{mtx};
+
         std::shared_ptr<InterfaceHandle> ptr;
         if(m_handle.expired()){
             ptr.reset(new InterfaceHandle{*this});
