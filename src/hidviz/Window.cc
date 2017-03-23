@@ -111,6 +111,14 @@ namespace hidviz {
     void Window::selectDevice(libhidx::Interface& interface) {
         assert(interface.isHid());
 
+        if(m_selectedInterface){
+            m_selectedInterface->stopReading();
+        }
+
+        m_selectedInterface = &interface;
+
+        interface.beginReading();
+
         deviceName->setText(QString::fromStdString(interface.getName()));
 
         auto model = new TreeModel{interface.getHidReportDesc()};

@@ -22,13 +22,12 @@ namespace hidviz {
         void closeEvent(QCloseEvent* event) override;
 
     private:
-        QLabel* deviceName;
-        QTreeView* content;
+        QTreeView* content = nullptr;
+        QLabel* deviceName = nullptr;
+        libhidx::Interface* m_selectedInterface = nullptr;
 
     public slots:
-
         void openDeviceSelector();
-
         void selectDevice(libhidx::Interface&);
 
     };
