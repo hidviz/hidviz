@@ -38,10 +38,6 @@ namespace libhidx {
     hid::Item* Interface::getHidReportDesc() {
         assert(isHid());
 
-        if(m_hidReportDesc){
-            return m_hidReportDesc.get();
-        }
-
         constexpr uint16_t bufferLength = 1024;
         unsigned char buffer[bufferLength];
 
@@ -61,9 +57,10 @@ namespace libhidx {
         }
 
         auto parser = Parser{buffer, static_cast<size_t>(size)};
-        m_hidReportDesc.reset(parser.parse());
 
-        return m_hidReportDesc.get();
+        auto parsedDevice = parser.parse();
+
+        return parsedDevice;
 
     }
 

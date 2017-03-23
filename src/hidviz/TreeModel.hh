@@ -6,6 +6,7 @@
 #include <QVariant>
 
 #include <functional>
+#include <memory>
 
 namespace libhidx {
 namespace hid {
@@ -43,7 +44,7 @@ namespace hidviz {
 
 
     private:
-        libhidx::hid::Item* m_rootItem;
+        std::unique_ptr<libhidx::hid::Item> m_rootItem;
     };
 
 }

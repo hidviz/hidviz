@@ -37,7 +37,6 @@ namespace libhidx {
         const libusb_interface_descriptor& m_interface;
         Device& m_device;
         std::weak_ptr<InterfaceHandle> m_handle;
-        std::unique_ptr<hid::Item> m_hidReportDesc;
 
         std::thread readingThread;
         std::atomic_bool readingRuns;
