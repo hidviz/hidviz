@@ -26,10 +26,7 @@ namespace libhidx {
     }
 
     Interface::~Interface() {
-        if(readingRuns) {
-            stopReadingRequest = true;
-            readingThread.join();
-        }
+        stopReading();
     }
 
     bool Interface::isHid() const {
@@ -96,7 +93,10 @@ namespace libhidx {
     }
 
     void Interface::stopReading() {
-        stopReadingRequest = true;
+        if(readingRuns) {
+            stopReadingRequest = true;
+            readingThread.join();
+        }
     }
 
     void Interface::runner() {
