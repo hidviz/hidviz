@@ -10,14 +10,21 @@ namespace hid {
     class Item {
     public:
         Item(Item* parent = nullptr) : m_parent{parent}{}
+        Item(const Item&) = delete;
+        Item& operator= (const Item&) = delete;
+
+        virtual Item* clone(Item* parent = nullptr, Item* dst = nullptr) const;
+
         void appendChild(Item* child);
         Item* child(int row);
         size_t childCount() const;
         Item* parentItem();
         size_t row() const;
+        void forEach(std::function<void(Item*)>);
 
         bool m_collection = false;
         bool m_control = false;
+
 
     private:
         std::vector<std::unique_ptr<Item>> m_children;

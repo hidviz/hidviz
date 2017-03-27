@@ -12,6 +12,7 @@ namespace hid {
     class Item : public QWidget {
     public:
         Item();
+        virtual ~Item(){}
 
     protected:
         QVBoxLayout* m_mainLayout;

@@ -9,6 +9,23 @@ namespace hid {
         m_children.push_back(std::unique_ptr<Item>(child));
     }
 
+    Item* Item::clone(Item* parent, Item* dst) const {
+        if(!dst){
+            dst = new Item{};
+        }
+
+        dst->m_collection = m_collection;
+        dst->m_control = m_control;
+
+        for(const auto& child: m_children){
+            dst->m_children.emplace_back(child->clone(dst));
+        }
+
+        dst->m_parent = parent;
+
+        return dst;
+    }
+
     Item* Item::child(int row) {
         return m_children[row].get();
     }
@@ -32,6 +49,13 @@ namespace hid {
         );
 
         return static_cast<size_t>(it - begin(parent->m_children));
+    }
+
+    void Item::forEach(std::function<void(Item*)> f) {
+        f(this);
+        for(const auto& child: m_children){
+            child->forEach(f);
+        }
     }
 
 

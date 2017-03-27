@@ -102,6 +102,9 @@ namespace hidviz {
     }
 
     void Window::openDeviceSelector() {
+        // TODO: delete also in destructor (or use unique_ptr)
+        delete content->model();
+        content->setModel(nullptr);
         auto dialog = new DeviceSelector;
         dialog->show();
         connect(dialog, &DeviceSelector::deviceSelected, this,
@@ -117,13 +120,15 @@ namespace hidviz {
 
         m_selectedInterface = &interface;
 
+        connect(this, &Window::dataRead, this, &Window::updateData);
+        interface.setReadingListener([this]{emit dataRead();});
         interface.beginReading();
 
         deviceName->setText(QString::fromStdString(interface.getName()));
 
-        auto model = new TreeModel{interface.getHidReportDesc()};
-        content->setModel(model);
-        model->forEach([this](const QModelIndex& index){
+        m_model = new TreeModel{interface.getHidReportDesc()};
+        content->setModel(m_model);
+        m_model->forEach([this](const QModelIndex& index){
             content->expand(index);
             if(index.column() == 0){
                 return;
@@ -154,4 +159,13 @@ namespace hidviz {
         QWidget::closeEvent(event);
     }
 
+    void Window::updateData() {
+        m_model->forEach([this](const QModelIndex& i){
+            auto w = dynamic_cast<hid::Control*>(content->indexWidget(i));
+            if(!w){
+                return;
+            }
+            w->updateData();
+        });
+    }
 }

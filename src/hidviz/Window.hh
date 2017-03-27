@@ -12,6 +12,8 @@ class QTreeView;
 
 namespace hidviz {
 
+    class TreeModel;
+
     class Window : public QWidget {
     Q_OBJECT
 
@@ -25,10 +27,15 @@ namespace hidviz {
         QTreeView* content = nullptr;
         QLabel* deviceName = nullptr;
         libhidx::Interface* m_selectedInterface = nullptr;
+        TreeModel* m_model;
+
+    signals:
+        void dataRead();
 
     public slots:
         void openDeviceSelector();
         void selectDevice(libhidx::Interface&);
+        void updateData();
 
     };
 }

@@ -50,7 +50,7 @@ namespace hidviz {
         Item* parentItem;
 
         if (!parent.isValid())
-            parentItem = m_rootItem.get();
+            parentItem = m_rootItem;
         else
             parentItem = static_cast<Item*>(parent.internalPointer());
 
@@ -68,7 +68,7 @@ namespace hidviz {
         Item* childItem = static_cast<Item*>(index.internalPointer());
         Item* parentItem = childItem->parentItem();
 
-        if (parentItem == m_rootItem.get())
+        if (parentItem == m_rootItem)
             return QModelIndex();
 
         return createIndex(static_cast<int>(parentItem->row()), 0, parentItem);
@@ -81,7 +81,7 @@ namespace hidviz {
         }
 
         if (!parent.isValid())
-            parentItem = m_rootItem.get();
+            parentItem = m_rootItem;
         else
             parentItem = static_cast<Item*>(parent.internalPointer());
 

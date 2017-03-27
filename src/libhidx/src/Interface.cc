@@ -2,6 +2,7 @@
 
 #include "libhidx/InterfaceHandle.hh"
 #include "libhidx/Parser.hh"
+#include "libhidx/hid/Control.hh"
 
 #include <iostream>
 #include <cassert>
@@ -36,6 +37,10 @@ namespace libhidx {
     hid::Item* Interface::getHidReportDesc() {
         assert(isHid());
 
+        if(m_hidReportDesc){
+            return m_hidReportDesc.get();
+        }
+
         constexpr uint16_t bufferLength = 1024;
         unsigned char buffer[bufferLength];
 
@@ -56,10 +61,9 @@ namespace libhidx {
 
         auto parser = Parser{buffer, static_cast<size_t>(size)};
 
-        auto parsedDevice = parser.parse();
+        m_hidReportDesc.reset(parser.parse());
 
-        return parsedDevice;
-
+        return m_hidReportDesc.get();
     }
 
     std::string Interface::getName() const {
@@ -114,8 +118,19 @@ namespace libhidx {
                 buffer.data(),
                 m_inputMaxSize,
                 &transferred,
-                5000
+                1000
             );
+
+            if(size == 0) {
+                updateData(buffer);
+                if(m_listener) {
+                    m_listener();
+                }
+            } else if(size == LIBUSB_ERROR_TIMEOUT){
+                std::cerr << "Interrupt transfer timeout" << std::endl;
+            } else {
+                std::cerr << "Interrupt transfer fail" << std::endl;
+            }
         }
 
         stopReadingRequest = false;
@@ -133,6 +148,22 @@ namespace libhidx {
         }
 
         return m_handle.lock();
+    }
+
+    void Interface::setReadingListener(std::function<void()> listener) {
+        m_listener = listener;
+    }
+
+    void Interface::updateData(const std::vector<unsigned char>& data) {
+        auto reportDesc = getHidReportDesc();
+
+        reportDesc->forEach([&data](hid::Item* item){
+            if(!item->m_control){
+                return;
+            }
+            auto c = static_cast<hid::Control*>(item);
+            c->update(data);
+        });
     }
 
 

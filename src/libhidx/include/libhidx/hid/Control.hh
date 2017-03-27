@@ -1,6 +1,7 @@
 #ifndef LIBHIDX_CONTROL_HH
 #define LIBHIDX_CONTROL_HH
 
+#include <mutex>
 #include "Item.hh"
 
 namespace libhidx {
@@ -9,6 +10,11 @@ namespace hid {
 
     public:
         Control(Item* parent = nullptr) : Item{parent} {m_control=true;}
+
+        Item* clone(Item* parent = nullptr, Item* dst = nullptr) const override;
+        void update(const std::vector<unsigned char>& vector);
+        uint32_t getData();
+
 
         std::size_t m_offset;
         std::vector<unsigned> m_usages{};
@@ -28,6 +34,9 @@ namespace hid {
             OUTPUT  = 1,
             FEATURE = 2
         };
+    private:
+        uint32_t m_data;
+        std::mutex m_dataMutex;
     };
 }
 }

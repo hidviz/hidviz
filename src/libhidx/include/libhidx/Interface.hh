@@ -9,6 +9,7 @@
 
 #include <atomic>
 #include <thread>
+#include <functional>
 
 namespace libhidx {
 
@@ -28,6 +29,7 @@ namespace libhidx {
         std::shared_ptr<InterfaceHandle> getHandle();
         const auto& getDesc() const {return m_interface;}
         hid::Item* getHidReportDesc();
+        void setReadingListener(std::function<void()>);
 
 
         void beginReading();
@@ -45,7 +47,11 @@ namespace libhidx {
 
         uint8_t m_inputAddress;
         uint16_t m_inputMaxSize;
+        std::function<void()> m_listener;
 
+        std::unique_ptr<hid::Item> m_hidReportDesc;
+
+        void updateData(const std::vector<unsigned char>& data);
     };
 
 }

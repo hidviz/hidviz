@@ -44,7 +44,7 @@ namespace hidviz {
 
 
     private:
-        std::unique_ptr<libhidx::hid::Item> m_rootItem;
+        libhidx::hid::Item* m_rootItem;
     };
 
 }

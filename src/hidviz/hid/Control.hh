@@ -14,8 +14,10 @@ namespace hid {
     class Control : public Item {
     public:
         Control(libhidx::hid::Control*);
+        void updateData();
     private:
         libhidx::hid::Control* m_control;
+        std::vector<QLabel*> m_valueLabels;
 
     };
 }

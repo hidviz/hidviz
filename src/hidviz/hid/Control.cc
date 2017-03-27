@@ -23,11 +23,22 @@ namespace hid {
         auto valuesLayout = new QVBoxLayout{};
 
         for(auto usage: m_control->m_usages){
+            auto valueLayout = new QHBoxLayout{};
             auto usageText = getHidUsageText(usage);
-            valuesLayout->addWidget(new QLabel{QString::fromStdString(usageText)});
+            valueLayout->addWidget(new QLabel{QString::fromStdString(usageText)});
+            auto value = new QLabel;
+            m_valueLabels.push_back(value);
+            valueLayout->addWidget(value);
+            valuesLayout->addLayout(valueLayout);
         }
 
         m_mainLayout->addLayout(valuesLayout);
+    }
+
+    void Control::updateData() {
+        for(auto label: m_valueLabels){
+            label->setText(QString::number(m_control->getData()));
+        }
     }
 }
 }
