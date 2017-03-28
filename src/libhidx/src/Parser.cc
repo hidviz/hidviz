@@ -180,7 +180,7 @@ namespace libhidx {
         m_collectionStack.pop_back();
     }
 
-    void Parser::addField(uint8_t reportType) {
+    void Parser::addField(hid::Control::Type reportType) {
         if(m_collectionStack.size() <= 1){
             throw ParserError{"Field does not belong to collection."};
         }

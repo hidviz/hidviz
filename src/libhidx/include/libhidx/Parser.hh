@@ -1,6 +1,8 @@
 #ifndef LIBHIDX_PARSER
 #define LIBHIDX_PARSER
 
+#include "libhidx/hid/Control.hh"
+
 #include <vector>
 #include <map>
 
@@ -141,7 +143,7 @@ namespace libhidx {
         void parseMainItem();
         void openCollection();
         void closeCollection();
-        void addField(uint8_t reportType);
+        void addField(libhidx::hid::Control::Type reportType);
 
         void parseGlobalItem();
         void parseLocalItem();

@@ -1,7 +1,6 @@
 #include "Control.hh"
 
 #include "libhidx/hid/Control.hh"
-#include "libhidx/Usages.hh"
 
 #include <QVBoxLayout>
 #include <QLabel>
@@ -13,19 +12,23 @@ namespace hid {
             "Input", "Output", "Feature", "Padding"
         };
 
-        auto reportType = m_control->m_reportType;
-        if(!m_control->m_usages.size()){
-            reportType = 3;
+        auto reportType = m_control->getReportType();
+        const auto& usages = m_control->getUsages();
+
+        const char* typeStr;
+        if(!usages.size()){
+            typeStr = "Padding";
+        } else {
+            typeStr = types[static_cast<unsigned>(reportType)];
         }
 
-        m_name->setText(types[reportType]);
+        m_name->setText(typeStr);
 
         auto valuesLayout = new QVBoxLayout{};
 
-        for(auto usage: m_control->m_usages){
+        for(const auto& usage: usages){
             auto valueLayout = new QHBoxLayout{};
-            auto usageText = getHidUsageText(usage);
-            valueLayout->addWidget(new QLabel{QString::fromStdString(usageText)});
+            valueLayout->addWidget(new QLabel{QString::fromStdString(usage.getName())});
             auto value = new QLabel;
             m_valueLabels.push_back(value);
             valueLayout->addWidget(value);
@@ -36,8 +39,10 @@ namespace hid {
     }
 
     void Control::updateData() {
-        for(auto label: m_valueLabels){
-            label->setText(QString::number(m_control->getData()));
+        for(size_t i = 0; i < m_valueLabels.size(); ++i){
+            auto label = m_valueLabels[i];
+            auto data = m_control->getUsages()[i].getData();
+            label->setText(QString::number(data));
         }
     }
 }

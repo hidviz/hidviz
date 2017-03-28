@@ -109,9 +109,9 @@ namespace libhidx {
         auto handle = getHandle();
 
         std::vector<unsigned char> buffer;
-        buffer.reserve(m_inputMaxSize);
 
         while(!stopReadingRequest){
+            buffer.resize(m_inputMaxSize);
             int transferred;
             int size = handle->interruptTransfer(
                 m_inputAddress,
@@ -120,6 +120,7 @@ namespace libhidx {
                 &transferred,
                 1000
             );
+            buffer.resize(static_cast<size_t>(transferred));
 
             if(size == 0) {
                 updateData(buffer);

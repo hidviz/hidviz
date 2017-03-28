@@ -9,7 +9,8 @@ add_library(hidx
         src/hid/Item.cc
         src/hid/Collection.cc
         src/hid/Control.cc
-        src/Usages.cc)
+        src/Usages.cc
+        src/hid/Usage.cc)
 
 target_include_directories(hidx PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
