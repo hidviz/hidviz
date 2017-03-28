@@ -134,7 +134,7 @@ namespace libhidx {
         uint8_t * const m_start = nullptr;
         const std::size_t m_size = 0;
 
-        std::map<unsigned, std::size_t> m_reportSizes;
+        std::map<std::pair<unsigned, hid::Control::Type>, std::size_t> m_reportSizes;
         std::vector<hid::Collection*> m_collectionStack;
 
         uint8_t* fetchItem(uint8_t* start, uint8_t* end);

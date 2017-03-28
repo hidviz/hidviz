@@ -197,7 +197,7 @@ namespace libhidx {
             throw ParserError{"Logical range invalid"};
         }
 
-        auto& reportSize = m_reportSizes[m_global.reportId];
+        auto& reportSize = m_reportSizes[std::make_pair(m_global.reportId, reportType)];
         field->m_offset = reportSize;
 
         reportSize += m_global.reportSize * m_global.reportCount;
@@ -218,7 +218,7 @@ namespace libhidx {
                 j = static_cast<unsigned>(m_local.usagesStack.size()) - 1;
             }
 
-            field->m_usages.push_back(m_local.usagesStack[j]);
+            field->m_usages.emplace_back(m_local.usagesStack[j]);
         }
 
         field->m_flags = m_currentItem.udata();
