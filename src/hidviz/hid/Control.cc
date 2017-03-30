@@ -4,6 +4,7 @@
 
 #include <QVBoxLayout>
 #include <QLabel>
+#include <FlowLayout.hh>
 
 namespace hidviz{
 namespace hid {
@@ -24,15 +25,14 @@ namespace hid {
 
         m_name->setText(typeStr);
 
-        auto valuesLayout = new QVBoxLayout{};
-
+        auto valuesLayout = new FlowLayout{};
         for(const auto& usage: usages){
-            auto valueLayout = new QHBoxLayout{};
+            auto valueLayout = new QVBoxLayout{};
             valueLayout->addWidget(new QLabel{QString::fromStdString(usage.getName())});
             auto value = new QLabel;
             m_valueLabels.push_back(value);
             valueLayout->addWidget(value);
-            valuesLayout->addLayout(valueLayout);
+            valuesLayout->addItem(valueLayout);
         }
 
         m_mainLayout->addLayout(valuesLayout);

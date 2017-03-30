@@ -93,6 +93,8 @@ namespace hidviz {
             QSizePolicy{QSizePolicy::Expanding, QSizePolicy::Expanding});
         content->setSelectionMode(QTreeView::NoSelection);
         layout->addWidget(content, 2, 2);
+        content->setVerticalScrollMode(QTreeView::ScrollMode::ScrollPerPixel);
+
         QSettings settings{"hidviz"};
         restoreGeometry(settings.value( "geometry", saveGeometry() ).toByteArray());
         move(settings.value( "pos", pos() ).toPoint());

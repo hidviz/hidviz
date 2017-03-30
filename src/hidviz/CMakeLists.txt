@@ -12,6 +12,7 @@ add_executable(hidviz
         hid/Item.cc
         hid/Collection.cc
         hid/Control.cc
+        FlowLayout.cc
         )
 
 target_link_libraries(hidviz
