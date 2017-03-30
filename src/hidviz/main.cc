@@ -7,5 +7,7 @@ int main(int argc, char** argv) {
 
     hidviz::Window o;
 
+    o.show();
+
     return app.exec();
 }

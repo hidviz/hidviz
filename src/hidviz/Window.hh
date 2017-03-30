@@ -5,10 +5,12 @@
 
 #include <QWidget>
 
-#include <string>
-
 class QLabel;
 class QTreeView;
+
+namespace Ui {
+    class Window;
+}
 
 namespace hidviz {
 
@@ -19,15 +21,15 @@ namespace hidviz {
 
     public:
         Window();
+        ~Window();
 
     protected:
         void closeEvent(QCloseEvent* event) override;
 
     private:
-        QTreeView* content = nullptr;
-        QLabel* deviceName = nullptr;
         libhidx::Interface* m_selectedInterface = nullptr;
         TreeModel* m_model;
+        Ui::Window* ui;
 
     signals:
         void dataRead();
@@ -36,7 +38,6 @@ namespace hidviz {
         void openDeviceSelector();
         void selectDevice(libhidx::Interface&);
         void updateData();
-
     };
 }
 
