@@ -20,12 +20,13 @@ namespace hidviz {
 
     signals:
         void deviceSelected(libhidx::Interface&);
+        void listCleared();
 
     public slots:
 
         void selectDevice();
-
         void initListWidget() const;
+        void reloadDevices();
     };
 }
 

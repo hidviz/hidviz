@@ -27,17 +27,17 @@ namespace hidviz {
     }
 
     Window::~Window() {
+        delete ui->deviceView->model();
+        ui->deviceView->setModel(nullptr);
         delete ui;
     }
 
     void Window::openDeviceSelector() {
-        // TODO: delete also in destructor (or use unique_ptr)
-        delete ui->deviceView->model();
-        ui->deviceView->setModel(nullptr);
         auto dialog = new DeviceSelector;
         dialog->show();
         connect(dialog, &DeviceSelector::deviceSelected, this,
                 &Window::selectDevice);
+        connect(dialog, &DeviceSelector::listCleared, this, &Window::clearModel);
     }
 
     void Window::selectDevice(libhidx::Interface& interface) {
@@ -96,5 +96,10 @@ namespace hidviz {
             }
             w->updateData();
         });
+    }
+
+    void Window::clearModel() {
+        delete ui->deviceView->model();
+        ui->deviceView->setModel(nullptr);
     }
 }

@@ -14,11 +14,15 @@ namespace hidviz {
         initListWidget();
         connect(ui->selectButton, &QPushButton::pressed, this,
                 &DeviceSelector::selectDevice);
+
+        connect(ui->reloadButton, &QPushButton::pressed, this, &DeviceSelector::reloadDevices);
     }
 
     void DeviceSelector::initListWidget() const {
         auto& lib = libhidx::LibHidxFactory::get();
-        lib.loadDevices();
+        if(lib.getDevices().empty()){
+            lib.loadDevices();
+        }
 
         const auto& devices = lib.getDevices();
         for (const auto& device: devices) {
@@ -51,5 +55,13 @@ namespace hidviz {
 
         emit deviceSelected(selectedItem->getInterface());
         close();
+    }
+
+    void DeviceSelector::reloadDevices() {
+        emit listCleared();
+        ui->deviceList->clear();
+        auto& lib = libhidx::LibHidxFactory::get();
+        lib.loadDevices();
+        initListWidget();
     }
 }

@@ -38,6 +38,8 @@ namespace hidviz {
         void openDeviceSelector();
         void selectDevice(libhidx::Interface&);
         void updateData();
+        void clearModel();
+
     };
 }
 
