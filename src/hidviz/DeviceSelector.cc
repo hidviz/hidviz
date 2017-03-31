@@ -1,34 +1,19 @@
 #include "DeviceSelector.hh"
 
+#include "ui_DeviceSelector.h"
+
 #include "DeviceSelectionListItem.hh"
 
 #include "libhidx/LibHidx.hh"
 #include "libhidx/LibHidxFactory.hh"
 
-#include <QVBoxLayout>
-#include <QListWidget>
-#include <QPushButton>
-#include <QLabel>
-
 namespace hidviz {
 
-    DeviceSelector::DeviceSelector() : QDialog{} {
-        setModal(true);
-        setWindowTitle("Device selector");
-        auto layout = new QVBoxLayout{};
-
-        layout->addWidget(new QLabel{"Select device from following list:"});
-        listWidget = new QListWidget{};
-        layout->addWidget(listWidget);
-
-        auto submitButton = new QPushButton{"Select"};
-        connect(submitButton, &QPushButton::pressed, this,
-                &DeviceSelector::selectDevice);
-        layout->addWidget(submitButton);
-
+    DeviceSelector::DeviceSelector() : ui{new Ui::DeviceSelector{}} {
+        ui->setupUi(this);
         initListWidget();
-
-        setLayout(layout);
+        connect(ui->selectButton, &QPushButton::pressed, this,
+                &DeviceSelector::selectDevice);
     }
 
     void DeviceSelector::initListWidget() const {
@@ -51,13 +36,13 @@ namespace hidviz {
 
                 auto item = new DeviceSelectionListItem{QString::fromStdString(str), *interface};
 
-                listWidget->addItem(item);
+                ui->deviceList->addItem(item);
             }
         }
     }
 
     void DeviceSelector::selectDevice() {
-        const auto& selectedItems = listWidget->selectedItems();
+        const auto& selectedItems = ui->deviceList->selectedItems();
         if (!selectedItems.size()) {
             return;
         }

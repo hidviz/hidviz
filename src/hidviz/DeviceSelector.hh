@@ -5,16 +5,18 @@
 
 #include <QDialog>
 
-class QListWidget;
+namespace Ui {
+    class DeviceSelector;
+}
 
 namespace hidviz {
 
     class DeviceSelector : public QDialog {
     Q_OBJECT
-    private:
-        QListWidget* listWidget;
     public:
         DeviceSelector();
+    private:
+        Ui::DeviceSelector* ui;
 
     signals:
         void deviceSelected(libhidx::Interface&);
