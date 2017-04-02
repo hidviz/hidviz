@@ -2,11 +2,9 @@
 
 #include "libhidx/InterfaceHandle.hh"
 #include "libhidx/Parser.hh"
-#include "libhidx/hid/Control.hh"
 
 #include <iostream>
 #include <cassert>
-#include <mutex>
 
 namespace libhidx {
 
@@ -128,7 +126,7 @@ namespace libhidx {
                     m_listener();
                 }
             } else if(size == LIBUSB_ERROR_TIMEOUT){
-                std::cerr << "Interrupt transfer timeout" << std::endl;
+                // pass
             } else {
                 std::cerr << "Interrupt transfer fail" << std::endl;
             }
