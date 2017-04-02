@@ -18,6 +18,10 @@ namespace hidviz {
         connect(ui->reloadButton, &QPushButton::pressed, this, &DeviceSelector::reloadDevices);
     }
 
+    DeviceSelector::~DeviceSelector() {
+        delete ui;
+    }
+
     void DeviceSelector::initListWidget() const {
         auto& lib = libhidx::LibHidxFactory::get();
         if(lib.getDevices().empty()){
@@ -64,4 +68,5 @@ namespace hidviz {
         lib.loadDevices();
         initListWidget();
     }
+
 }

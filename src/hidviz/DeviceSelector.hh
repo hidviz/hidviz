@@ -15,6 +15,7 @@ namespace hidviz {
     Q_OBJECT
     public:
         DeviceSelector();
+        ~DeviceSelector();
     private:
         Ui::DeviceSelector* ui;
 
