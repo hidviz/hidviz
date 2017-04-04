@@ -50,7 +50,6 @@
 #include "FlowLayout.hh"
 
 #include <QWidget>
-#include <iostream>
 
 FlowLayout::FlowLayout(QWidget *parent, int margin, int hSpacing, int vSpacing)
     : QLayout(parent), m_hSpace(hSpacing), m_vSpace(vSpacing)
@@ -109,12 +108,12 @@ QLayoutItem *FlowLayout::takeAt(int index)
     if (index >= 0 && index < itemList.size())
         return itemList.takeAt(index);
     else
-        return 0;
+        return nullptr;
 }
 
 Qt::Orientations FlowLayout::expandingDirections() const
 {
-    return Qt::Orientations{Qt::Orientation::Vertical};
+    return 0;
 }
 
 bool FlowLayout::hasHeightForWidth() const
@@ -124,39 +123,33 @@ bool FlowLayout::hasHeightForWidth() const
 
 int FlowLayout::heightForWidth(int width) const
 {
-    int height = doLayout(QRect(0, 0, width, 0), true, false).height();
+    auto height = doLayout(QRect(0, 0, width, 0), true);
     return height;
 }
 
 void FlowLayout::setGeometry(const QRect &rect)
 {
     QLayout::setGeometry(rect);
-    doLayout(rect, false, false);
+    doLayout(rect, false);
 }
 
 QSize FlowLayout::sizeHint() const
 {
-    QSize size{0, 0};
-    for(auto item: itemList){
-        size = size.expandedTo(item->sizeHint());
-    }
-
-    size.setWidth(size.width() * itemList.size());
-    return doLayout({1000, 1000, 1000, 1000}, false, true);
+    return {minimumSize().width(), heightForWidth(minimumSize().width())};
 }
 
 QSize FlowLayout::minimumSize() const
 {
     QSize size;
     QLayoutItem *item;
-    foreach (item, itemList)
-        size = size.expandedTo(item->minimumSize());
+            foreach (item, itemList)
+            size = size.expandedTo(item->minimumSize());
 
     size += QSize(2*margin(), 2*margin());
     return size;
 }
 
-QSize FlowLayout::doLayout(const QRect &rect, bool testOnly, bool infiniteWidth) const
+int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
 {
     QSize maxSize;
     for(auto item: itemList){
@@ -182,7 +175,7 @@ QSize FlowLayout::doLayout(const QRect &rect, bool testOnly, bool infiniteWidth)
             spaceY = wid->style()->layoutSpacing(
                 QSizePolicy::PushButton, QSizePolicy::PushButton, Qt::Vertical);
         int nextX = x + maxSize.width() + spaceX;
-        if (nextX - spaceX > effectiveRect.right() && lineHeight > 0 && !infiniteWidth) {
+        if (nextX - spaceX > effectiveRect.right() && lineHeight > 0) {
             x = effectiveRect.x();
             y = y + lineHeight + spaceY;
             nextX = x + maxSize.width() + spaceX;
@@ -193,10 +186,10 @@ QSize FlowLayout::doLayout(const QRect &rect, bool testOnly, bool infiniteWidth)
             item->setGeometry(QRect(QPoint(x, y), maxSize));
 
         x = nextX;
-        lineHeight = qMax(lineHeight, maxSize.height());
+        lineHeight = std::max(lineHeight, maxSize.height());
     }
     auto h = y + lineHeight - rect.y() + bottom;
-    return {x - rect.x() + right, h};
+    return h;
 }
 int FlowLayout::smartSpacing(QStyle::PixelMetric pm) const
 {

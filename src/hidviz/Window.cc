@@ -2,7 +2,7 @@
 
 #include "ui_Window.h"
 
-#include "TreeModel.hh"
+#include "DeviceView.hh"
 #include "DeviceSelector.hh"
 #include "hid/Collection.hh"
 
@@ -27,8 +27,6 @@ namespace hidviz {
     }
 
     Window::~Window() {
-        delete ui->deviceView->model();
-        ui->deviceView->setModel(nullptr);
         delete ui;
     }
 
@@ -55,26 +53,10 @@ namespace hidviz {
 
         ui->titleLabel->setText(QString::fromStdString(interface.getName()));
 
-        m_model = new TreeModel{interface.getHidReportDesc()};
-        ui->deviceView->setModel(m_model);
-        m_model->forEach([this](const QModelIndex& index){
-            ui->deviceView->expand(index);
-            if(index.column() == 0){
-                return;
-            }
-            auto item = static_cast<libhidx::hid::Item*>(index.data(Qt::UserRole).value<void*>());
 
-            if(item->m_collection){
-                auto collection = new hid::Collection{static_cast<libhidx::hid::Collection*>(item)};
-                ui->deviceView->setIndexWidget(index, collection);
-            } else if(item->m_control){
-                auto control = new hid::Control{static_cast<libhidx::hid::Control*>(item)};
-                ui->deviceView->setIndexWidget(index, control);
-            } else {
-                assert(false);
-            }
-
-        });
+        auto hidRootItem = interface.getHidReportDesc();
+        m_deviceView = new DeviceView{hidRootItem};
+        ui->contentWidget->setWidget(m_deviceView);
     }
 
     void Window::closeEvent(QCloseEvent* event) {
@@ -89,17 +71,11 @@ namespace hidviz {
     }
 
     void Window::updateData() {
-        m_model->forEach([this](const QModelIndex& i){
-            auto w = dynamic_cast<hid::Control*>(ui->deviceView->indexWidget(i));
-            if(!w){
-                return;
-            }
-            w->updateData();
-        });
+
+        m_deviceView->updateData();
     }
 
     void Window::clearModel() {
-        delete ui->deviceView->model();
-        ui->deviceView->setModel(nullptr);
+        ui->contentWidget->setWidget(nullptr);
     }
 }

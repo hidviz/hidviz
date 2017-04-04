@@ -75,8 +75,9 @@ public:
     QSize sizeHint() const override;
     QLayoutItem *takeAt(int index) override;
 
+
 private:
-    QSize doLayout(const QRect &rect, bool testOnly, bool infiniteWidth) const;
+    int doLayout(const QRect &rect, bool testOnly) const;
     int smartSpacing(QStyle::PixelMetric pm) const;
 
     QList<QLayoutItem *> itemList;

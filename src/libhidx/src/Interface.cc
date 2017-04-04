@@ -59,7 +59,8 @@ namespace libhidx {
 
         auto parser = Parser{buffer, static_cast<size_t>(size)};
 
-        m_hidReportDesc.reset(parser.parse());
+        auto rootItem = parser.parse();
+        m_hidReportDesc.reset(rootItem);
 
         return m_hidReportDesc.get();
     }

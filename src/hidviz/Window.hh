@@ -5,8 +5,6 @@
 
 #include <QWidget>
 
-class QLabel;
-class QTreeView;
 
 namespace Ui {
     class Window;
@@ -14,7 +12,7 @@ namespace Ui {
 
 namespace hidviz {
 
-    class TreeModel;
+    class DeviceView;
 
     class Window : public QWidget {
     Q_OBJECT
@@ -28,8 +26,8 @@ namespace hidviz {
 
     private:
         libhidx::Interface* m_selectedInterface = nullptr;
-        TreeModel* m_model;
         Ui::Window* ui;
+        DeviceView *m_deviceView;
 
     signals:
         void dataRead();

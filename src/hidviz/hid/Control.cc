@@ -27,15 +27,21 @@ namespace hid {
 
         auto valuesLayout = new FlowLayout{};
         for(const auto& usage: usages){
+            auto valueLayoutWidget = new QWidget{};
             auto valueLayout = new QVBoxLayout{};
             valueLayout->addWidget(new QLabel{QString::fromStdString(usage.getName())});
             auto value = new QLabel;
             m_valueLabels.push_back(value);
             valueLayout->addWidget(value);
-            valuesLayout->addItem(valueLayout);
+            valuesLayout->addWidget(valueLayoutWidget);
+            valueLayoutWidget->setLayout(valueLayout);
+
         }
 
-        m_mainLayout->addLayout(valuesLayout);
+
+        auto w = new QWidget{};
+        m_mainLayout->addWidget(w);
+        w->setLayout(valuesLayout);
     }
 
     void Control::updateData() {

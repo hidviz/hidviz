@@ -7,7 +7,6 @@ set(CMAKE_AUTORCC ON)
 
 add_executable(hidviz
         main.cc
-        TreeModel.cc
         DeviceSelector.cc
         Window.cc
         DeviceSelectionListItem.cc
@@ -16,6 +15,7 @@ add_executable(hidviz
         hid/Control.cc
         FlowLayout.cc
         resources.qrc
+        DeviceView.cc
         )
 
 target_link_libraries(hidviz
