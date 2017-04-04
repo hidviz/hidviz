@@ -29,39 +29,37 @@ namespace hidviz {
         m_depth = it(model);
         for(unsigned i = 0; i < model->childCount(); ++i){
             auto child = model->child(i);
-            addItem(child, 0);
+            addItem(child, nullptr);
         }
 
         auto w = new QWidget{};
         w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-
         m_layout->addWidget(w, m_layout->rowCount(), 0);
     }
 
-    void DeviceView::addItem(libhidx::hid::Item *item, unsigned currentDepth) {
-        auto nextRow = m_layout->rowCount();
-
-        auto checkbox = new QCheckBox;
-        checkbox->setChecked(true);
-        m_layout->addWidget(checkbox, nextRow, currentDepth, Qt::AlignTop | Qt::AlignHCenter);
+    void DeviceView::addItem(libhidx::hid::Item *item, hid::Item *parent) {
 
         hid::Item* itemWidget = nullptr;
+
         if (item->m_control) {
             itemWidget = new hid::Control{static_cast<libhidx::hid::Control*>(item)};
-            m_layout->addWidget(itemWidget, nextRow, m_depth);
         } else if(item->m_collection) {
             itemWidget = new hid::Collection{static_cast<libhidx::hid::Collection *>(item)};
-            m_layout->addWidget(itemWidget, nextRow, m_depth);
+        }
+
+        if(parent){
+            parent->setContent(itemWidget);
+        } else {
+            m_layout->addWidget(itemWidget);
         }
 
         if(itemWidget){
             m_items.emplace_back(itemWidget);
-            connect(checkbox, &QCheckBox::stateChanged, itemWidget, &hid::Item::expand);
         }
 
         for (unsigned i = 0; i < item->childCount(); ++i) {
             auto child = item->child(i);
-            addItem(child, currentDepth + 1);
+            addItem(child, itemWidget);
         }
     }
 

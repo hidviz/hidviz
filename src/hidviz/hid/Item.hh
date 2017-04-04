@@ -5,15 +5,16 @@
 
 class QVBoxLayout;
 class QHBoxLayout;
+class QGridLayout;
 class QLabel;
 
 namespace hidviz {
 namespace hid {
     class Item : public QWidget {
-    Q_OBJECT
     public:
         Item();
         virtual ~Item(){}
+        void setContent(QWidget* widget);
 
     protected:
         QLabel* m_name;
@@ -21,11 +22,7 @@ namespace hid {
         QWidget *m_content;
 
     private:
-        QVBoxLayout* m_mainLayout;
-        QHBoxLayout* m_headerLayout;
-
-    public slots:
-        virtual void expand(int newState);
+        QGridLayout* m_mainLayout;
 
     };
 }}

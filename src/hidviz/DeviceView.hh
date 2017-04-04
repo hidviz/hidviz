@@ -21,7 +21,7 @@ namespace hidviz {
         void updateData();
 
     private:
-        void addItem(libhidx::hid::Item *item, unsigned currentDepth);
+        void addItem(libhidx::hid::Item *item, hid::Item *parent = nullptr);
 
         libhidx::hid::Item* m_model;
         unsigned int m_depth;
