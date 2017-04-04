@@ -37,11 +37,7 @@ namespace hid {
             valueLayoutWidget->setLayout(valueLayout);
 
         }
-
-
-        auto w = new QWidget{};
-        m_mainLayout->addWidget(w);
-        w->setLayout(valuesLayout);
+        m_content->setLayout(valuesLayout);
     }
 
     void Control::updateData() {

@@ -10,15 +10,23 @@ class QLabel;
 namespace hidviz {
 namespace hid {
     class Item : public QWidget {
+    Q_OBJECT
     public:
         Item();
         virtual ~Item(){}
 
     protected:
-        QVBoxLayout* m_mainLayout;
-        QHBoxLayout* m_headerLayout;
         QLabel* m_name;
         QLabel* m_usage;
+        QWidget *m_content;
+
+    private:
+        QVBoxLayout* m_mainLayout;
+        QHBoxLayout* m_headerLayout;
+
+    public slots:
+        virtual void expand(int newState);
+
     };
 }}
 

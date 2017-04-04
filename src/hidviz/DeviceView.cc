@@ -7,7 +7,7 @@
 #include "libhidx/hid/Collection.hh"
 
 #include <QGridLayout>
-#include <QLabel>
+#include <QCheckBox>
 
 namespace hidviz {
 
@@ -41,9 +41,9 @@ namespace hidviz {
     void DeviceView::addItem(libhidx::hid::Item *item, unsigned currentDepth) {
         auto nextRow = m_layout->rowCount();
 
-        auto label = new QLabel{"here"};
-        label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
-        m_layout->addWidget(label, nextRow, currentDepth);
+        auto checkbox = new QCheckBox;
+        checkbox->setChecked(true);
+        m_layout->addWidget(checkbox, nextRow, currentDepth, Qt::AlignTop | Qt::AlignHCenter);
 
         hid::Item* itemWidget = nullptr;
         if (item->m_control) {
@@ -56,6 +56,7 @@ namespace hidviz {
 
         if(itemWidget){
             m_items.emplace_back(itemWidget);
+            connect(checkbox, &QCheckBox::stateChanged, itemWidget, &hid::Item::expand);
         }
 
         for (unsigned i = 0; i < item->childCount(); ++i) {

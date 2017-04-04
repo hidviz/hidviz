@@ -21,8 +21,19 @@ namespace hid {
 
         m_mainLayout->addLayout(m_headerLayout);
 
+        m_content = new QWidget{};
+        m_mainLayout->addWidget(m_content);
+
         setLayout(m_mainLayout);
         setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    }
+
+    void Item::expand(int newState) {
+        if(newState == Qt::Checked){
+            m_content->show();
+        } else if(newState == Qt::Unchecked){
+            m_content->hide();
+        }
     }
 }
 }
