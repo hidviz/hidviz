@@ -8,6 +8,10 @@ class QHBoxLayout;
 class QGridLayout;
 class QLabel;
 
+namespace Ui {
+    class Item;
+}
+
 namespace hidviz {
 namespace hid {
     class Item : public QWidget {
@@ -17,12 +21,11 @@ namespace hid {
         void setContent(QWidget* widget);
 
     protected:
-        QLabel* m_name;
-        QLabel* m_usage;
-        QWidget *m_content;
+        void setName(const QString& name);
+        void setUsage(const QString& usage);
 
     private:
-        QGridLayout* m_mainLayout;
+        Ui::Item* ui;
 
     };
 }}

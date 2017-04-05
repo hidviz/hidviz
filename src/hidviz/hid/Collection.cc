@@ -18,11 +18,11 @@ namespace hid {
         name += types[m_collection->m_type];
         name += ")";
 
-        m_name->setText(name);
+        setName(name);
 
         auto usageText = getHidUsageText(collection->m_usage);
 
-        m_usage->setText(QString::fromStdString(usageText));
+        setUsage(QString::fromStdString(usageText));
     }
 }
 }

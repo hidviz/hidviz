@@ -23,7 +23,7 @@ namespace hid {
             typeStr = types[static_cast<unsigned>(reportType)];
         }
 
-        m_name->setText(typeStr);
+        setName(typeStr);
 
         auto valuesLayout = new FlowLayout{};
         for(const auto& usage: usages){
@@ -37,7 +37,10 @@ namespace hid {
             valueLayoutWidget->setLayout(valueLayout);
 
         }
-        m_content->setLayout(valuesLayout);
+
+        auto w = new QWidget;
+        w->setLayout(valuesLayout);
+        setContent(w);
     }
 
     void Control::updateData() {

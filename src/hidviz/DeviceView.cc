@@ -7,7 +7,6 @@
 #include "libhidx/hid/Collection.hh"
 
 #include <QGridLayout>
-#include <QCheckBox>
 
 namespace hidviz {
 
