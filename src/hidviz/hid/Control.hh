@@ -6,6 +6,7 @@
 namespace libhidx {
 namespace hid {
     class Control;
+    class Usage;
 }
 }
 
@@ -18,6 +19,11 @@ namespace hid {
     private:
         libhidx::hid::Control* m_control;
         std::vector<QLabel*> m_valueLabels;
+
+        void initGui();
+        void initDetailInfo();
+        QWidget *getWidgetForUsage(const libhidx::hid::Usage& usage);
+
 
     };
 }
