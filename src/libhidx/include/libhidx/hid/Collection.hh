@@ -8,9 +8,7 @@ namespace hid {
     class Collection : public Item {
 
     public:
-        Collection(Item* parent = nullptr) : Item{parent} {m_collection=true;}
-
-        Item* clone(Item* parent = nullptr, Item* dst = nullptr) const override;
+        Collection(Item* parent = nullptr) : Item{parent} {}
 
         uint32_t m_type;
         unsigned m_usage;

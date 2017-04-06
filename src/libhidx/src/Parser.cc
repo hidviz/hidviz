@@ -218,7 +218,7 @@ namespace libhidx {
                 j = static_cast<unsigned>(m_local.usagesStack.size()) - 1;
             }
 
-            field->m_usages.emplace_back(m_local.usagesStack[j]);
+            field->m_usages.emplace_back(new hid::Usage{m_local.usagesStack[j]});
         }
 
         field->m_flags = m_currentItem.udata();

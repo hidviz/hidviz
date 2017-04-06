@@ -5,31 +5,25 @@
 
 #include "libhidx/hid/Control.hh"
 #include "libhidx/hid/Collection.hh"
+#include "libhidx/Interface.hh"
 
 #include <QGridLayout>
 
 namespace hidviz {
 
-    DeviceView::DeviceView(libhidx::hid::Item *model, QWidget *parent) : QWidget{parent}, m_model{model} {
+    DeviceView::DeviceView(libhidx::Interface& interface, QWidget *parent) : QWidget{parent}, m_interface{interface} {
         m_layout = new QGridLayout{this};
 
-        std::function<unsigned(libhidx::hid::Item *)> it;
+        const auto& rootItem = m_interface.getHidReportDesc();
 
-        it = [&it](libhidx::hid::Item *item) {
-            unsigned max = 0;
-            for (unsigned i = 0; i < item->childCount(); ++i) {
-                auto child = item->child(0);
-                max = std::max(max, it(child) + 1);
-            }
-
-            return max;
-        };
-
-        m_depth = it(model);
-        for(unsigned i = 0; i < model->childCount(); ++i){
-            auto child = model->child(i);
+        for(unsigned i = 0; i < rootItem->childCount(); ++i){
+            auto child = rootItem->child(i);
             addItem(child, nullptr);
         }
+
+        connect(this, &DeviceView::dataRead, this, &DeviceView::updateData);
+        interface.setReadingListener([this]{emit dataRead();});
+        interface.beginReading();
 
         auto w = new QWidget{};
         w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
@@ -40,14 +34,20 @@ namespace hidviz {
 
         hid::Item* itemWidget = nullptr;
 
-        if (item->m_control) {
-            itemWidget = new hid::Control{static_cast<libhidx::hid::Control*>(item)};
-        } else if(item->m_collection) {
-            itemWidget = new hid::Collection{static_cast<libhidx::hid::Collection *>(item)};
+        auto control = dynamic_cast<libhidx::hid::Control*>(item);
+        auto collection = dynamic_cast<libhidx::hid::Collection*>(item);
+
+        if (control) {
+            auto controlWidget = new hid::Control{control};
+
+            connect(controlWidget, &hid::Control::dataUpdated, this, &DeviceView::sendData);
+            itemWidget = controlWidget;
+        } else if(collection) {
+            itemWidget = new hid::Collection{collection};
         }
 
         if(parent){
-            parent->setContent(itemWidget);
+            parent->appendWidget(itemWidget);
         } else {
             m_layout->addWidget(itemWidget);
         }
@@ -69,6 +69,10 @@ namespace hidviz {
                 control->updateData();
             }
         }
+    }
+
+    void DeviceView::sendData() {
+        m_interface.sendData();
     }
 
 }

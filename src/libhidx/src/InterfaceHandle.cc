@@ -87,6 +87,10 @@ namespace libhidx {
     InterfaceHandle::interruptTransfer(unsigned char endpoint, unsigned char* data,
                                     int length, int* transferred,
                                     unsigned timeout) {
+        int tmp;
+        if(!transferred){
+            transferred = &tmp;
+        }
 
         return libusb_interrupt_transfer(
             m_handle,

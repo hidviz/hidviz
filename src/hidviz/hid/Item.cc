@@ -9,19 +9,22 @@ namespace hid {
 
         ui->setupUi(this);
         connect(ui->visibleCheckbox, &QCheckBox::stateChanged, [this](int newState){
-
             if(newState == Qt::Checked){
-                ui->content->show();
+                for(auto widget: m_children) {
+                    widget->show();
+                }
             } else if(newState == Qt::Unchecked){
-                ui->content->hide();
+                for(auto widget: m_children) {
+                    widget->hide();
+                }
             }
         });
     }
 
-    void Item::setContent(QWidget* widget) {
-        delete ui->content;
-        ui->mainLayout->addWidget(widget, 1, 1);
-        ui->content = widget;
+    void Item::appendWidget(QWidget *widget) {
+        auto nextRow = ui->mainLayout->rowCount();
+        ui->mainLayout->addWidget(widget, nextRow, 1);
+        m_children.append(widget);
     }
 
     void Item::setName(const QString &name) {
@@ -30,6 +33,10 @@ namespace hid {
 
     void Item::setUsage(const QString &usage) {
         ui->usage->setText(usage);
+    }
+
+    Item::~Item() {
+        delete ui;
     }
 }
 }

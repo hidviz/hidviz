@@ -13,6 +13,7 @@ namespace hid {
 namespace hidviz {
 namespace hid {
     class Control : public Item {
+    Q_OBJECT
     public:
         Control(libhidx::hid::Control*);
         void updateData();
@@ -22,7 +23,11 @@ namespace hid {
 
         void initGui();
         void initDetailInfo();
-        QWidget *getWidgetForUsage(const libhidx::hid::Usage& usage);
+        QWidget *getWidgetForUsage(libhidx::hid::Usage *usage);
+
+    signals:
+        void dataUpdated();
+
 
 
     };

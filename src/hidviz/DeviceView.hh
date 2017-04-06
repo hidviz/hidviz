@@ -4,6 +4,7 @@
 #include <QWidget>
 
 namespace libhidx {
+    class Interface;
 namespace hid {
     class Item;
 }
@@ -16,19 +17,23 @@ namespace hidviz {
         class Item;
     }
     class DeviceView : public QWidget {
+    Q_OBJECT
     public:
-        DeviceView(libhidx::hid::Item *model, QWidget *parent = nullptr);
+        DeviceView(libhidx::Interface& model, QWidget *parent = nullptr);
         void updateData();
 
     private:
         void addItem(libhidx::hid::Item *item, hid::Item *parent = nullptr);
+        void sendData();
 
-        libhidx::hid::Item* m_model;
-        unsigned int m_depth;
-        QGridLayout *m_layout;
+        libhidx::Interface& m_interface;
+        QGridLayout* m_layout;
 
 
         std::vector<hid::Item*> m_items;
+
+    signals:
+        void dataRead();
     };
 }
 

@@ -17,8 +17,8 @@ namespace hid {
     class Item : public QWidget {
     public:
         Item();
-        virtual ~Item(){}
-        void setContent(QWidget* widget);
+        virtual ~Item();
+        void appendWidget(QWidget *widget);
 
     protected:
         void setName(const QString& name);
@@ -26,6 +26,7 @@ namespace hid {
 
     private:
         Ui::Item* ui;
+        QList<QWidget*> m_children;
 
     };
 }}

@@ -1,10 +1,11 @@
 #include "Control.hh"
 
+#include "FlowLayout.hh"
+
 #include "libhidx/hid/Control.hh"
 
-#include <QVBoxLayout>
 #include <QLabel>
-#include <FlowLayout.hh>
+#include <QLineEdit>
 
 namespace hidviz{
 namespace hid {
@@ -35,31 +36,50 @@ namespace hid {
     void Control::initDetailInfo() {
         auto valuesLayout = new FlowLayout{};
         const auto& usages = m_control->getUsages();
-        for(const auto& usage: usages){
-            QWidget *valueLayoutWidget = getWidgetForUsage(usage);
+        for(auto& usage: usages){
+            QWidget *valueLayoutWidget = getWidgetForUsage(usage.get());
             valuesLayout->addWidget(valueLayoutWidget);
         }
 
         auto w = new QWidget;
         w->setLayout(valuesLayout);
-        setContent(w);
+        appendWidget(w);
     }
 
-    QWidget* Control::getWidgetForUsage(const libhidx::hid::Usage& usage) {
+    QWidget* Control::getWidgetForUsage(libhidx::hid::Usage *usage) {
         auto valueLayoutWidget = new QWidget{};
         auto valueLayout = new QVBoxLayout{};
-        valueLayout->addWidget(new QLabel{QString::fromStdString(usage.getName())});
-        auto value = new QLabel;
-        m_valueLabels.push_back(value);
+        valueLayout->addWidget(new QLabel{QString::fromStdString(usage->getName())});
+
+        auto reportType = m_control->getReportType();
+        QWidget* value{nullptr};
+
+        if(reportType == libhidx::hid::Control::Type::INPUT){
+            auto valueLabel = new QLabel;
+            m_valueLabels.push_back(valueLabel);
+            value = valueLabel;
+        } else if(reportType == libhidx::hid::Control::Type::OUTPUT){
+            auto valueEdit = new QLineEdit{};
+            connect(valueEdit, &QLineEdit::editingFinished, [valueEdit, usage, this]{
+                auto text = valueEdit->text().toStdString();
+                usage->setDataFromUser(text);
+                emit dataUpdated();
+            });
+            value = valueEdit;
+        }
+
         valueLayout->addWidget(value);
         valueLayoutWidget->setLayout(valueLayout);
         return valueLayoutWidget;
     }
 
     void Control::updateData() {
+        if(m_control->getReportType() != libhidx::hid::Control::Type::INPUT){
+            return;
+        }
         for(size_t i = 0; i < m_valueLabels.size(); ++i){
             auto label = m_valueLabels[i];
-            auto data = m_control->getUsages()[i].getData();
+            auto data = m_control->getUsages()[i]->getData();
             label->setText(QString::number(data));
         }
     }

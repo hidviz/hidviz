@@ -15,10 +15,18 @@ namespace libhidx {
                 (endpoint.bmAttributes & LIBUSB_TRANSFER_TYPE_MASK) == LIBUSB_TRANSFER_TYPE_INTERRUPT;
             bool isInput =
                 (endpoint.bEndpointAddress & LIBUSB_ENDPOINT_DIR_MASK) == LIBUSB_ENDPOINT_IN;
+            bool isOutput =
+                (endpoint.bEndpointAddress & LIBUSB_ENDPOINT_DIR_MASK) == LIBUSB_ENDPOINT_OUT;
 
             if(isInterrupt && isInput){
                 m_inputAddress = endpoint.bEndpointAddress;
                 m_inputMaxSize = endpoint.wMaxPacketSize;
+                break;
+            }
+
+            if(isInterrupt && isOutput){
+                m_outputAddress = endpoint.bEndpointAddress;
+                m_hasOutputAddress = true;
                 break;
             }
         }
@@ -158,12 +166,72 @@ namespace libhidx {
         auto reportDesc = getHidReportDesc();
 
         reportDesc->forEach([&data](hid::Item* item){
-            if(!item->m_control){
+            auto control = dynamic_cast<hid::Control*>(item);
+            if(!control){
                 return;
             }
-            auto c = static_cast<hid::Control*>(item);
-            c->update(data);
+            control->setData(data);
         });
+    }
+
+    void Interface::sendData() {
+        std::vector<unsigned char> data;
+        m_hidReportDesc->forEach([&data](auto item){
+            auto control = dynamic_cast<hid::Control*>(item);
+            if(!control){
+                return;
+            }
+            if(!control->getUsages().size()){
+                return;
+            }
+            if(control->getReportType() != hid::Control::Type::OUTPUT){
+                return;
+            }
+
+            auto controlData = control->getData();
+            auto controlOffset = control->getOffset();
+            auto controlSize = control->getSize() * control->getCount();
+
+            for(unsigned i = 0; i < controlSize; ++i){
+                auto offset = controlOffset + i;
+                auto bytePos = offset / 8U;
+                auto bitPos = offset % 8U;
+                auto bit = (controlData >> i) & 1;
+
+                if(bytePos >= data.size()){
+                    data.resize(bytePos + 1);
+                }
+
+                data[bytePos] |= bit << bitPos;
+            }
+
+        });
+
+        sendOutputReport(data);
+    }
+
+    void Interface::sendOutputReport(const std::vector<unsigned char>& data) {
+        auto handle = getHandle();
+        if(m_hasOutputAddress) {
+            handle->interruptTransfer(
+                    m_outputAddress,
+                    const_cast<unsigned char*>(data.data()),
+                    static_cast<int>(data.size()),
+                    nullptr,
+                    1000
+            );
+        } else {
+
+            handle->controlTransfer(
+                    LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE | LIBUSB_ENDPOINT_OUT,
+                    0x09/*HID Set_Report*/,
+                    (2/*HID output*/ << 8) | /*report_number*/ 0,
+                    m_interface.bInterfaceNumber,
+                    const_cast<unsigned char*>(data.data()),
+                    static_cast<uint16_t>(data.size()),
+                    1000
+            );
+        }
     }
 
 

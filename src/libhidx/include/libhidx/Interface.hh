@@ -30,6 +30,7 @@ namespace libhidx {
         const auto& getDesc() const {return m_interface;}
         hid::Item* getHidReportDesc();
         void setReadingListener(std::function<void()>);
+        void sendData();
 
 
         void beginReading();
@@ -45,13 +46,17 @@ namespace libhidx {
         std::atomic_bool stopReadingRequest;
         void runner();
 
-        uint8_t m_inputAddress;
-        uint16_t m_inputMaxSize;
+        uint8_t m_inputAddress = 0;
+        uint16_t m_inputMaxSize = 0;
+        uint8_t m_outputAddress = 0;
+        bool m_hasOutputAddress = false;
+
         std::function<void()> m_listener;
 
         std::unique_ptr<hid::Item> m_hidReportDesc;
 
         void updateData(const std::vector<unsigned char>& data);
+        void sendOutputReport(const std::vector<unsigned char>& data);
     };
 
 }

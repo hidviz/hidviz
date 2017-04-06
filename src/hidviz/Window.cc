@@ -41,21 +41,9 @@ namespace hidviz {
     void Window::selectDevice(libhidx::Interface& interface) {
         assert(interface.isHid());
 
-        if(m_selectedInterface){
-            m_selectedInterface->stopReading();
-        }
-
-        m_selectedInterface = &interface;
-
-        connect(this, &Window::dataRead, this, &Window::updateData);
-        interface.setReadingListener([this]{emit dataRead();});
-        interface.beginReading();
-
         ui->titleLabel->setText(QString::fromStdString(interface.getName()));
 
-
-        auto hidRootItem = interface.getHidReportDesc();
-        m_deviceView = new DeviceView{hidRootItem};
+        m_deviceView = new DeviceView{interface};
         ui->contentWidget->setWidget(m_deviceView);
     }
 

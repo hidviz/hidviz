@@ -12,8 +12,7 @@ namespace hid {
         Item(Item* parent = nullptr) : m_parent{parent}{}
         Item(const Item&) = delete;
         Item& operator= (const Item&) = delete;
-
-        virtual Item* clone(Item* parent = nullptr, Item* dst = nullptr) const;
+        virtual ~Item(){}
 
         void appendChild(Item* child);
         Item* child(int row);
@@ -21,10 +20,6 @@ namespace hid {
         Item* parentItem();
         size_t row() const;
         void forEach(std::function<void(Item*)>);
-
-        bool m_collection = false;
-        bool m_control = false;
-
 
     private:
         std::vector<std::unique_ptr<Item>> m_children;
