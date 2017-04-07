@@ -23,11 +23,16 @@ namespace hid {
             FEATURE = 2
         };
 
-        auto getReportType(){return m_reportType;}
-        const auto& getUsages(){return m_usages;}
-        auto getOffset(){return m_offset;};
-        auto getSize(){return m_reportSize;}
-        auto getCount(){return m_reportCount;}
+        auto getReportType() const {return m_reportType;}
+        const auto& getUsages() const {return m_usages;}
+        auto getOffset() const {return m_offset;};
+        auto getSize() const {return m_reportSize;}
+        auto getCount() const {return m_reportCount;}
+        auto getLogicalMinimum() const {return m_logicalMinimum;}
+        auto getLogicalMaximum() const {return m_logicalMaximum;}
+        auto getPhysicalMinimum() const {return m_physicalMinimum;}
+        auto getPhysicalMaximum() const {return m_physicalMaximum;}
+        auto getUnitExponent() const {return m_unitExponent;}
 
     private:
         std::size_t m_offset = 0;
