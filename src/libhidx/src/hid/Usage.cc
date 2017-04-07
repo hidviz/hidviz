@@ -7,12 +7,12 @@
 
 namespace libhidx{
 namespace hid {
-    Usage::Usage(unsigned usageId) : m_value{usageId} {
+    Usage::Usage(unsigned usageId) : m_id{usageId} {
         m_name = getHidUsageText(usageId);
 
     }
 
-    bool Usage::setDataFromUser(const std::string& dataString) {
+    bool Usage::setLogicalValueFromUser(const std::string& dataString) {
         unsigned data;
         try {
             auto tmp = std::stoul(dataString);
@@ -25,7 +25,7 @@ namespace hid {
         }
 
         //TODO: check range
-        m_data = data;
+        m_logicalValue = data;
 
         return true;
 

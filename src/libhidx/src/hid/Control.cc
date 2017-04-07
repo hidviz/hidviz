@@ -15,12 +15,12 @@ namespace hid {
             // variable
             for(unsigned i = 0; i < m_reportCount; ++i){
                 uint32_t usageData = extractVariableUsageData(data, i);
-                m_usages[i]->setData(usageData);
+                m_usages[i]->setLogicalValue(usageData);
             }
         } else {
             // array
             for(auto& usage: m_usages){
-                usage->setData(0);
+                usage->setLogicalValue(0);
             }
 
             for(unsigned i = 0; i < m_reportCount; ++i){
@@ -31,7 +31,7 @@ namespace hid {
                     continue;
                 }
 
-                usage->setData(1);
+                usage->setLogicalValue(1);
             }
         }
     }
@@ -63,7 +63,7 @@ namespace hid {
 
     Usage * Control::findUsageByValue(uint32_t value) {
         auto it = std::find_if(begin(m_usages), end(m_usages), [&value](const auto &usage){
-            return (usage->getValue() & 0xff) == value;
+            return (usage->getLogicalValue() & 0xff) == value;
         });
 
         if(it == end(m_usages)){
@@ -77,7 +77,7 @@ namespace hid {
         uint32_t data = 0;
         unsigned i = 0;
         for(const auto& usage: m_usages){
-            auto usageData = usage->getData();
+            auto usageData = usage->getLogicalValue();
 
             data |= usageData << (m_reportSize * i);
             ++i;

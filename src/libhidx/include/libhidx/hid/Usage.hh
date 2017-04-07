@@ -11,17 +11,18 @@ namespace hid {
     public:
         Usage(unsigned usageId);
 
-        void setData(uint32_t data) { m_data = data; }
+        auto getId() const { return m_id;}
         const auto &getName() const { return m_name; }
-        auto getData() const { return m_data; }
-        auto getValue() const { return m_value;}
 
-        bool setDataFromUser(const std::string& dataString);
+        void setLogicalValue(uint32_t data) { m_logicalValue = data; }
+        auto getLogicalValue() const { return m_logicalValue; }
+
+        bool setLogicalValueFromUser(const std::string& dataString);
 
     private:
-        unsigned m_value = 0;
+        unsigned m_id = 0;
         std::string m_name;
-        uint32_t m_data = 0;
+        uint32_t m_logicalValue = 0;
     };
 }
 }

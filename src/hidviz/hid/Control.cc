@@ -62,7 +62,7 @@ namespace hid {
             auto valueEdit = new QLineEdit{};
             connect(valueEdit, &QLineEdit::editingFinished, [valueEdit, usage, this]{
                 auto text = valueEdit->text().toStdString();
-                usage->setDataFromUser(text);
+                usage->setLogicalValueFromUser(text);
                 emit dataUpdated();
             });
             value = valueEdit;
@@ -79,7 +79,7 @@ namespace hid {
         }
         for(size_t i = 0; i < m_valueLabels.size(); ++i){
             auto label = m_valueLabels[i];
-            auto data = m_control->getUsages()[i]->getData();
+            auto data = m_control->getUsages()[i]->getLogicalValue();
             label->setText(QString::number(data));
         }
     }
