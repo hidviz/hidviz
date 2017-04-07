@@ -13,7 +13,16 @@ namespace hid {
         m_name = getHidUsageText(usageId);
 
     }
-    void Usage::setLogicalValue(uint32_t logicalValue) {
+    void Usage::setLogicalValue(uint32_t rawLogicalValue) {
+        int64_t logicalValue = 0;
+
+        if(m_control->getLogicalMinimum() >= 0 && m_control->getLogicalMaximum() >= 0){
+            logicalValue = rawLogicalValue;
+        } else {
+            auto size = m_control->getSize();
+            logicalValue = convertLogicalValue(rawLogicalValue, size);
+        }
+
         m_logicalValue = logicalValue;
         m_physicalValue = logicalToPhysical(logicalValue);
     }
@@ -37,7 +46,7 @@ namespace hid {
 
     }
 
-    double Usage::logicalToPhysical(uint32_t logical) {
+    double Usage::logicalToPhysical(int64_t logical) {
         auto logMin = m_control->getLogicalMinimum();
         auto logMax = m_control->getLogicalMaximum();
         auto phyMin = m_control->getPhysicalMinimum();
@@ -56,6 +65,21 @@ namespace hid {
         auto resolution = logicalRange / physicalRange * std::pow(10., unitExp);
 
         return logical * resolution;
+    }
+
+    int64_t Usage::convertLogicalValue(uint32_t value, unsigned int size) {
+        uint32_t one32 = 1;
+        auto highestBitMask = one32 << (size - 1);
+        auto sign = value & highestBitMask;
+        if(sign){
+            for(unsigned i = size; i < sizeof(value) * 8; ++i){
+                value |= one32 << i;
+            }
+            auto signedValue = static_cast<int32_t>(value);
+            return signedValue;
+        }
+
+        return static_cast<int64_t>(value);
     }
 
 }
