@@ -79,7 +79,7 @@ namespace hid {
         }
         for(size_t i = 0; i < m_valueLabels.size(); ++i){
             auto label = m_valueLabels[i];
-            auto data = m_control->getUsages()[i]->getLogicalValue();
+            auto data = m_control->getUsages()[i]->getPhysicalValue();
             label->setText(QString::number(data));
         }
     }
