@@ -41,6 +41,8 @@ namespace hid {
             valuesLayout->addWidget(valueLayoutWidget);
         }
 
+        updateData();
+
         auto w = new QWidget;
         w->setLayout(valuesLayout);
         appendWidget(w);
