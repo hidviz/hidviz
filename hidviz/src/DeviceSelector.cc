@@ -6,6 +6,9 @@
 
 #include <libhidx/LibHidx.hh>
 #include <libhidx/LibHidxFactory.hh>
+#include <libhidx/InterfaceHandle.hh>
+
+#include <QMessageBox>
 
 namespace hidviz {
 
@@ -56,6 +59,13 @@ namespace hidviz {
         }
 
         auto selectedItem = static_cast<DeviceSelectionListItem*>(selectedItems.first());
+
+        try {
+            selectedItem->getInterface().getHandle();
+        } catch(libhidx::ConnectionException& ex){
+            QMessageBox::critical(this, "Connection error", ex.what());
+            return;
+        }
 
         emit deviceSelected(selectedItem->getInterface());
         close();
