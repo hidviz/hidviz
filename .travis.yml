@@ -18,4 +18,4 @@ install:
   - "[ $CXX = g++ ] && export CXX=g++-6 || true"
   - "[ $CXX = clang++ ] && export CXX=clang++-3.8 || true"
 script:
-  - mkdir build && cd build && cmake ../src && make
+  - mkdir build && cd build && cmake .. && make
