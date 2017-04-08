@@ -1,7 +1,7 @@
 #ifndef HIDVIZ_DEVICESELECTOR_HH
 #define HIDVIZ_DEVICESELECTOR_HH
 
-#include "libhidx/Interface.hh"
+#include <libhidx/Interface.hh>
 
 #include <QDialog>
 

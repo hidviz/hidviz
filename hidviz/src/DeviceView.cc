@@ -3,9 +3,9 @@
 #include "hid/Control.hh"
 #include "hid/Collection.hh"
 
-#include "libhidx/hid/Control.hh"
-#include "libhidx/hid/Collection.hh"
-#include "libhidx/Interface.hh"
+#include <libhidx/hid/Control.hh>
+#include <libhidx/hid/Collection.hh>
+#include <libhidx/Interface.hh>
 
 #include <QGridLayout>
 

@@ -4,8 +4,8 @@
 
 #include "DeviceSelectionListItem.hh"
 
-#include "libhidx/LibHidx.hh"
-#include "libhidx/LibHidxFactory.hh"
+#include <libhidx/LibHidx.hh>
+#include <libhidx/LibHidxFactory.hh>
 
 namespace hidviz {
 

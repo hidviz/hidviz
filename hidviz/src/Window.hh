@@ -1,7 +1,7 @@
 #ifndef HIDVIZ_WINDOW_HH
 #define HIDVIZ_WINDOW_HH
 
-#include "libhidx/Interface.hh"
+#include <libhidx/Interface.hh>
 
 #include <QWidget>
 

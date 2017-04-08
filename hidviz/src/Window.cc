@@ -6,8 +6,8 @@
 #include "DeviceSelector.hh"
 #include "hid/Collection.hh"
 
-#include "libhidx/hid/Collection.hh"
-#include "libhidx/hid/Control.hh"
+#include <libhidx/hid/Collection.hh>
+#include <libhidx/hid/Control.hh>
 
 #include <QSettings>
 

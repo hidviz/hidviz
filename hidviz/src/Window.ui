@@ -79,7 +79,7 @@
      </property>
      <property name="icon">
       <iconset resource="resources.qrc">
-       <normaloff>:/resources/images/usb.png</normaloff>:/resources/images/usb.png</iconset>
+       <normaloff>:/images/usb.png</normaloff>:/images/usb.png</iconset>
      </property>
      <property name="iconSize">
       <size>

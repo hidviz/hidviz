@@ -2,7 +2,7 @@
 #define HIDVIZ_DEVICESELECTIONLISTITEM_HH
 
 #include <QListWidgetItem>
-#include "libhidx/Interface.hh"
+#include <libhidx/Interface.hh>
 
 namespace hidviz {
 

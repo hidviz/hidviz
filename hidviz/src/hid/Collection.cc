@@ -1,7 +1,7 @@
 #include "Collection.hh"
 
-#include "libhidx/hid/Collection.hh"
-#include "libhidx/Usages.hh"
+#include <libhidx/hid/Collection.hh>
+#include <libhidx/Usages.hh>
 
 #include <QLabel>
 

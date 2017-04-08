@@ -1,8 +1,8 @@
 #include "Control.hh"
 
-#include "FlowLayout.hh"
+#include "../FlowLayout.hh"
 
-#include "libhidx/hid/Control.hh"
+#include <libhidx/hid/Control.hh>
 
 #include <QLabel>
 #include <QLineEdit>

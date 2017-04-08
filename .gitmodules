@@ -1,0 +1,3 @@
+[submodule "libhidx"]
+	path = libhidx
+	url = https://github.com/ondrejbudai/libhidx.git
