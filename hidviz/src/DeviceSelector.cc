@@ -75,7 +75,7 @@ namespace hidviz {
         emit listCleared();
         ui->deviceList->clear();
         auto& lib = libhidx::LibHidxFactory::get();
-        lib.loadDevices();
+        lib.reloadDevices();
         initListWidget();
     }
 
