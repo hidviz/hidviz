@@ -20,6 +20,7 @@ namespace hidviz {
     Q_OBJECT
     public:
         DeviceView(libhidx::Interface& model, QWidget *parent = nullptr);
+        virtual ~DeviceView();
         void updateData();
 
     private:

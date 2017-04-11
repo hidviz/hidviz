@@ -75,4 +75,9 @@ namespace hidviz {
         m_interface.sendData();
     }
 
+    DeviceView::~DeviceView() {
+        m_interface.setReadingListener(nullptr);
+        m_interface.stopReading();
+    }
+
 }
