@@ -152,7 +152,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Logitech</string>
+      <string>No device selected</string>
      </property>
     </widget>
    </item>
