@@ -1,4 +1,4 @@
-#include "Collection.hh"
+#include "CollectionWidget.hh"
 
 #include <libhidx/hid/Collection.hh>
 #include <libhidx/Usages.hh>
@@ -8,7 +8,7 @@
 namespace hidviz {
 namespace hid {
 
-    Collection::Collection(libhidx::hid::Collection* collection) : Item{}, m_collection{collection} {
+    CollectionWidget::CollectionWidget(libhidx::hid::Collection* collection) : ItemWidget{}, m_collection{collection} {
         const char* types[] = {
             "Physical", "Application", "Logical", "Report", "Named Array",
             "Usage Switch", "Usage modifier"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Item</class>
- <widget class="QWidget" name="Item">
+ <widget class="QWidget" name="ItemWidget">
   <property name="geometry">
    <rect>
     <x>0</x>

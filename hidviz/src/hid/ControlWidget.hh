@@ -1,7 +1,7 @@
 #ifndef HIDVIZ_CONTROL_HH
 #define HIDVIZ_CONTROL_HH
 
-#include "Item.hh"
+#include "ItemWidget.hh"
 
 namespace libhidx {
 namespace hid {
@@ -12,10 +12,10 @@ namespace hid {
 
 namespace hidviz {
 namespace hid {
-    class Control : public Item {
+    class ControlWidget : public ItemWidget {
     Q_OBJECT
     public:
-        Control(libhidx::hid::Control*);
+        ControlWidget(libhidx::hid::Control*);
         void updateData();
     private:
         libhidx::hid::Control* m_control;

@@ -1,7 +1,7 @@
 #include "DeviceView.hh"
 
-#include "hid/Control.hh"
-#include "hid/Collection.hh"
+#include "hid/ControlWidget.hh"
+#include "src/hid/CollectionWidget.hh"
 
 #include <libhidx/hid/Control.hh>
 #include <libhidx/hid/Collection.hh>
@@ -30,20 +30,20 @@ namespace hidviz {
         m_layout->addWidget(w, m_layout->rowCount(), 0);
     }
 
-    void DeviceView::addItem(libhidx::hid::Item *item, hid::Item *parent) {
+    void DeviceView::addItem(libhidx::hid::Item *item, hid::ItemWidget *parent) {
 
-        hid::Item* itemWidget = nullptr;
+        hid::ItemWidget* itemWidget = nullptr;
 
         auto control = dynamic_cast<libhidx::hid::Control*>(item);
         auto collection = dynamic_cast<libhidx::hid::Collection*>(item);
 
         if (control) {
-            auto controlWidget = new hid::Control{control};
+            auto controlWidget = new hid::ControlWidget{control};
 
-            connect(controlWidget, &hid::Control::dataUpdated, this, &DeviceView::sendData);
+            connect(controlWidget, &hid::ControlWidget::dataUpdated, this, &DeviceView::sendData);
             itemWidget = controlWidget;
         } else if(collection) {
-            itemWidget = new hid::Collection{collection};
+            itemWidget = new hid::CollectionWidget{collection};
         }
 
         if(parent){
@@ -64,7 +64,7 @@ namespace hidviz {
 
     void DeviceView::updateData() {
         for(auto item: m_items){
-            auto control = dynamic_cast<hid::Control*>(item);
+            auto control = dynamic_cast<hid::ControlWidget*>(item);
             if(control) {
                 control->updateData();
             }

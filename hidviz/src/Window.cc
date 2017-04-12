@@ -4,7 +4,7 @@
 
 #include "DeviceView.hh"
 #include "DeviceSelector.hh"
-#include "hid/Collection.hh"
+#include "src/hid/CollectionWidget.hh"
 
 #include <libhidx/hid/Collection.hh>
 #include <libhidx/hid/Control.hh>

@@ -1,11 +1,11 @@
-#include "Item.hh"
+#include "ItemWidget.hh"
 
-#include "ui_Item.h"
+#include "ui_ItemWidget.h"
 
 namespace hidviz {
 namespace hid {
 
-    Item::Item() : QWidget{}, ui{new Ui::Item} {
+    ItemWidget::ItemWidget() : QWidget{}, ui{new Ui::Item} {
 
         ui->setupUi(this);
         connect(ui->visibleCheckbox, &QCheckBox::stateChanged, [this](int newState){
@@ -21,21 +21,21 @@ namespace hid {
         });
     }
 
-    void Item::appendWidget(QWidget *widget) {
+    void ItemWidget::appendWidget(QWidget *widget) {
         auto nextRow = ui->mainLayout->rowCount();
         ui->mainLayout->addWidget(widget, nextRow, 1);
         m_children.append(widget);
     }
 
-    void Item::setName(const QString &name) {
+    void ItemWidget::setName(const QString &name) {
         ui->name->setText(name);
     }
 
-    void Item::setUsage(const QString &usage) {
+    void ItemWidget::setUsage(const QString &usage) {
         ui->usage->setText(usage);
     }
 
-    Item::~Item() {
+    ItemWidget::~ItemWidget() {
         delete ui;
     }
 }

@@ -14,7 +14,7 @@ class QGridLayout;
 
 namespace hidviz {
     namespace hid {
-        class Item;
+        class ItemWidget;
     }
     class DeviceView : public QWidget {
     Q_OBJECT
@@ -24,14 +24,14 @@ namespace hidviz {
         void updateData();
 
     private:
-        void addItem(libhidx::hid::Item *item, hid::Item *parent = nullptr);
+        void addItem(libhidx::hid::Item *item, hid::ItemWidget *parent = nullptr);
         void sendData();
 
         libhidx::Interface& m_interface;
         QGridLayout* m_layout;
 
 
-        std::vector<hid::Item*> m_items;
+        std::vector<hid::ItemWidget*> m_items;
 
     signals:
         void dataRead();

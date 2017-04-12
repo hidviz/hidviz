@@ -1,4 +1,4 @@
-#include "Control.hh"
+#include "ControlWidget.hh"
 
 #include "../FlowLayout.hh"
 
@@ -9,11 +9,11 @@
 
 namespace hidviz{
 namespace hid {
-    Control::Control(libhidx::hid::Control* control) : Item{}, m_control{control} {
+    ControlWidget::ControlWidget(libhidx::hid::Control* control) : ItemWidget{}, m_control{control} {
         initGui();
     }
 
-    void Control::initGui() {
+    void ControlWidget::initGui() {
         const char *types[] = {
             "Input", "Output", "Feature", "Padding"
         };
@@ -33,7 +33,7 @@ namespace hid {
         initDetailInfo();
     }
 
-    void Control::initDetailInfo() {
+    void ControlWidget::initDetailInfo() {
         auto valuesLayout = new FlowLayout{};
         const auto& usages = m_control->getUsages();
         for(auto& usage: usages){
@@ -48,7 +48,7 @@ namespace hid {
         appendWidget(w);
     }
 
-    QWidget* Control::getWidgetForUsage(libhidx::hid::Usage *usage) {
+    QWidget* ControlWidget::getWidgetForUsage(libhidx::hid::Usage *usage) {
         auto valueLayoutWidget = new QWidget{};
         auto valueLayout = new QVBoxLayout{};
         valueLayout->addWidget(new QLabel{QString::fromStdString(usage->getName())});
@@ -77,7 +77,7 @@ namespace hid {
         return valueLayoutWidget;
     }
 
-    void Control::updateData() {
+    void ControlWidget::updateData() {
         if(m_control->getReportType() != libhidx::hid::Control::Type::INPUT){
             return;
         }

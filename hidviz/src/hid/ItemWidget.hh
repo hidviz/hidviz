@@ -14,10 +14,10 @@ namespace Ui {
 
 namespace hidviz {
 namespace hid {
-    class Item : public QWidget {
+    class ItemWidget : public QWidget {
     public:
-        Item();
-        virtual ~Item();
+        ItemWidget();
+        virtual ~ItemWidget();
         void appendWidget(QWidget *widget);
 
     protected:

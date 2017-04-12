@@ -15,9 +15,9 @@ add_executable(hidviz
         src/DeviceSelector.cc
         src/Window.cc
         src/DeviceSelectionListItem.cc
-        src/hid/Item.cc
-        src/hid/Collection.cc
-        src/hid/Control.cc
+        src/hid/ItemWidget.cc
+        src/hid/CollectionWidget.cc
+        src/hid/ControlWidget.cc
         src/FlowLayout.cc
         src/DeviceView.cc
         images/images.qrc

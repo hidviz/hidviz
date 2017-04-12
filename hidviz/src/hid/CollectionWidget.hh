@@ -1,7 +1,7 @@
 #ifndef HIDVIZ_COLLECTION_HH
 #define HIDVIZ_COLLECTION_HH
 
-#include "Control.hh"
+#include "ItemWidget.hh"
 
 namespace libhidx {
 namespace hid {
@@ -11,9 +11,9 @@ namespace hid {
 
 namespace hidviz {
 namespace hid {
-    class Collection : public Item {
+    class CollectionWidget : public ItemWidget {
     public:
-        Collection(libhidx::hid::Collection* collection);
+        CollectionWidget(libhidx::hid::Collection* collection);
     private:
         libhidx::hid::Collection* m_collection;
     };
