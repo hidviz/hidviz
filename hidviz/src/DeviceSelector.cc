@@ -53,8 +53,10 @@ namespace hidviz {
     }
 
     void DeviceSelector::selectDevice() {
+        ui->selectButton->setEnabled(false);
         const auto& selectedItems = ui->deviceList->selectedItems();
         if (!selectedItems.size()) {
+            ui->selectButton->setEnabled(true);
             return;
         }
 
@@ -64,11 +66,12 @@ namespace hidviz {
             selectedItem->getInterface().getHandle();
         } catch(libhidx::ConnectionException& ex){
             QMessageBox::critical(this, "Connection error", ex.what());
+            ui->selectButton->setEnabled(true);
             return;
         }
 
-        emit deviceSelected(selectedItem->getInterface());
         close();
+        emit deviceSelected(selectedItem->getInterface());
     }
 
     void DeviceSelector::reloadDevices() {
