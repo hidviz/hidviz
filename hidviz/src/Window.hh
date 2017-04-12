@@ -27,6 +27,7 @@ namespace hidviz {
     private:
         Ui::Window* ui;
         DeviceView *m_deviceView;
+        libhidx::Interface* m_selectedInterface;
 
     signals:
         void dataRead();

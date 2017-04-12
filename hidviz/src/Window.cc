@@ -41,6 +41,13 @@ namespace hidviz {
     void Window::selectDevice(libhidx::Interface& interface) {
         assert(interface.isHid());
 
+        if(&interface == m_selectedInterface){
+            // do not open already opened interface
+            return;
+        }
+
+        m_selectedInterface = &interface;
+
         ui->titleLabel->setText(QString::fromStdString(interface.getName()));
 
         m_deviceView = new DeviceView{interface};
