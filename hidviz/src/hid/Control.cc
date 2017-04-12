@@ -70,7 +70,9 @@ namespace hid {
             value = valueEdit;
         }
 
-        valueLayout->addWidget(value);
+        if(value) {
+            valueLayout->addWidget(value);
+        }
         valueLayoutWidget->setLayout(valueLayout);
         return valueLayoutWidget;
     }
