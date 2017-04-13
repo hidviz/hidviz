@@ -43,6 +43,14 @@ namespace hid {
 
         auto value = m_usage.getPhysicalValue();
         m_label->setText(QString::number(value));
+
+        if(!m_control.isVariable()){
+            if(!value){
+                hide();
+            } else {
+                show();
+            }
+        }
     }
 }
 }
