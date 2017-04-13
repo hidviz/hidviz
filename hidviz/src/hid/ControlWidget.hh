@@ -12,6 +12,7 @@ namespace hid {
 
 namespace hidviz {
 namespace hid {
+    class UsageWidget;
     class ControlWidget : public ItemWidget {
     Q_OBJECT
     public:
@@ -19,15 +20,13 @@ namespace hid {
         void updateData();
     private:
         libhidx::hid::Control* m_control;
-        std::vector<QLabel*> m_valueLabels;
+        QList<UsageWidget*> m_usageWidgets;
 
         void initGui();
         void initDetailInfo();
-        QWidget *getWidgetForUsage(libhidx::hid::Usage *usage);
 
     signals:
         void dataUpdated();
-
 
 
     };
