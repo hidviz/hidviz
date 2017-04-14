@@ -34,6 +34,11 @@ namespace hid {
         setUsage("");
         setName(typeStr);
 
+        if(!usages.size()){
+            setUsage(QString::number(m_control->getReportCount() * m_control->getReportSize()) + " bits");
+            return;
+        }
+
         auto w = new QWidget;
         ui->setupUi(w);
         appendWidget(w);
