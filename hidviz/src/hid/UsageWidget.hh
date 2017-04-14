@@ -5,6 +5,7 @@
 
 class QLabel;
 class QLineEdit;
+class QPushButton;
 
 namespace libhidx {
 namespace hid {
@@ -28,17 +29,22 @@ namespace hid {
         void updateData();
 
     private:
+        void initInput();
+        void initOutput();
+
         Ui::UsageWidget* ui = nullptr;
         libhidx::hid::Usage& m_usage;
         QLabel* m_label = nullptr;
         QLineEdit* m_lineEdit = nullptr;
         const libhidx::hid::Control& m_control;
         bool m_hideInactive = true;
+        QPushButton* m_button;
 
     signals:
         void dataUpdated();
     public slots:
         void updateVisibilitySettings(bool hideInactive);
+        void initBinaryButton(bool enabled);
     };
 
 }}
