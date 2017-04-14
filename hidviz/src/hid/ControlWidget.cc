@@ -51,9 +51,8 @@ namespace hid {
             m_usageWidgets.push_back(usageWidget);
             valuesLayout->addWidget(usageWidget);
 
-            connect(usageWidget, &UsageWidget::dataUpdated, [this](){
-                emit dataUpdated();
-            });
+            connect(usageWidget, &UsageWidget::dataUpdated, this, &ControlWidget::dataUpdated);
+            connect(this, &ControlWidget::hideInactiveUsagesChanged, usageWidget, &UsageWidget::updateVisibilitySettings);
         }
 
         updateData();

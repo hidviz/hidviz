@@ -51,6 +51,7 @@ namespace hidviz {
         ui->titleLabel->setText(QString::fromStdString(interface.getName()));
 
         m_deviceView = new DeviceView{interface};
+        connect(ui->showAllUsages, &QPushButton::clicked, m_deviceView, &DeviceView::hideInactiveUsagesChanged);
         ui->contentWidget->setWidget(m_deviceView);
     }
 

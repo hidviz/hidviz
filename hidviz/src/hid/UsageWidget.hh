@@ -33,9 +33,12 @@ namespace hid {
         QLabel* m_label = nullptr;
         QLineEdit* m_lineEdit = nullptr;
         const libhidx::hid::Control& m_control;
+        bool m_hideInactive = true;
 
     signals:
         void dataUpdated();
+    public slots:
+        void updateVisibilitySettings(bool hideInactive);
     };
 
 }}

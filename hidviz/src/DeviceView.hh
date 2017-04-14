@@ -35,6 +35,7 @@ namespace hidviz {
 
     signals:
         void dataRead();
+        void hideInactiveUsagesChanged(bool newState);
     };
 }
 

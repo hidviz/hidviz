@@ -41,6 +41,8 @@ namespace hidviz {
             auto controlWidget = new hid::ControlWidget{control};
 
             connect(controlWidget, &hid::ControlWidget::dataUpdated, this, &DeviceView::sendData);
+            connect(this, &DeviceView::hideInactiveUsagesChanged, controlWidget,
+                    &hid::ControlWidget::hideInactiveUsagesChanged);
             itemWidget = controlWidget;
         } else if(collection) {
             itemWidget = new hid::CollectionWidget{collection};

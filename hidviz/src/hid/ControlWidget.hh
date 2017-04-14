@@ -33,6 +33,7 @@ namespace hid {
 
     signals:
         void dataUpdated();
+        void hideInactiveUsagesChanged(bool newState);
 
 
     };

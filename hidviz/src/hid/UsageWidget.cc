@@ -45,12 +45,17 @@ namespace hid {
         m_label->setText(QString::number(value));
 
         if(!m_control.isVariable()){
-            if(!value){
+            if(!value && m_hideInactive){
                 hide();
             } else {
                 show();
             }
         }
+    }
+
+    void UsageWidget::updateVisibilitySettings(bool hideInactive) {
+        m_hideInactive = hideInactive;
+        updateData();
     }
 }
 }
