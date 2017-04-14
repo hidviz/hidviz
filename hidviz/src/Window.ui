@@ -98,7 +98,7 @@
       <enum>QFrame::VLine</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Plain</enum>
      </property>
     </widget>
    </item>
@@ -108,7 +108,7 @@
       <enum>QFrame::VLine</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Plain</enum>
      </property>
     </widget>
    </item>
@@ -124,7 +124,7 @@
       <enum>QFrame::HLine</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Plain</enum>
      </property>
     </widget>
    </item>
@@ -135,6 +135,9 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="widgetResizable">
       <bool>true</bool>
