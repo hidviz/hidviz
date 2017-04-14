@@ -9,14 +9,14 @@ class QGridLayout;
 class QLabel;
 
 namespace Ui {
-    class Item;
+    class ItemWidget;
 }
 
 namespace hidviz {
 namespace hid {
     class ItemWidget : public QWidget {
     public:
-        ItemWidget();
+        ItemWidget(size_t level);
         virtual ~ItemWidget();
         void appendWidget(QWidget *widget);
 
@@ -25,7 +25,7 @@ namespace hid {
         void setUsage(const QString& usage);
 
     private:
-        Ui::Item* ui;
+        Ui::ItemWidget* ui;
         QList<QWidget*> m_children;
 
     };

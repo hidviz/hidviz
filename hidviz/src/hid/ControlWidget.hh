@@ -3,6 +3,10 @@
 
 #include "ItemWidget.hh"
 
+namespace Ui {
+    class ControlSubWidget;
+}
+
 namespace libhidx {
 namespace hid {
     class Control;
@@ -21,9 +25,11 @@ namespace hid {
     private:
         libhidx::hid::Control* m_control;
         QList<UsageWidget*> m_usageWidgets;
+        Ui::ControlSubWidget* ui;
 
         void initGui();
-        void initDetailInfo();
+        void initUsages();
+        void initInfoTable();
 
     signals:
         void dataUpdated();

@@ -1,3 +1,4 @@
+#include <QtCore/QPropertyAnimation>
 #include "ItemWidget.hh"
 
 #include "ui_ItemWidget.h"
@@ -5,20 +6,24 @@
 namespace hidviz {
 namespace hid {
 
-    ItemWidget::ItemWidget() : QWidget{}, ui{new Ui::Item} {
+    ItemWidget::ItemWidget(size_t level) : QWidget{}, ui{new Ui::ItemWidget} {
 
         ui->setupUi(this);
-        connect(ui->visibleCheckbox, &QCheckBox::stateChanged, [this](int newState){
-            if(newState == Qt::Checked){
+        connect(ui->visibleCheckbox, &QPushButton::toggled, [this](bool newState){
+            if(newState){
                 for(auto widget: m_children) {
                     widget->show();
                 }
-            } else if(newState == Qt::Unchecked){
+            } else {
                 for(auto widget: m_children) {
                     widget->hide();
                 }
             }
         });
+
+        auto color = 0xffffff - 0x111111 * level;
+
+        ui->header->setStyleSheet("background-color: #" + QString::number(color, 16));
     }
 
     void ItemWidget::appendWidget(QWidget *widget) {

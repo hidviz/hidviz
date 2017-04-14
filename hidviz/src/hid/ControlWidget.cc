@@ -1,16 +1,18 @@
 #include "ControlWidget.hh"
 
+#include "ui_ControlSubWidget.h"
 #include "../FlowLayout.hh"
 #include "UsageWidget.hh"
 
 #include <libhidx/hid/Control.hh>
+#include <libhidx/Usages.hh>
 
 #include <QLabel>
 #include <QLineEdit>
 
 namespace hidviz{
 namespace hid {
-    ControlWidget::ControlWidget(libhidx::hid::Control* control) : ItemWidget{}, m_control{control} {
+    ControlWidget::ControlWidget(libhidx::hid::Control* control) : ItemWidget{control->getLevel()}, m_control{control}, ui{new Ui::ControlSubWidget} {
         initGui();
     }
 
@@ -29,12 +31,19 @@ namespace hid {
             typeStr = types[static_cast<unsigned>(reportType)];
         }
 
+        setUsage("");
         setName(typeStr);
 
-        initDetailInfo();
+        auto w = new QWidget;
+        ui->setupUi(w);
+        appendWidget(w);
+
+        initInfoTable();
+
+        initUsages();
     }
 
-    void ControlWidget::initDetailInfo() {
+    void ControlWidget::initUsages() {
         auto valuesLayout = new FlowLayout{};
         auto& usages = m_control->getUsages();
         for(auto& usage: usages){
@@ -48,16 +57,25 @@ namespace hid {
         }
 
         updateData();
-
-        auto w = new QWidget;
-        w->setLayout(valuesLayout);
-        appendWidget(w);
+        ui->usages->setLayout(valuesLayout);
     }
 
     void ControlWidget::updateData() {
         for(auto usageWidget: m_usageWidgets){
             usageWidget->updateData();
         }
+    }
+
+    void ControlWidget::initInfoTable() {
+        ui->logMinValue->setText(QString::number(m_control->getLogicalMinimum()));
+        ui->logMaxValue->setText(QString::number(m_control->getLogicalMaximum()));
+        ui->phyMinValue->setText(QString::number(m_control->getPhysicalMinimum()));
+        ui->phyMaxValue->setText(QString::number(m_control->getPhysicalMaximum()));
+        ui->unitValue->setText(/*QString::number(m_control->getUnit())*/ "WIP");
+        ui->unitExpValue->setText(QString::number(m_control->getUnitExponent()));
+        ui->reportSizeValue->setText(QString::number(m_control->getReportSize()));
+        ui->reportCountValue->setText(QString::number(m_control->getReportCount()));
+        ui->reportIDValue->setText(QString::number(m_control->getReportId()));
     }
 }
 }

@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="images">
+    <file>icons/hide.png</file>
+    <file>icons/show.png</file>
     <file>usb.png</file>
   </qresource>
 </RCC>
