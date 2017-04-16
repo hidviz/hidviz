@@ -6,15 +6,28 @@
 #include <libhidx/hid/Control.hh>
 #include <libhidx/hid/Collection.hh>
 #include <libhidx/Interface.hh>
+#include <libhidx/Parser.hh>
+#include <libhidx/InterfaceHandle.hh>
 
 #include <QGridLayout>
+#include <QMessageBox>
 
 namespace hidviz {
 
     DeviceView::DeviceView(libhidx::Interface& interface, QWidget *parent) : QWidget{parent}, m_interface{interface} {
         m_layout = new QGridLayout{this};
 
-        const auto& rootItem = m_interface.getHidReportDesc();
+        libhidx::hid::Item* rootItem = nullptr;
+
+        try {
+            rootItem = &m_interface.getHidReportDesc();
+        } catch(libhidx::ParserError& e){
+            QMessageBox::critical(this, "Parsing HID descriptor failed", e.what());
+            return;
+        } catch(libhidx::ConnectionException& e) {
+            QMessageBox::critical(this, "Retrieving HID descriptor failed", e.what());
+            return;
+        }
 
         for(unsigned i = 0; i < rootItem->childCount(); ++i){
             auto child = rootItem->child(i);
