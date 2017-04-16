@@ -44,7 +44,7 @@ make -j$(nproc)
 ```
 
 ## Running
-**To run this project you need `build/hidviz` directory for hidviz to work properly!**
+**To run this project you need `build/hidviz` as you current directory for hidviz to work properly!**
 
 After successful build you need to run
 
