@@ -72,6 +72,7 @@ namespace hidviz {
     }
 
     void Window::clearModel() {
-        ui->contentWidget->setWidget(nullptr);
+        delete m_deviceView;
+        m_deviceView = nullptr;
     }
 }

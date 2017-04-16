@@ -25,9 +25,9 @@ namespace hidviz {
         void closeEvent(QCloseEvent* event) override;
 
     private:
-        Ui::Window* ui;
-        DeviceView *m_deviceView;
-        libhidx::Interface* m_selectedInterface;
+        Ui::Window* ui = nullptr;
+        DeviceView *m_deviceView = nullptr;
+        libhidx::Interface* m_selectedInterface = nullptr;
 
     signals:
         void dataRead();
