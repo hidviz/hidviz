@@ -50,3 +50,5 @@ matrix:
        
 script:
  - mkdir build && cd build && cmake .. && make
+cache:
+  apt: true
