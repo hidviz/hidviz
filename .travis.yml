@@ -1,23 +1,54 @@
 sudo: false
 dist: trusty
 language: cpp
-compiler:
-  - gcc
-  - clang
 addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.8
-    packages:
-      - qtbase5-dev
-      - g++-6
-      - clang-3.8
-      - libusb-1.0-0-dev
-      - libprotobuf-dev
-      - protobuf-compiler
-install:
-  - "[ $CXX = g++ ] && export CXX=g++-6 || true"
-  - "[ $CXX = clang++ ] && export CXX=clang++-3.8 || true"
+ apt:
+   sources:
+     - ubuntu-toolchain-r-test
+     - llvm-toolchain-trusty-3.9
+     - llvm-toolchain-trusty-4.0
+   packages:
+     - qtbase5-dev
+     - libusb-1.0-0-dev
+     - libprotobuf-dev
+     - protobuf-compiler
+     - g++-5
+     - g++-6
+#     - g++-7
+     - clang-3.5
+     - clang-3.6
+     - clang-3.8
+     - clang-3.9
+     - clang-4.0
+     
+matrix:
+ include:
+   - install:
+       - export CC=gcc-5
+       - export CXX=g++-5
+   - install:
+       - export CC=gcc-6
+       - export CXX=g++-6
+#   - install:
+#       - export C=gcc-7
+#       - export CXX=g++-7
+   - install:
+       - export CC=clang-3.5
+       - export CXX=clang++-3.5
+   - install:
+       - export CC=clang-3.6
+       - export CXX=clang++-3.6
+   - install:
+       - export CC=clang-3.8
+       - export CXX=clang++-3.8
+   - install:
+       - export CC=clang-3.9
+       - export CXX=clang++-3.9
+   - install:
+       - export CC=clang-4.0
+       - export CXX=clang++-4.0
+       
 script:
-  - mkdir build && cd build && cmake .. && make
+ - mkdir build && cd build && cmake .. && make
+cache:
+  apt: true
