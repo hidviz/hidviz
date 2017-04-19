@@ -1,23 +1,34 @@
 sudo: false
 dist: trusty
 language: cpp
-compiler:
-  - gcc
-  - clang
 addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.8
-    packages:
-      - qtbase5-dev
-      - g++-6
-      - clang-3.8
-      - libusb-1.0-0-dev
-      - libprotobuf-dev
-      - protobuf-compiler
-install:
-  - "[ $CXX = g++ ] && export CXX=g++-6 || true"
-  - "[ $CXX = clang++ ] && export CXX=clang++-3.8 || true"
+ apt:
+   sources:
+     - ubuntu-toolchain-r-test
+     - llvm-toolchain-trusty-3.9
+     - llvm-toolchain-trusty-4.0
+   packages:
+     - qtbase5-dev
+     - libusb-1.0-0-dev
+     - libprotobuf-dev
+     - protobuf-compiler
+     
+matrix:
+ include:
+   - install:
+       - curl -sSL "http://apt.llvm.org/llvm-snapshot.gpg.key" | sudo -E apt-key add -
+       - echo "deb http://apt.llvm.org/precise/ llvm-toolchain-trusty-3.9 main" | sudo tee -a /etc/apt/sources.list > /dev/null
+       - sudo -E apt-get -yq update &>> ~/apt-get-update.log
+       - sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install clang-3.9
+       - export CXX=clang++-3.9
+       - export C=clang-3.9
+       
+   - install:
+       - sudo -E apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+       - sudo -E apt-get -yq update &>> ~/apt-get-update.log
+       - sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install g++-6
+       - export CXX=g++-6
+       - export C=gcc-6
+       
 script:
-  - mkdir build && cd build && cmake .. && make
+ - mkdir build && cd build && cmake .. && make
