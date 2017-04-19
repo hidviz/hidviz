@@ -14,7 +14,7 @@ addons:
      - protobuf-compiler
      - g++-5
      - g++-6
-     - g++-7
+#     - g++-7
      - clang-3.8
      - clang-3.9
      - clang-4.0
@@ -27,9 +27,9 @@ matrix:
    - install:
        - export C=gcc-6
        - export CXX=g++-6
-   - install:
-       - export C=gcc-7
-       - export CXX=g++-7
+#   - install:
+#       - export C=gcc-7
+#       - export CXX=g++-7
    - install:
        - export C=clang-3.8
        - export CXX=clang++-3.8
