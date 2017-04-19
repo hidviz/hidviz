@@ -12,23 +12,33 @@ addons:
      - libusb-1.0-0-dev
      - libprotobuf-dev
      - protobuf-compiler
+     - g++-5
+     - g++-6
+     - g++-7
+     - clang-3.8
+     - clang-3.9
+     - clang-4.0
      
 matrix:
  include:
    - install:
-       - curl -sSL "http://apt.llvm.org/llvm-snapshot.gpg.key" | sudo -E apt-key add -
-       - echo "deb http://apt.llvm.org/precise/ llvm-toolchain-trusty-3.9 main" | sudo tee -a /etc/apt/sources.list > /dev/null
-       - sudo -E apt-get -yq update &>> ~/apt-get-update.log
-       - sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install clang-3.9
-       - export CXX=clang++-3.9
-       - export C=clang-3.9
-       
+       - export C=gcc-5
+       - export CXX=g++-5
    - install:
-       - sudo -E apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-       - sudo -E apt-get -yq update &>> ~/apt-get-update.log
-       - sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install g++-6
-       - export CXX=g++-6
        - export C=gcc-6
+       - export CXX=g++-6
+   - install:
+       - export C=gcc-7
+       - export CXX=g++-7
+   - install:
+       - export C=clang-3.8
+       - export CXX=clang++-3.8
+   - install:
+       - export C=clang-3.9
+       - export CXX=clang++-3.9
+   - install:
+       - export C=clang-4.0
+       - export CXX=clang++-4.0
        
 script:
  - mkdir build && cd build && cmake .. && make
