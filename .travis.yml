@@ -15,6 +15,9 @@ addons:
      - g++-5
      - g++-6
 #     - g++-7
+     - clang-3.4
+     - clang-3.5
+     - clang-3.6
      - clang-3.8
      - clang-3.9
      - clang-4.0
@@ -22,22 +25,31 @@ addons:
 matrix:
  include:
    - install:
-       - export C=gcc-5
+       - export CC=gcc-5
        - export CXX=g++-5
    - install:
-       - export C=gcc-6
+       - export CC=gcc-6
        - export CXX=g++-6
 #   - install:
 #       - export C=gcc-7
 #       - export CXX=g++-7
    - install:
-       - export C=clang-3.8
+       - export CC=clang-3.4
+       - export CXX=clang++-3.4
+   - install:
+       - export CC=clang-3.5
+       - export CXX=clang++-3.5
+   - install:
+       - export CC=clang-3.6
+       - export CXX=clang++-3.6
+   - install:
+       - export CC=clang-3.8
        - export CXX=clang++-3.8
    - install:
-       - export C=clang-3.9
+       - export CC=clang-3.9
        - export CXX=clang++-3.9
    - install:
-       - export C=clang-4.0
+       - export CC=clang-4.0
        - export CXX=clang++-4.0
        
 script:
