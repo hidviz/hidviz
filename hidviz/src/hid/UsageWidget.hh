@@ -24,8 +24,8 @@ namespace hid {
     class UsageWidget : public QFrame {
     Q_OBJECT
     public:
-        UsageWidget(libhidx::hid::Usage& usage, QWidget* parent = nullptr);
-        virtual ~UsageWidget();
+        explicit UsageWidget(libhidx::hid::Usage& usage, QWidget* parent = nullptr);
+        ~UsageWidget() override;
         void updateData();
 
     private:

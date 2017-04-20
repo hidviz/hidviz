@@ -16,8 +16,8 @@ namespace hidviz {
 namespace hid {
     class ItemWidget : public QWidget {
     public:
-        ItemWidget(size_t level);
-        virtual ~ItemWidget();
+        explicit ItemWidget(size_t level, QWidget* parent = nullptr);
+        ~ItemWidget() override;
         void appendWidget(QWidget *widget);
 
     protected:

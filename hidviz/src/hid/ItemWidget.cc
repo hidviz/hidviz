@@ -6,7 +6,7 @@
 namespace hidviz {
 namespace hid {
 
-    ItemWidget::ItemWidget(size_t level) : QWidget{}, ui{new Ui::ItemWidget} {
+    ItemWidget::ItemWidget(size_t level, QWidget* parent) : QWidget{parent}, ui{new Ui::ItemWidget} {
 
         ui->setupUi(this);
         connect(ui->visibleCheckbox, &QPushButton::toggled, [this](bool newState){

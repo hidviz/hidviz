@@ -13,7 +13,7 @@ namespace hidviz {
 namespace hid {
     class CollectionWidget : public ItemWidget {
     public:
-        CollectionWidget(libhidx::hid::Collection* collection);
+        explicit CollectionWidget(libhidx::hid::Collection* collection, QWidget* parent = nullptr);
     private:
         libhidx::hid::Collection* m_collection;
     };

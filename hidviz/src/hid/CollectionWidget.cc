@@ -8,7 +8,7 @@
 namespace hidviz {
 namespace hid {
 
-    CollectionWidget::CollectionWidget(libhidx::hid::Collection* collection) : ItemWidget{collection->getLevel()}, m_collection{collection} {
+    CollectionWidget::CollectionWidget(libhidx::hid::Collection* collection, QWidget* parent) : ItemWidget{collection->getLevel(), parent}, m_collection{collection} {
         const char* types[] = {
             "Physical", "Application", "Logical", "Report", "Named Array",
             "Usage Switch", "Usage modifier"

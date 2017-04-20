@@ -19,8 +19,8 @@ namespace hidviz {
     class DeviceView : public QWidget {
     Q_OBJECT
     public:
-        DeviceView(libhidx::Interface& model, QWidget *parent = nullptr);
-        virtual ~DeviceView();
+        explicit DeviceView(libhidx::Interface& model, QWidget *parent = nullptr);
+        ~DeviceView() override;
         void updateData();
 
     private:

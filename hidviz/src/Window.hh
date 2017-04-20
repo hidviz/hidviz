@@ -19,7 +19,7 @@ namespace hidviz {
 
     public:
         Window();
-        ~Window();
+        ~Window() override;
 
     protected:
         void closeEvent(QCloseEvent* event) override;

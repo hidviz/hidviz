@@ -20,7 +20,7 @@ namespace hid {
     class ControlWidget : public ItemWidget {
     Q_OBJECT
     public:
-        ControlWidget(libhidx::hid::Control*);
+        ControlWidget(libhidx::hid::Control*, QWidget* parent = nullptr);
         void updateData();
     private:
         libhidx::hid::Control* m_control;

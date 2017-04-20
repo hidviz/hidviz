@@ -12,7 +12,7 @@
 
 namespace hidviz{
 namespace hid {
-    ControlWidget::ControlWidget(libhidx::hid::Control* control) : ItemWidget{control->getLevel()}, m_control{control}, ui{new Ui::ControlSubWidget} {
+    ControlWidget::ControlWidget(libhidx::hid::Control* control, QWidget* parent) : ItemWidget{control->getLevel(), parent}, m_control{control}, ui{new Ui::ControlSubWidget} {
         initGui();
     }
 
