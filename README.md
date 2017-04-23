@@ -64,7 +64,7 @@ cmake -G "Unix Makefiles" ..
 make -j$(nproc)
 ```
 
-*If you are doing MSYS2 build, check before build you are using MinGW32/64 shell, ptherwise the build process won't work. More information can be found [here](https://github.com/msys2/msys2/wiki/MSYS2-introduction).*
+*If you are doing MSYS2 build, check before build you are using MinGW32/64 shell, otherwise the build process won't work. More information can be found [here](https://github.com/msys2/msys2/wiki/MSYS2-introduction).*
 
 ## 2) Running
 **To run this project you need `build/hidviz` as you current directory for hidviz to work properly!**
