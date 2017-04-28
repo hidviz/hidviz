@@ -5,14 +5,13 @@
 #include "DeviceSelectionListItem.hh"
 
 #include <libhidx/LibHidx.hh>
-#include <libhidx/LibHidxFactory.hh>
 #include <libhidx/InterfaceHandle.hh>
 
 #include <QMessageBox>
 
 namespace hidviz {
 
-    DeviceSelector::DeviceSelector() : ui{new Ui::DeviceSelector{}} {
+    DeviceSelector::DeviceSelector(libhidx::LibHidx& lib) : ui{new Ui::DeviceSelector{}}, m_lib{lib} {
         ui->setupUi(this);
         initListWidget();
         connect(ui->selectButton, &QPushButton::pressed, this,
@@ -26,12 +25,11 @@ namespace hidviz {
     }
 
     void DeviceSelector::initListWidget() const {
-        auto& lib = libhidx::LibHidxFactory::get();
-        if(lib.getDevices().empty()){
-            lib.loadDevices();
+        if(m_lib.getDevices().empty()){
+            m_lib.loadDevices();
         }
 
-        const auto& devices = lib.getDevices();
+        const auto& devices = m_lib.getDevices();
         for (const auto& device: devices) {
             const auto& interfaces = device->getInterfaces();
             for(auto& interface: interfaces){
@@ -77,8 +75,7 @@ namespace hidviz {
     void DeviceSelector::reloadDevices() {
         emit listCleared();
         ui->deviceList->clear();
-        auto& lib = libhidx::LibHidxFactory::get();
-        lib.reloadDevices();
+        m_lib.reloadDevices();
         initListWidget();
     }
 

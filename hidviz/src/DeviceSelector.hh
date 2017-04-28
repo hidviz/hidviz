@@ -1,9 +1,12 @@
 #ifndef HIDVIZ_DEVICESELECTOR_HH
 #define HIDVIZ_DEVICESELECTOR_HH
 
-#include <libhidx/Interface.hh>
-
 #include <QDialog>
+
+namespace libhidx {
+    class LibHidx;
+    class Interface;
+}
 
 namespace Ui {
     class DeviceSelector;
@@ -14,10 +17,11 @@ namespace hidviz {
     class DeviceSelector : public QDialog {
     Q_OBJECT
     public:
-        DeviceSelector();
+        explicit DeviceSelector(libhidx::LibHidx& lib);
         ~DeviceSelector() override;
     private:
         Ui::DeviceSelector* ui;
+        libhidx::LibHidx& m_lib;
 
     signals:
         void deviceSelected(libhidx::Interface&);

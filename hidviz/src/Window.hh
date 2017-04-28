@@ -1,10 +1,14 @@
 #ifndef HIDVIZ_WINDOW_HH
 #define HIDVIZ_WINDOW_HH
 
-#include <libhidx/Interface.hh>
-
 #include <QWidget>
 
+#include <memory>
+
+namespace libhidx {
+    class Interface;
+    class LibHidx;
+}
 
 namespace Ui {
     class Window;
@@ -28,6 +32,7 @@ namespace hidviz {
         Ui::Window* ui = nullptr;
         DeviceView *m_deviceView = nullptr;
         libhidx::Interface* m_selectedInterface = nullptr;
+        std::unique_ptr<libhidx::LibHidx> m_lib;
 
     signals:
         void dataRead();
@@ -38,6 +43,7 @@ namespace hidviz {
         void updateData();
         void clearModel();
 
+        libhidx::LibHidx& getLibhidx();
     };
 }
 

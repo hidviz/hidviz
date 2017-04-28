@@ -8,6 +8,8 @@
 
 #include <libhidx/hid/Collection.hh>
 #include <libhidx/hid/Control.hh>
+#include <libhidx/Interface.hh>
+#include <libhidx/LibHidx.hh>
 
 #include <QSettings>
 
@@ -31,7 +33,7 @@ namespace hidviz {
     }
 
     void Window::openDeviceSelector() {
-        auto dialog = new DeviceSelector;
+        auto dialog = new DeviceSelector(getLibhidx());
         dialog->show();
         connect(dialog, &DeviceSelector::deviceSelected, this,
                 &Window::selectDevice);
@@ -74,5 +76,12 @@ namespace hidviz {
     void Window::clearModel() {
         delete m_deviceView;
         m_deviceView = nullptr;
+    }
+
+    libhidx::LibHidx& Window::getLibhidx() {
+        if(!m_lib){
+            m_lib = std::make_unique<libhidx::LibHidx>();
+        }
+        return *m_lib;
     }
 }
