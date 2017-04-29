@@ -43,7 +43,7 @@ namespace hidviz {
         void updateData();
         void clearModel();
 
-        libhidx::LibHidx& getLibhidx();
+        libhidx::LibHidx* getLibhidx();
     };
 }
 

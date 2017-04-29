@@ -5,6 +5,7 @@
 #include "DeviceView.hh"
 #include "DeviceSelector.hh"
 #include "src/hid/CollectionWidget.hh"
+#include "WaitDialog.hh"
 
 #include <libhidx/hid/Collection.hh>
 #include <libhidx/hid/Control.hh>
@@ -12,6 +13,7 @@
 #include <libhidx/LibHidx.hh>
 
 #include <QSettings>
+#include <QMessageBox>
 
 #include <cassert>
 
@@ -33,7 +35,14 @@ namespace hidviz {
     }
 
     void Window::openDeviceSelector() {
-        auto dialog = new DeviceSelector(getLibhidx());
+        auto lib = getLibhidx();
+
+        if(!lib){
+            QMessageBox::critical(this, "Cannot connect to hidviz daemon.", "Please try another mode.");
+            return;
+        }
+
+        auto dialog = new DeviceSelector(*lib);
         dialog->show();
         connect(dialog, &DeviceSelector::deviceSelected, this,
                 &Window::selectDevice);
@@ -69,7 +78,6 @@ namespace hidviz {
     }
 
     void Window::updateData() {
-
         m_deviceView->updateData();
     }
 
@@ -78,10 +86,26 @@ namespace hidviz {
         m_deviceView = nullptr;
     }
 
-    libhidx::LibHidx& Window::getLibhidx() {
+    libhidx::LibHidx* Window::getLibhidx() {
+        using namespace std::chrono;
         if(!m_lib){
             m_lib = std::make_unique<libhidx::LibHidx>();
+#ifdef __linux__
+            m_lib->connectUnixSocket();
+#else
+            m_lib->connectLocal();
+#endif
+
+            WaitDialog waitDialog{500ms, [this]{return m_lib->doConnect();}, this};
+            waitDialog.exec();
+
+            if(waitDialog.result() == WaitDialog::Rejected){
+                m_lib.reset(nullptr);
+                return nullptr;
+            }
+
+            m_lib->init();
         }
-        return *m_lib;
+        return m_lib.get();
     }
 }
