@@ -28,6 +28,11 @@ namespace hidviz {
         resize(settings.value( "size", size() ).toSize());
 
         connect(ui->selectDeviceButton, &QToolButton::clicked, this, &Window::openDeviceSelector);
+
+        auto buttonGroup = new QButtonGroup{this};
+        buttonGroup->addButton(ui->descriptorViewButton, 0);
+        buttonGroup->addButton(ui->deviceViewButton, 1);
+        connect(buttonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), ui->content, &QStackedWidget::setCurrentIndex);
     }
 
     Window::~Window() {
@@ -68,7 +73,8 @@ namespace hidviz {
 
         m_deviceView = new DeviceView{interface};
         connect(ui->showAllUsages, &QPushButton::clicked, m_deviceView, &DeviceView::hideInactiveUsagesChanged);
-        ui->contentWidget->setWidget(m_deviceView);
+        ui->deviceViewContainer->setWidget(m_deviceView);
+        ui->descriptorView->setPlainText(QString::fromStdString(interface.getRawHidReportDesc()));
     }
 
     void Window::closeEvent(QCloseEvent* event) {

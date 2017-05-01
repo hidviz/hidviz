@@ -20,7 +20,7 @@ namespace hidviz {
         libhidx::hid::Item* rootItem = nullptr;
 
         try {
-            rootItem = &m_interface.getHidReportDesc();
+            rootItem = &m_interface.getParsedHidReportDesc();
         } catch(libhidx::ParserError& e){
             QMessageBox::critical(this, "Parsing HID descriptor failed", e.what());
             return;
