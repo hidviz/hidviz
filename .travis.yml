@@ -25,28 +25,21 @@ matrix:
  include:
    - install:
        - export CC=gcc-5 && export CXX=g++-5
-       - cd libhidx && ./getasio.sh
    - install:
        - export CC=gcc-6 && export CXX=g++-6
-       - cd libhidx && ./getasio.sh
 #   - install:
 #       - export C=gcc-7
 #       - export CXX=g++-7
    - install:
        - export CC=clang-3.5 && export CXX=clang++-3.5
-       - cd libhidx && ./getasio.sh
    - install:
        - export CC=clang-3.6 && export CXX=clang++-3.6
-       - cd libhidx && ./getasio.sh
    - install:
        - export CC=clang-3.8 && export CXX=clang++-3.8
-       - cd libhidx && ./getasio.sh
    - install:
        - export CC=clang-3.9 && export CXX=clang++-3.9
-       - cd libhidx && ./getasio.sh
    - install:
        - export CC=clang-4.0 && export CXX=clang++-4.0
-       - cd libhidx && ./getasio.sh
        
 script:
  - mkdir build && cd build && cmake .. && make
