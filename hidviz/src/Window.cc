@@ -57,6 +57,11 @@ namespace hidviz {
             return;
         }
 
+        if(m_selectedInterface){
+            m_selectedInterface->setReadingListener(nullptr);
+            m_selectedInterface->stopReading();
+        }
+
         m_selectedInterface = &interface;
 
         ui->titleLabel->setText(QString::fromStdString(interface.getName()));

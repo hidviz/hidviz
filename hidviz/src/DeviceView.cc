@@ -91,8 +91,6 @@ namespace hidviz {
     }
 
     DeviceView::~DeviceView() {
-        m_interface.setReadingListener(nullptr);
-        m_interface.stopReading();
     }
 
 }
