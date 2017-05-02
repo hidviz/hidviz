@@ -43,7 +43,7 @@ namespace hidviz {
         m_layout->addWidget(w, m_layout->rowCount(), 0);
     }
 
-    void DeviceView::addItem(libhidx::hid::Item *item, hid::ItemWidget *parent) {
+    void DeviceView::addItem(libhidx::hid::Item* item, hid::ItemWidget* parent) {
 
         hid::ItemWidget* itemWidget = nullptr;
 
@@ -54,8 +54,6 @@ namespace hidviz {
             auto controlWidget = new hid::ControlWidget{control};
 
             connect(controlWidget, &hid::ControlWidget::dataUpdated, this, &DeviceView::sendData);
-            connect(this, &DeviceView::hideInactiveUsagesChanged, controlWidget,
-                    &hid::ControlWidget::hideInactiveUsagesChanged);
             itemWidget = controlWidget;
         } else if(collection) {
             itemWidget = new hid::CollectionWidget{collection};

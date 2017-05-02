@@ -4,8 +4,9 @@
 
 #include "DeviceView.hh"
 #include "DeviceSelector.hh"
-#include "src/hid/CollectionWidget.hh"
+#include "hid/CollectionWidget.hh"
 #include "WaitDialog.hh"
+#include "Global.hh"
 
 #include <libhidx/hid/Collection.hh>
 #include <libhidx/hid/Control.hh>
@@ -22,7 +23,7 @@ namespace hidviz {
     Window::Window() : QWidget{}, ui{new Ui::Window} {
         ui->setupUi(this);
 
-        QSettings settings{"hidviz"};
+        QSettings settings{Global::appName};
         restoreGeometry(settings.value( "geometry", saveGeometry() ).toByteArray());
         move(settings.value( "pos", pos() ).toPoint());
         resize(settings.value( "size", size() ).toSize());
@@ -33,6 +34,11 @@ namespace hidviz {
         buttonGroup->addButton(ui->descriptorViewButton, 0);
         buttonGroup->addButton(ui->deviceViewButton, 1);
         connect(buttonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), ui->content, &QStackedWidget::setCurrentIndex);
+
+        connect(ui->hideInactiveUsagesButton, &QAbstractButton::clicked, this, &Window::updateSettings);
+        connect(ui->clampValues, &QAbstractButton::clicked, this, &Window::updateSettings);
+
+        loadSettings();
     }
 
     Window::~Window() {
@@ -72,7 +78,7 @@ namespace hidviz {
         ui->titleLabel->setText(QString::fromStdString(interface.getName()));
 
         m_deviceView = new DeviceView{interface};
-        connect(ui->showAllUsages, &QPushButton::clicked, m_deviceView, &DeviceView::hideInactiveUsagesChanged);
+
         ui->deviceViewContainer->setWidget(m_deviceView);
         ui->descriptorView->setPlainText(QString::fromStdString(interface.getRawHidReportDesc()));
     }
@@ -86,10 +92,6 @@ namespace hidviz {
             settings.setValue( "size", size() );
         }
         QWidget::closeEvent(event);
-    }
-
-    void Window::updateData() {
-        m_deviceView->updateData();
     }
 
     void Window::clearModel() {
@@ -118,5 +120,26 @@ namespace hidviz {
             m_lib->init();
         }
         return m_lib.get();
+    }
+
+    void Window::updateSettings() {
+        QSettings settings{Global::appName};
+        settings.setValue(Global::Settings::hideInactiveUsages, ui->hideInactiveUsagesButton->isChecked());
+        settings.setValue(Global::Settings::clampValues, ui->clampValues->isChecked());
+        if(m_deviceView){
+            m_deviceView->updateData();
+        }
+    }
+
+    void Window::loadSettings() {
+        QSettings settings{Global::appName};
+
+        if(settings.contains(Global::Settings::hideInactiveUsages)){
+            ui->hideInactiveUsagesButton->setChecked(settings.value(Global::Settings::hideInactiveUsages).toBool());
+        }
+
+        if(settings.contains(Global::Settings::clampValues)){
+            ui->clampValues->setChecked(settings.value(Global::Settings::clampValues).toBool());
+        }
     }
 }

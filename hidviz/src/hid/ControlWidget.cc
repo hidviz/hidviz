@@ -12,7 +12,8 @@
 
 namespace hidviz{
 namespace hid {
-    ControlWidget::ControlWidget(libhidx::hid::Control* control, QWidget* parent) : ItemWidget{control->getLevel(), parent}, m_control{control}, ui{new Ui::ControlSubWidget} {
+    ControlWidget::ControlWidget(libhidx::hid::Control* control, QWidget* parent)
+        : ItemWidget{control->getLevel(), parent}, m_control{control}, ui{new Ui::ControlSubWidget} {
         initGui();
     }
 
@@ -57,7 +58,6 @@ namespace hid {
             valuesLayout->addWidget(usageWidget);
 
             connect(usageWidget, &UsageWidget::dataUpdated, this, &ControlWidget::dataUpdated);
-            connect(this, &ControlWidget::hideInactiveUsagesChanged, usageWidget, &UsageWidget::updateVisibilitySettings);
         }
 
         updateData();

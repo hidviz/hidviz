@@ -6,6 +6,7 @@
 class QLabel;
 class QLineEdit;
 class QPushButton;
+class QProgressBar;
 
 namespace libhidx {
 namespace hid {
@@ -34,16 +35,16 @@ namespace hid {
 
         Ui::UsageWidget* ui = nullptr;
         libhidx::hid::Usage& m_usage;
-        QLabel* m_label = nullptr;
+        QProgressBar* m_label = nullptr;
         QLineEdit* m_lineEdit = nullptr;
         const libhidx::hid::Control& m_control;
-        bool m_hideInactive = true;
-        QPushButton* m_button;
+        QPushButton* m_button = nullptr;
+        int m_clampMinValue = 0;
+        int m_clampMaxValue = 0;
 
     signals:
         void dataUpdated();
     public slots:
-        void updateVisibilitySettings(bool hideInactive);
         void initBinaryButton(bool enabled);
     };
 

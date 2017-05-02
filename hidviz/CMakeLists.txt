@@ -23,7 +23,7 @@ add_executable(hidviz
         images/images.qrc
         src/hid/UsageWidget.cc src/hid/UsageWidget.hh
         src/WaitDialog.cc src/WaitDialog.hh
-        )
+        src/Global.hh)
 
 target_link_libraries(hidviz
         hidx

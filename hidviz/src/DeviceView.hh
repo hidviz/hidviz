@@ -24,18 +24,16 @@ namespace hidviz {
         void updateData();
 
     private:
-        void addItem(libhidx::hid::Item *item, hid::ItemWidget *parent = nullptr);
+        void addItem(libhidx::hid::Item* item, hid::ItemWidget* parent = nullptr);
         void sendData();
 
         libhidx::Interface& m_interface;
         QGridLayout* m_layout;
 
-
         std::vector<hid::ItemWidget*> m_items;
 
     signals:
         void dataRead();
-        void hideInactiveUsagesChanged(bool newState);
     };
 }
 

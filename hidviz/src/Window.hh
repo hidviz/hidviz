@@ -40,10 +40,11 @@ namespace hidviz {
     public slots:
         void openDeviceSelector();
         void selectDevice(libhidx::Interface&);
-        void updateData();
         void clearModel();
+        void updateSettings();
 
         libhidx::LibHidx* getLibhidx();
+        void loadSettings();
     };
 }
 
