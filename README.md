@@ -1,5 +1,6 @@
 # Hidviz
 [![Build Status](https://travis-ci.org/ondrejbudai/hidviz.svg?branch=master)](https://travis-ci.org/ondrejbudai/hidviz)
+[![Build status](https://ci.appveyor.com/api/projects/status/8v04qku72xc7sh4t/branch/master?svg=true)](https://ci.appveyor.com/project/ondrejbudai/hidviz/branch/master)
 
 Hidviz is a GUI application for in-depth analysis of USB HID class devices. The 2 main usecases of this aplication are reverse-engineering existing devices and developing new USB HID devices.
 
