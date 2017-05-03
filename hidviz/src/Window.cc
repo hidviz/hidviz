@@ -102,22 +102,28 @@ namespace hidviz {
     libhidx::LibHidx* Window::getLibhidx() {
         using namespace std::chrono;
         if(!m_lib){
-            m_lib = std::make_unique<libhidx::LibHidx>();
+            try {
+                m_lib = std::make_unique<libhidx::LibHidx>();
 #ifdef __linux__
-            m_lib->connectUnixSocket();
+                m_lib->connectUnixSocket();
 #else
-            m_lib->connectLocal();
+                m_lib->connectLocal();
 #endif
 
-            WaitDialog waitDialog{500ms, [this]{return m_lib->doConnect();}, this};
-            waitDialog.exec();
+                WaitDialog waitDialog{500ms, [this] { return m_lib->doConnect(); }, this};
+                waitDialog.exec();
 
-            if(waitDialog.result() == WaitDialog::Rejected){
+                if (waitDialog.result() == WaitDialog::Rejected) {
+                    m_lib.reset(nullptr);
+                    return nullptr;
+                }
+
+                m_lib->init();
+            } catch(libhidx::IOException& ex){
+                QMessageBox::critical(this, "Cannot connect to server!", ex.what());
                 m_lib.reset(nullptr);
                 return nullptr;
             }
-
-            m_lib->init();
         }
         return m_lib.get();
     }
