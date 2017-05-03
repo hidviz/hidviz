@@ -10,7 +10,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-add_executable(hidviz
+add_executable(hidviz WIN32
         src/main.cc
         src/DeviceSelector.cc
         src/Window.cc
