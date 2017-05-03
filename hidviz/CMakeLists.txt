@@ -33,3 +33,7 @@ target_compile_features(hidviz PUBLIC
         cxx_relaxed_constexpr #this should force c++14
         )
 target_compile_options(hidviz PRIVATE $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>: -Wall -Wextra>)
+
+install(TARGETS hidviz
+        RUNTIME DESTINATION bin
+        )
