@@ -83,4 +83,4 @@ cd hidviz
 Not yet available
 
 ## 4) License
-Not yet available
+Hidviz is license under GPLv3+. For more information see LICENSE file.
