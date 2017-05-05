@@ -35,11 +35,11 @@ target_compile_features(hidviz PUBLIC
 target_compile_options(hidviz PRIVATE $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>: -Wall -Wextra>)
 
 
-set_target_properties(hidviz PROPERTIES INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/hidviz)
 
 if(NOT WIN32)
     include(GNUInstallDirs)
     install(TARGETS hidviz
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
             )
+    set_target_properties(hidviz PROPERTIES INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/hidviz)
 endif()
