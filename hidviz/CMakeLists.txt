@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.2)
-project(hidviz VERSION 0.1.1 LANGUAGES C CXX)
+project(hidviz VERSION 0.1.3 LANGUAGES C CXX)
 
 # Find the QtWidgets library
 find_package(Qt5 REQUIRED COMPONENTS Widgets)
