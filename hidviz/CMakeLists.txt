@@ -34,6 +34,7 @@ target_compile_features(hidviz PUBLIC
         )
 target_compile_options(hidviz PRIVATE $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>: -Wall -Wextra>)
 
+include(GNUInstallDirs)
 install(TARGETS hidviz
-        RUNTIME DESTINATION bin
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         )
