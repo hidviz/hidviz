@@ -76,11 +76,11 @@ After successful build you need to run
 cd hidviz
 ./hidviz
 ```
+## 3) Installing (Linux only)
 
-### 2) Running on Windows
-
-## 3) Installing
-Not yet available
+```
+sudo make install
+```
 
 ## 4) License
 Hidviz is license under GPLv3+. For more information see LICENSE file.
