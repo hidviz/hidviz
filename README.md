@@ -88,5 +88,11 @@ I recommend you using following approach: Download [Zadig](http://zadig.akeo.ie/
 sudo make install
 ```
 
+Alternatively, you can install [`hidviz`](https://aur.archlinux.org/packages/hidviz/) from Arch Linux's AUR repository:
+
+```
+pacaur -S hidviz
+```
+
 ## 4) License
 Hidviz is license under GPLv3+. For more information see LICENSE file.
