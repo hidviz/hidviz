@@ -23,29 +23,54 @@
 
 #include <QWidget>
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
-class QLabel;
-
 namespace Ui {
     class ItemWidget;
 }
 
 namespace hidviz {
 namespace hid {
+
+    /**
+     * Base abstract widget for showing HID items.
+     *
+     * This widget can contain child widgets. This is useful mainly for collections.
+     */
     class ItemWidget : public QWidget {
     public:
+        /**
+         * Contructs ItemWidget object.
+         * @param level Depth of item, for top level collection depth = 0
+         * @param parent Parent widget
+         */
         explicit ItemWidget(size_t level, QWidget* parent = nullptr);
+
+        /// Destructs ItemWidget object.
         ~ItemWidget() override;
+
+        /**
+         * Appends next child child object (useful primarily for collections).
+         * @param widget Child object to appended.
+         */
         void appendWidget(QWidget *widget);
 
     protected:
+        /**
+         * Sets name of this widget, name show as main header on the left side.
+         * @param name New name
+         */
         void setName(const QString& name);
+
+        /**
+         * Sets "usage" of this widget, usage show as secondary header on the right side.
+         * @param usage New usage.
+         */
         void setUsage(const QString& usage);
 
     private:
+        /// Ui instance
         Ui::ItemWidget* ui;
+
+        /// Vector of children
         QList<QWidget*> m_children;
 
     };

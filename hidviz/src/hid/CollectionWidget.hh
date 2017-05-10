@@ -31,8 +31,16 @@ namespace hid {
 
 namespace hidviz {
 namespace hid {
+    /**
+     * Widget for showing info about collection.
+     */
     class CollectionWidget : public ItemWidget {
     public:
+        /**
+         * Constructs CollectionWidget instance.
+         * @param collection libhidx instance to work with
+         * @param parent Parent Widget
+         */
         explicit CollectionWidget(libhidx::hid::Collection* collection, QWidget* parent = nullptr);
     private:
         libhidx::hid::Collection* m_collection;

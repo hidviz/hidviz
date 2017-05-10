@@ -54,35 +54,128 @@
 #include <QLayout>
 #include <QStyle>
 
-
+/**
+ * Dynamic layout.
+ *
+ * This layout will try to old as much widgets as it can in one row.
+ * When there's not enough space, widgets will overflow into next row.
+ * This layout is slightly modified from the one in Qt examples as it lays
+ * widgets in grid.
+ */
 class FlowLayout : public QLayout
 {
 public:
-    explicit FlowLayout(QWidget *parent, int margin = -1, int hSpacing = -1, int vSpacing = -1);
-    explicit FlowLayout(int margin = -1, int hSpacing = -1, int vSpacing = -1);
+    /**
+     * Constructs FlowLayout instance.
+     * @param margin Margin around the layout
+     * @param hSpacing Horizontal spacing between widgets
+     * @param vSpacing Vertical spacing between widgets
+     * @param parent Parent widget
+     */
+    explicit FlowLayout(int margin = -1, int hSpacing = -1, int vSpacing = -1, QWidget* parent = nullptr);
+
+    /// Destructs FlowLayout
     ~FlowLayout() override;
 
+    /**
+     * Adds item into layout.
+     * @param item LayoutItem to be added
+     */
     void addItem(QLayoutItem *item) override;
+
+    /**
+     * Returns horizontal spacing.
+     * @return Horizontal spacing of this layout
+     */
     int horizontalSpacing() const;
+
+
+    /**
+     * Returns vertical spacing.
+     * @return Vertical spacing of this layout
+     */
     int verticalSpacing() const;
+
+    /**
+     * Returns expanding directions.
+     * @return Expanding directions
+     */
     Qt::Orientations expandingDirections() const override;
+
+    /**
+     * Returns true if this layout has height for width.
+     * @return Height for width availability (true for FlowLayout)
+     */
     bool hasHeightForWidth() const override;
+
+    /**
+     * Returns height for width given.
+     * @param width Input width to be calculated with
+     * @return Height for given width
+     */
     int heightForWidth(int width) const override;
+
+    /**
+     * Returns count of children.
+     * @return Count of children
+     */
     int count() const override;
+
+    /**
+     * Returns item at specified index.
+     * @param index Index from which the child will be returned
+     * @return Child item at given index
+     */
     QLayoutItem *itemAt(int index) const override;
+
+    /**
+     * Returns layout's minimum size.
+     * @return Layout's minimum size.
+     */
     QSize minimumSize() const override;
+
+    /**
+     * Sets geometry of this widget.
+     * @param rect Target rectangle, where this layout will be drawn.
+     */
     void setGeometry(const QRect &rect) override;
+
+    /**
+     * Returns size hint of this layout.
+     * @return Returns layout's size hint.
+     */
     QSize sizeHint() const override;
+
+    /**
+     * Removes child item at specified index.
+     * @param index Index from which the child will be removed
+     * @return Removed child
+     */
     QLayoutItem *takeAt(int index) override;
 
-
 private:
-    int doLayout(const QRect &rect, bool testOnly) const;
-    int smartSpacing(QStyle::PixelMetric pm) const;
-
+    /// List of child items
     QList<QLayoutItem *> itemList;
+
+    /// Horizontal spacing
     int m_hSpace;
+
+    /// Vertical spacing
     int m_vSpace;
+    /**
+     * Performs  calculation of children' positions.
+     * @param rect Target rectangle
+     * @param testOnly If set to true, the actual positions will not be passed to children
+     * @return Layout height
+     */
+    int doLayout(const QRect &rect, bool testOnly) const;
+
+    /**
+     * Returns spacing
+     * @param pm
+     * @return
+     */
+    int smartSpacing(QStyle::PixelMetric pm) const;
 };
 
 #endif // FLOWLAYOUT_H

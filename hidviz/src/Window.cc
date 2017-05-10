@@ -40,7 +40,7 @@
 
 namespace hidviz {
 
-    Window::Window() : QWidget{}, ui{new Ui::Window} {
+    Window::Window(QWidget* parent) : QWidget{parent}, ui{new Ui::Window} {
         ui->setupUi(this);
 
         QSettings settings{Global::appName};

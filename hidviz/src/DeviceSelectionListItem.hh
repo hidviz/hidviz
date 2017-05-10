@@ -26,12 +26,24 @@
 
 namespace hidviz {
 
+    /// Class for encapsulating interface for selection in DeviceSelector.
     class DeviceSelectionListItem : public QListWidgetItem {
     public:
+        /**
+         * Constructs DeviceSelectionListItem.
+         * @param text Text to be shown in ListItemWidget
+         * @param interface Interface belonging to this item
+         */
         DeviceSelectionListItem(const QString &text, libhidx::Interface& interface);
+
+        /**
+         * Returns interface related to this item.
+         * @return Interface related to this item.
+         */
         auto& getInterface(){return m_interface;}
 
     private:
+        /// Interface related to this item.
         libhidx::Interface& m_interface;
 
     };

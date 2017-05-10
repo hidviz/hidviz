@@ -22,11 +22,18 @@
 #define PROJECT_GLOBAL_HH
 
 namespace hidviz {
+
+    /// Struct to hold hidviz's global constants
     struct Global {
+        /// Application name
         static constexpr const char* appName = "hidviz";
 
+        /// Constants for names of settings store in QSettings
         struct Settings {
+            /// Hide inactive usages settings name
             static constexpr const char* hideInactiveUsages = "hideInactiveUsages";
+
+            /// Clamp values settings name
             static constexpr const char* clampValues = "clampValues";
         };
     };

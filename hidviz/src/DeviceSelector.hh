@@ -33,24 +33,51 @@ namespace Ui {
 }
 
 namespace hidviz {
-
+    /**
+     * Widget for selecting interface to be analyzed.
+     *
+     * @todo Possibly rename this widget to InterfaceSelector.
+     * @todo Convert me to exec style widget.
+     *
+     * Do not get confused with this class. It actually selects an interface
+     * to be analyzed. Name is just kept for backward compatibility.
+     */
     class DeviceSelector : public QDialog {
     Q_OBJECT
     public:
+        /**
+         * Constructs DeviceSelector instance.
+         * @param lib Instance of Libhidx
+         */
         explicit DeviceSelector(libhidx::LibHidx& lib);
+
+        /// Destructs DeviceSelector instance.
         ~DeviceSelector() override;
     private:
+        /// Ui instance.
         Ui::DeviceSelector* ui;
+
+        /// Libhidx instance.
         libhidx::LibHidx& m_lib;
 
+        /// Inits list widget containing all interfaces.
+        void initListWidget() const;
+
     signals:
-        void deviceSelected(libhidx::Interface&);
+        /**
+         * Signal emitted when interface was selected by user.
+         * @param interface Selected interface
+         */
+        void deviceSelected(libhidx::Interface& interface);
+
+        /// Signal emitted when all open Interface should be closed and the device list will be reloaded.
         void listCleared();
 
-    public slots:
-
+    private slots:
+        /// Device is selected by user.
         void selectDevice();
-        void initListWidget() const;
+
+        /// User demands reloading the device list.
         void reloadDevices();
     };
 }
