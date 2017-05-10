@@ -76,6 +76,12 @@ After successful build you need to run
 cd hidviz
 ./hidviz
 ```
+
+### 2.1) Running on Windows
+Unfortunately you cannot use hidviz on Windows straight out of the box. Firstly you need to install custom drivers to devices you want to analyze.
+
+I recommend you using following approach: Download [Zadig](http://zadig.akeo.ie/), run it and install libusbK to device you want to analyze. You can find more information about the need for custom driver on Windows on [libusb wiki](https://github.com/libusb/libusb/wiki/Windows#how-to-use-libusb-on-windows).
+
 ## 3) Installing (Linux only)
 
 ```
