@@ -83,9 +83,9 @@ namespace hid {
             return;
         }
 
-        m_label = new QProgressBar();
-        m_label->setFormat("%v");
-        ui->contentLayout->addWidget(m_label);
+        m_progressBar = new QProgressBar();
+        m_progressBar->setFormat("%v");
+        ui->contentLayout->addWidget(m_progressBar);
     }
 
     void UsageWidget::initBinaryButton(bool enabled) {
@@ -117,13 +117,13 @@ namespace hid {
             m_clampMaxValue = std::max(m_clampMaxValue, intValue);
 
             if(settings.value(Global::Settings::clampValues).toBool()) {
-                m_label->setMinimum(m_clampMinValue);
-                m_label->setMaximum(m_clampMaxValue);
+                m_progressBar->setMinimum(m_clampMinValue);
+                m_progressBar->setMaximum(m_clampMaxValue);
             } else {
-                m_label->setMinimum(m_usage.getControl().getLogicalMinimum());
-                m_label->setMaximum(m_usage.getControl().getLogicalMaximum());
+                m_progressBar->setMinimum(m_usage.getControl().getLogicalMinimum());
+                m_progressBar->setMaximum(m_usage.getControl().getLogicalMaximum());
             }
-            m_label->setValue(intValue);
+            m_progressBar->setValue(intValue);
         }
 
 

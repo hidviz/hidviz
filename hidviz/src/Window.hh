@@ -35,35 +35,70 @@ namespace Ui {
 }
 
 namespace hidviz {
-
     class DeviceView;
 
+    /// Main hidviz window, contains all other widgets.
     class Window : public QWidget {
     Q_OBJECT
-
     public:
-        Window();
+        /**
+         * Construct Window instance.
+         * @todo Rename to HidvizWindow
+         * @param parent Parent widget
+         */
+        explicit Window(QWidget* parent = nullptr);
+
+        /// Descturs Window instance.
         ~Window() override;
 
     protected:
+        /**
+         * Saves information about window geometry.
+         * @param event Event object.
+         */
         void closeEvent(QCloseEvent* event) override;
 
     private:
+        /// Ui instance
         Ui::Window* ui = nullptr;
+
+        /// Device view instance
         DeviceView *m_deviceView = nullptr;
+
+        /// Selected interface instance
         libhidx::Interface* m_selectedInterface = nullptr;
+
+        /// Libhidx instance (this is the actual place where the pointer is stored!)
         std::unique_ptr<libhidx::LibHidx> m_lib;
 
-    signals:
-        void dataRead();
-
     public slots:
+        /// Opens device selector dialog.
         void openDeviceSelector();
-        void selectDevice(libhidx::Interface&);
+
+        /**
+         * Selects device and creates DeviceView and other views.
+         * @param interface Selected interface
+         */
+        void selectDevice(libhidx::Interface& interface);
+
+        /// Clears all views, so the interface can be freed.
         void clearModel();
+
+        /// Reads settings from widget and applies it.
         void updateSettings();
 
+        /**
+         * Returns libhidx instance.
+         *
+         * This method is also responsible for creating libhidx instance if no such exists.
+         * Note that because of libhidx structure, this function may take a long time
+         * and spawns multiple dialogs.
+         * It can return nullptr when creation of libhidx instance fails!
+         * @return Pointer to libhidx instance or nullptr if its construction fails
+         */
         libhidx::LibHidx* getLibhidx();
+
+        /// Loads settings from QSettings and writes them into appropriate widgets.
         void loadSettings();
     };
 }

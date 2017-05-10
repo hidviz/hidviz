@@ -36,23 +36,51 @@ namespace hidviz {
     namespace hid {
         class ItemWidget;
     }
+
+    /**
+     * Widget containing information about device structure and state.
+     *
+     * This widget can contain more than one ItemWidget, new widgets are added by calling addItem method.
+     */
+
     class DeviceView : public QWidget {
     Q_OBJECT
     public:
-        explicit DeviceView(libhidx::Interface& model, QWidget *parent = nullptr);
+        /**
+         * Constructs DeviceView instance.
+         * @param interface Interface to be shown in DeviceView
+         * @param parent Parent widget
+         */
+        explicit DeviceView(libhidx::Interface& interface, QWidget* parent = nullptr);
+
+        /// Destructs DeviceView instance.
         ~DeviceView() override;
+
+        /// Updates data in DeviceView.
         void updateData();
 
     private:
+        /**
+         * Adds item to DeviceView (usable for more top level collections)
+         * @param item Libhidx representation of item
+         * @param parent Parent widget
+         */
         void addItem(libhidx::hid::Item* item, hid::ItemWidget* parent = nullptr);
+
+        /// Tells interface to send the output data.
         void sendData();
 
+        /// Selected interface for this view.
         libhidx::Interface& m_interface;
+
+        /// Main layout of this view.
         QGridLayout* m_layout;
 
+        /// Vector holding all top level item widgets
         std::vector<hid::ItemWidget*> m_items;
 
     signals:
+        /// Signal emitted when the data has been read.
         void dataRead();
     };
 }

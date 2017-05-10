@@ -41,4 +41,8 @@ namespace hidviz {
 
         timer->start(interval.count());
     }
+
+    WaitDialog::~WaitDialog() {
+        delete ui;
+    }
 }

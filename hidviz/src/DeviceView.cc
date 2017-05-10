@@ -34,7 +34,7 @@
 
 namespace hidviz {
 
-    DeviceView::DeviceView(libhidx::Interface& interface, QWidget *parent) : QWidget{parent}, m_interface{interface} {
+    DeviceView::DeviceView(libhidx::Interface& interface, QWidget* parent) : QWidget{parent}, m_interface{interface} {
         m_layout = new QGridLayout{this};
 
         libhidx::hid::Item* rootItem = nullptr;
@@ -54,8 +54,11 @@ namespace hidviz {
             addItem(child, nullptr);
         }
 
-        connect(this, &DeviceView::dataRead, this, &DeviceView::updateData);
+        // We need to emit signal when reading listener call us.
+        // This is because reading listener will call the method on another thread as our current thread.
+        // Signals can just synchronize itself seamlessly and everything works as expected.
         interface.setReadingListener([this]{emit dataRead();});
+        connect(this, &DeviceView::dataRead, this, &DeviceView::updateData);
         interface.beginReading();
 
         auto w = new QWidget{};
