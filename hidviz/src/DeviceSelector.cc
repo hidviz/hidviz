@@ -26,6 +26,8 @@
 
 #include <libhidx/LibHidx.hh>
 #include <libhidx/InterfaceHandle.hh>
+#include <libhidx/Device.hh>
+#include <libhidx/DeviceStrings.hh>
 
 #include <QMessageBox>
 
