@@ -23,7 +23,6 @@
 
 #include <QFrame>
 
-class QLabel;
 class QLineEdit;
 class QPushButton;
 class QProgressBar;
@@ -42,30 +41,77 @@ namespace Ui {
 namespace hidviz {
 namespace hid {
 
+    /**
+     * Widget for visualizing data of usages.
+     *
+     * This widget is capable of visualizing usage data in most appropriate form.
+     * For example boolean value is shown as button, other types are visualised
+     * as slider or simple text input.
+     */
     class UsageWidget : public QFrame {
     Q_OBJECT
     public:
+        /**
+         * Constructs UsageWidget instance.
+         * @param usage Related libhidx Usage instance
+         * @param parent Parent widget
+         */
         explicit UsageWidget(libhidx::hid::Usage& usage, QWidget* parent = nullptr);
+
+        /// Destructs UsageWidget instance.
         ~UsageWidget() override;
+
+        /**
+         * Updates usage's data.
+         *
+         * The new value is taken from libhidx's Usage instance.
+         */
         void updateData();
 
     private:
+        /// Inits input widget for visualisation.
         void initInput();
+
+        /// Inits output widget for visualisation.
         void initOutput();
 
+        /// Ui instance.
         Ui::UsageWidget* ui = nullptr;
+
+        /// Related libhidx Usage instance.
         libhidx::hid::Usage& m_usage;
-        QProgressBar* m_label = nullptr;
+
+        // TODO: merge following 3 members to variant
+        /// Progress bar instance for visualisation of non-boolean input.
+        QProgressBar* m_progressBar = nullptr;
+
+        /// LineEdit instance for visualisation of non-boolean output.
         QLineEdit* m_lineEdit = nullptr;
-        const libhidx::hid::Control& m_control;
+
+        /// PushButton instance for visualisaion of boolean input or output.
         QPushButton* m_button = nullptr;
+
+        /// Related libhidx Control instance.
+        const libhidx::hid::Control& m_control;
+
+        /// Minimum value for clamping.
         int m_clampMinValue = 0;
+
+        /// Maximum value for clamping.
         int m_clampMaxValue = 0;
 
-    signals:
-        void dataUpdated();
-    public slots:
+        /**
+         * Inits button for visualisation of boolean value.
+         *
+         * Button is used both for input and output, this method needes to know
+         * if the button should be enabled for output or disabled for input.
+         * @param enabled Desired state of button
+         */
         void initBinaryButton(bool enabled);
+
+    signals:
+        /// Signal emitted when this usage is output and has been updated.
+        void dataUpdated();
     };
 
 }}

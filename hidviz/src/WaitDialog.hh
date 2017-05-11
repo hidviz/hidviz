@@ -27,14 +27,29 @@
 #include <chrono>
 
 namespace Ui {
-    class WaitDialog;
-}
+    class WaitDialog; }
 namespace hidviz {
+
+    /// Dialog used when waiting for connection to libhidx's backend
     class WaitDialog : public QDialog {
     public:
+        /**
+         * Construct WaitDialog instance.
+         *
+         * WaitDialog will periodically try to poll predicate function.
+         * If the predicate returns true, the dialog will close with success status.
+         * If user clicks on Abort button, the dialog will close with failure status.
+         * @param interval Interval at which the predicate should be polled
+         * @param predicate Preditace to be checked
+         * @param parent parent widget
+         */
         WaitDialog(std::chrono::milliseconds interval, std::function<bool()> predicate, QWidget* parent = nullptr);
 
+        /// Destructs WaitDialog instance.
+        ~WaitDialog() override;
+
     private:
+        /// Ui instance
         Ui::WaitDialog* ui;
     };
 }

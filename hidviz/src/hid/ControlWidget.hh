@@ -37,21 +37,47 @@ namespace hid {
 namespace hidviz {
 namespace hid {
     class UsageWidget;
+
+
+    /// Widget for showing information about controls (input, output).
     class ControlWidget : public ItemWidget {
     Q_OBJECT
     public:
-        ControlWidget(libhidx::hid::Control*, QWidget* parent = nullptr);
+        /**
+         * Constructs ControlWidget object.
+         * @param control libhidx control instance which data should be visualised
+         * @param parent Parent widget
+         */
+        ControlWidget(libhidx::hid::Control* control, QWidget* parent = nullptr);
+
+        /**
+         * Updates data in widget.
+         *
+         * The new data is taken from connected libhidx control object.
+         */
         void updateData();
+
     private:
+        /// Connected libhidx control object.
         libhidx::hid::Control* m_control;
+
+        /// Vector of Usage widgets belonging to this Control.
         QList<UsageWidget*> m_usageWidgets;
+
+        /// Ui instance.
         Ui::ControlSubWidget* ui;
 
+        /// Setups gui of this widgets.
         void initGui();
+
+        /// Inits all usage widgets.
         void initUsages();
+
+        /// Inits table contraining detailed information about control structure.
         void initInfoTable();
 
     signals:
+        /// Signal to be emitted when (output) data in this control is updated.
         void dataUpdated();
 
 
