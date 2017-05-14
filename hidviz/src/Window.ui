@@ -93,8 +93,8 @@
      </property>
      <property name="iconSize">
       <size>
-       <width>64</width>
-       <height>32</height>
+       <width>80</width>
+       <height>40</height>
       </size>
      </property>
      <property name="toolButtonStyle">
@@ -102,45 +102,48 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="2">
-    <widget class="QLabel" name="titleLabel">
-     <property name="font">
-      <font>
-       <pointsize>32</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>No device selected</string>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="0">
-    <widget class="QWidget" name="menu" native="true">
+    <widget class="QWidget" name="sidebar" native="true">
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
        <number>0</number>
       </property>
       <property name="rightMargin">
        <number>0</number>
       </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
-       <widget class="QCheckBox" name="hideInactiveUsagesButton">
-        <property name="text">
-         <string>Hide inactive usages</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="clampValues">
-        <property name="text">
-         <string>Clamp values</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
+       <widget class="QWidget" name="menu" native="true">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QCheckBox" name="hideInactiveUsagesButton">
+           <property name="text">
+            <string>Hide inactive usages</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="clampValues">
+           <property name="text">
+            <string>Clamp values</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
@@ -158,6 +161,12 @@
       </item>
       <item>
        <widget class="QPushButton" name="descriptorViewButton">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>36</height>
+         </size>
+        </property>
         <property name="text">
          <string>Descriptor View</string>
         </property>
@@ -168,6 +177,12 @@
       </item>
       <item>
        <widget class="QPushButton" name="deviceViewButton">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>36</height>
+         </size>
+        </property>
         <property name="text">
          <string>Device View</string>
         </property>
@@ -271,8 +286,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>864</width>
-            <height>704</height>
+            <width>886</width>
+            <height>706</height>
            </rect>
           </property>
          </widget>
@@ -280,6 +295,26 @@
        </item>
       </layout>
      </widget>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="titleLabel">
+        <property name="font">
+         <font>
+          <pointsize>32</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>No device selected</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+     <zorder>titleLabel</zorder>
+     <zorder>titleLabel</zorder>
     </widget>
    </item>
   </layout>
