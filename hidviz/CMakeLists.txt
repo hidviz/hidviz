@@ -4,8 +4,6 @@ project(hidviz VERSION 0.1.3 LANGUAGES C CXX)
 # Find the QtWidgets library
 find_package(Qt5 REQUIRED COMPONENTS Widgets)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
@@ -34,6 +32,7 @@ target_compile_features(hidviz PUBLIC
         )
 target_compile_options(hidviz PRIVATE $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>: -Wall -Wextra>)
 
+target_include_directories(hidviz PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 
 if(NOT WIN32)
