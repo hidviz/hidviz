@@ -162,10 +162,14 @@ namespace hidviz {
 
         if(settings.contains(Global::Settings::hideInactiveUsages)){
             ui->hideInactiveUsagesButton->setChecked(settings.value(Global::Settings::hideInactiveUsages).toBool());
+        } else {
+            settings.setValue(Global::Settings::hideInactiveUsages, ui->hideInactiveUsagesButton->isChecked());
         }
 
         if(settings.contains(Global::Settings::clampValues)){
             ui->clampValues->setChecked(settings.value(Global::Settings::clampValues).toBool());
+        } else {
+            settings.setValue(Global::Settings::clampValues, ui->clampValues->isChecked());
         }
     }
 }
