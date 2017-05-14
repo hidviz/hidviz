@@ -21,7 +21,7 @@ add_executable(hidviz WIN32
         images/images.qrc
         src/hid/UsageWidget.cc src/hid/UsageWidget.hh
         src/WaitDialog.cc src/WaitDialog.hh
-        src/Global.hh)
+        src/Global.hh src/WindowsDriverDialog.cc src/WindowsDriverDialog.hh)
 
 target_link_libraries(hidviz
         hidx

@@ -23,6 +23,7 @@
 #include "ui_DeviceSelector.h"
 
 #include "DeviceSelectionListItem.hh"
+#include "WindowsDriverDialog.hh"
 
 #include <libhidx/LibHidx.hh>
 #include <libhidx/InterfaceHandle.hh>
@@ -85,7 +86,17 @@ namespace hidviz {
         try {
             selectedItem->getInterface().getHandle();
         } catch(libhidx::ConnectionException& ex){
-            QMessageBox::critical(this, "Connection error", ex.what());
+#ifdef WIN32
+            constexpr bool isWindows = true;
+#else
+            constexpr bool isWindows = false;
+#endif
+            if(isWindows && ex.code().value() == -12){
+                WindowsDriverDialog dialog;
+                dialog.exec();
+            } else {
+                QMessageBox::critical(this, "Connection error", ex.what());
+            }
             ui->selectButton->setEnabled(true);
             return;
         }
