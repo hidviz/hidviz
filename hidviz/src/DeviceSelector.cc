@@ -60,11 +60,7 @@ namespace hidviz {
                     continue;
                 }
 
-                const auto& strings = device->getStrings();
-                auto interfaceNum = interface->getNumber();
-                auto str = strings.manufacturer + " " + strings.product;
-
-                str += " (interface " + std::to_string(interfaceNum) + ")";
+                auto str = interface->getName();
 
                 auto item = new DeviceSelectionListItem{QString::fromStdString(str), *interface};
 
