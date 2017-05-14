@@ -21,7 +21,7 @@
 #include "DeviceView.hh"
 
 #include "hid/ControlWidget.hh"
-#include "src/hid/CollectionWidget.hh"
+#include "hid/CollectionWidget.hh"
 
 #include <libhidx/hid/Control.hh>
 #include <libhidx/hid/Collection.hh>
