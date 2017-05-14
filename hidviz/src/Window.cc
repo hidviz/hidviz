@@ -115,8 +115,16 @@ namespace hidviz {
     }
 
     void Window::clearModel() {
+        if(m_selectedInterface) {
+            m_selectedInterface->setReadingListener(nullptr);
+            m_selectedInterface->stopReading();
+        }
         delete m_deviceView;
         m_deviceView = nullptr;
+
+        m_selectedInterface = nullptr;
+
+        ui->titleLabel->setText("No device selected");
     }
 
     libhidx::LibHidx* Window::getLibhidx() {
