@@ -35,6 +35,7 @@
 
 #include <QSettings>
 #include <QMessageBox>
+#include <QButtonGroup>
 
 #include <cassert>
 
