@@ -6,6 +6,11 @@ if [ "$#" -ne 1 ]; then
     exit 1
 fi
 
+sed -i "s/hidviz VERSION [0-9]\+.[0-9]\+.[0-9]\+/hidviz VERSION $1/" hidviz/CMakeLists.txt
+
+git add hidviz/CMakeLists.txt
+git commit -m "Release version $1"
+
 DIR=${PWD##*/}
 
 if [ "$DIR" == scripts ]; then
