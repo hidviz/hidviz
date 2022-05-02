@@ -14,7 +14,6 @@ endif()
 find_package(Qt5 REQUIRED COMPONENTS Widgets)
 
 find_package(Protobuf REQUIRED)
-include_directories(${PROTOBUF_INCLUDE_DIRS})
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -44,7 +43,7 @@ target_compile_features(hidviz PUBLIC
         )
 target_compile_options(hidviz PRIVATE $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>: -Wall -Wextra>)
 
-target_include_directories(hidviz PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(hidviz PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${PROTOBUF_INCLUDE_DIRS})
 
 
 if(NOT WIN32)
