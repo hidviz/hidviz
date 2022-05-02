@@ -12,7 +12,7 @@ joysticks and gamepads. But that's not all! There are more exotic HID devices, e
 
 ## 1) Building
 
-Hidviz can be built on various platforms where following prerequisities can be obtained. Currently only Fedora, Ubuntu and MSYS2/Windows are supported and build guide is available for them.
+Hidviz can be built on various platforms where following prerequisities can be obtained. Currently only Fedora, Ubuntu and MSYS2/Windows are supported and build guide is available for them.  There is also experimental support for MacOS which has currently been tested on an M1 based Mac.
 
 ### 1.1) Prerequisities
 - C++ compiler with C++14 support
@@ -43,6 +43,15 @@ pacman -S git mingw-w64-x86_64-cmake mingw-w64-x86_64-qt5 mingw-w64-x86_64-libus
           make
 ```
 
+#### 1.1.4) Install prerequsites on MacOS
+_Please not hidviz on macos is not an offically supported platform.  This has been known to work, but your mileage may vary._
+
+You need to install cmake, qt5 and protobuf and libusb via brew.  Please also ensure that if you are using an M1 based mac that youe build envornment matches the host architecture.  I was stumped for a while with a failing build because I was using an x86 version of vscode which caused problems when querying ```arch``` as a part of the build.  Switching to a native terminal fixed the issue for me.
+
+```bash
+brew install cmake qt@5 protobuf libusb
+```
+
 ### 1.2) Clone and prepare out of source build
 Firstly you need to obtain sources from git and prepare directory for out of source build:
 ```
@@ -60,6 +69,10 @@ cmake ..
 ```
 cmake -G "Unix Makefiles" ..
 ```
+#### 1.2.3) Configuring on MacOS
+```bash
+cmake .. -DQt5_DIR=$(brew --prefix qt5)/lib/cmake/Qt5 -DCMAKE_PREFIX_PATH=/opt/homebrew
+````
 ### 1.4) Build
 ```
 make -j$(nproc)
