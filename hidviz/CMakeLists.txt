@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.2)
-project(hidviz VERSION 0.1.5 LANGUAGES C CXX)
 
 # Cmake 3.17 changed automoc behaviour for header files with .hh extension.
 # Now these files are passed to automoc. When policy is set to <3.17, these
