@@ -1,0 +1,281 @@
+syntax = "proto2";
+package libhidx.buffer;
+
+message Init {
+    message Request {
+    }
+
+    message Response {
+        optional int32 retValue = 1;
+        optional uint64 ctx = 2;
+    }
+}
+
+message Exit {
+    message Request {
+        optional uint64 ctx = 1;
+    }
+
+    message Response {
+    }
+}
+
+message GetDeviceList {
+    message Request {
+        optional uint64 ctx = 1;
+    }
+
+    message Response {
+        optional int64 retValue = 1;
+        repeated uint64 deviceList = 2;
+        optional uint64 listHandle = 3;
+    }
+}
+
+message FreeDeviceList {
+    message Request {
+        optional uint64 listHandle = 1;
+        optional int32 unrefDevices = 2;
+    }
+
+    message Response {
+
+    }
+}
+
+message GetDeviceDescriptor {
+    message Request {
+        optional int64 device = 1;
+    }
+
+    message Response {
+        optional int32 retValue = 1;
+        optional DeviceDescriptor deviceDescriptor = 2;
+    }
+}
+
+
+message DeviceDescriptor {
+    optional uint32 length = 1;
+    optional uint32 descriptorType = 2;
+    optional uint32 bcdUSB = 3;
+    optional uint32 deviceClass = 4;
+    optional uint32 deviceSubClass = 5;
+    optional uint32 deviceProtocol = 6;
+    optional uint32 maxPacketSize = 7;
+    optional uint32 vendor = 8;
+    optional uint32 product = 9;
+    optional uint32 bcdDevice = 10;
+    optional uint32 indexManufacturer = 11;
+    optional uint32 indexProduct = 12;
+    optional uint32 indexSerialNumber = 13;
+    optional uint32 numConfiguration = 14;
+}
+
+message GetActiveConfigDescriptor {
+    message Request {
+        optional int64 device = 1;
+    }
+
+    message Response {
+        optional int32 retValue = 1;
+        optional ConfigDescriptor configDescriptor = 2;
+    }
+}
+
+message ConfigDescriptor {
+    optional uint32 length = 1;
+    optional uint32 descriptorType = 2;
+    optional uint32 totalLength = 3;
+    optional uint32 numInterfaces = 4;
+    optional uint32 configurationValue = 5;
+    optional uint32 indexConfiguration = 6;
+    optional uint32 attributes = 7;
+    optional uint32 maxPower = 8;
+    repeated Interface interface = 9;
+    optional bytes extra = 10;
+    optional int32 extraLength = 11;
+}
+
+message Interface {
+    repeated InterfaceDescriptor altsetting = 1;
+    optional int32 numAltsetting = 2;
+}
+
+message InterfaceDescriptor {
+    optional uint32 length = 1;
+    optional uint32 descriptorType = 2;
+    optional uint32 interfaceNumber = 3;
+    optional uint32 alternateSetting = 4;
+    optional uint32 numEndpoints = 5;
+    optional uint32 interfaceClass = 6;
+    optional uint32 interfaceSubClass = 7;
+    optional uint32 interfaceProtocol = 8;
+    optional uint32 indexInterface = 9;
+    repeated EndpointDescriptor endpoint = 10;
+    optional bytes extra = 11;
+    optional int32 extraLength = 12;
+}
+
+message EndpointDescriptor {
+    optional uint32 length = 1;
+    optional uint32 descriptorType = 2;
+    optional uint32 endpointAddress = 3;
+    optional uint32 attributes = 4;
+    optional uint32 maxPacketSize = 5;
+    optional uint32 interval = 6;
+    optional uint32 refresh = 7;
+    optional uint32 synchAddress = 8;
+    optional bytes extra = 9;
+    optional int32 extraLength = 10;
+}
+
+message Open {
+    message Request {
+        optional uint64 device = 1;
+    }
+
+    message Response {
+        optional int32 retvalue = 1;
+        optional uint64 handle = 2;
+    }
+}
+
+message Close {
+    message Request {
+        optional uint64 handle = 1;
+    }
+
+    message Response {
+
+    }
+}
+
+message KernelDriverActive {
+    message Request {
+        optional uint64 handle = 1;
+        optional int32 interfaceNumber = 2;
+    }
+
+    message Response {
+        optional int32 retvalue = 1;
+    }
+}
+
+message DetachKernelDriver {
+    message Request {
+        optional uint64 handle = 1;
+        optional int32 interfaceNumber = 2;
+    }
+
+    message Response {
+        optional int32 retvalue = 1;
+    }
+}
+
+message AttachKernelDriver {
+    message Request {
+        optional uint64 handle = 1;
+        optional int32 interfaceNumber = 2;
+    }
+
+    message Response {
+        optional int32 retvalue = 1;
+    }
+}
+
+message ClaimInterface {
+    message Request {
+        optional uint64 handle = 1;
+        optional int32 interfaceNumber = 2;
+    }
+
+    message Response {
+        optional int32 retvalue = 1;
+    }
+}
+
+
+message ReleaseInterface {
+    message Request {
+        optional uint64 handle = 1;
+        optional int32 interfaceNumber = 2;
+    }
+
+    message Response {
+        optional int32 retvalue = 1;
+    }
+}
+
+message GetStringDescriptorAscii {
+    message Request {
+        optional uint64 handle = 1;
+        optional int32 descIndex = 2;
+    }
+
+    message Response {
+        optional int32 retvalue = 1;
+        optional string data = 2;
+    }
+}
+
+message ControlOutTransfer {
+    message Request {
+        optional uint64 handle = 1;
+        optional uint32 requestType = 2;
+        optional uint32 request = 3;
+        optional uint32 value = 4;
+        optional uint32 index = 5;
+        optional bytes data = 6;
+        optional uint32 timeout = 7;
+    }
+
+    message Response {
+        optional int32 retvalue = 1;
+    }
+}
+
+message ControlInTransfer {
+    message Request {
+        optional uint64 handle = 1;
+        optional uint32 requestType = 2;
+        optional uint32 request = 3;
+        optional uint32 value = 4;
+        optional uint32 index = 5;
+        optional uint32 length = 6;
+        optional uint32 timeout = 7;
+    }
+
+    message Response {
+        optional int32 retvalue = 1;
+        optional bytes data = 2;
+    }
+}
+
+message InterruptOutTransfer {
+    message Request {
+        optional uint64 handle = 1;
+        optional uint32 endpoint = 2;
+        optional bytes data = 3;
+        optional uint32 timeout = 4;
+    }
+
+    message Response {
+        optional int32 retvalue = 1;
+        optional int32 transferred = 2;
+    }
+}
+
+message InterruptInTransfer {
+    message Request {
+        optional uint64 handle = 1;
+        optional uint32 endpoint = 2;
+        optional uint32 length = 3;
+        optional uint32 timeout = 5;
+    }
+    message Response {
+        optional int32 retvalue = 1;
+        optional int32 transferred = 2;
+        optional bytes data = 3;
+    }
+}
