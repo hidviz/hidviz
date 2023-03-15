@@ -54,7 +54,7 @@ namespace hidviz {
         auto buttonGroup = new QButtonGroup{this};
         buttonGroup->addButton(ui->descriptorViewButton, 0);
         buttonGroup->addButton(ui->deviceViewButton, 1);
-        connect(buttonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), ui->content, &QStackedWidget::setCurrentIndex);
+        connect(buttonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::idClicked), ui->content, &QStackedWidget::setCurrentIndex);
 
         connect(ui->hideInactiveUsagesButton, &QAbstractButton::clicked, this, &Window::updateSettings);
         connect(ui->clampValues, &QAbstractButton::clicked, this, &Window::updateSettings);
