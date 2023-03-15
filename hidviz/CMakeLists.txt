@@ -50,5 +50,9 @@ if(NOT WIN32)
     install(TARGETS hidviz
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
             )
+
+    install(FILES images/icons/hidviz.png DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/icons/hicolor/128x128/apps)
+    install(FILES data/hidviz.desktop DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/applications)
+
     set_target_properties(hidviz PROPERTIES INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/hidviz)
 endif()
