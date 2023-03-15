@@ -1,0 +1,10 @@
+environment:
+  MSYSTEM: MINGW64
+install:
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syuu"
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syuu"
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm --needed -Sy git mingw-w64-x86_64-cmake mingw-w64-x86_64-libusb mingw-w64-x86_64-protobuf mingw-w64-x86_64-protobuf-c mingw-w64-x86_64-toolchain make"
+  - xcopy /s /e C:\projects C:\msys64\home\appveyor
+
+build_script:
+  - C:\msys64\usr\bin\bash -lc "mkdir libhidx/build && cd libhidx/build && cmake -G ""Unix Makefiles"" .. && make"

@@ -1,0 +1,16 @@
+sudo: false
+dist: bionic
+language: cpp
+compiler:
+  - gcc
+  - clang
+addons:
+  apt:
+    packages:
+      - g++
+      - clang
+      - libusb-1.0-0-dev
+      - libprotobuf-dev
+      - protobuf-compiler
+script:
+  - mkdir build && cd build && cmake .. && make
