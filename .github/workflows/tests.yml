@@ -1,0 +1,31 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - "*"
+  push:
+    branches:
+      - main
+
+jobs:
+  compile:
+    name: "▶️ Compile"
+    runs-on: ubuntu-latest
+    container:
+      image: registry.fedoraproject.org/fedora:37
+
+    steps:
+      - name: Install build dependencies
+        run: dnf -y install cmake gcc-c++ qt6-qtbase-devel protobuf-devel libusbx-devel asio-devel
+
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build .
+          cmake --install .
