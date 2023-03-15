@@ -10,7 +10,7 @@ if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.17)
 endif()
 
 # Find the QtWidgets library
-find_package(Qt5 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 find_package(Protobuf REQUIRED)
 
@@ -35,7 +35,7 @@ add_executable(hidviz WIN32
 
 target_link_libraries(hidviz
         hidx
-        Qt5::Widgets
+        Qt6::Widgets
         )
 target_compile_features(hidviz PUBLIC
         cxx_relaxed_constexpr #this should force c++14

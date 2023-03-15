@@ -18,17 +18,17 @@ Hidviz can be built on various platforms where following prerequisities can be o
 - C++ compiler with C++14 support
 - libusb 1.0 (can be called libusbx in you distro)
 - protobuf (v2 is enough)
-- Qt5 base
+- Qt6 base
 - CMake (>=3.2)
 
 #### 1.1.1) Installing prerequisities on Fedora
 ```
-sudo dnf install gcc-c++ gcc qt5-qtbase-devel protobuf-devel libusbx-devel
+sudo dnf install gcc-c++ gcc qt6-qtbase-devel protobuf-devel libusbx-devel
 ```
 
 #### 1.1.2) Installing prerequisities on Ubuntu
 ```
-sudo apt-get install build-essential qtbase5-dev libprotobuf-dev protobuf-compiler libusb-1.0-0-dev
+sudo apt-get install build-essential qtbase6-dev libprotobuf-dev protobuf-compiler libusb-1.0-0-dev
 ```
 *Note that Ubuntu 14.04 LTS has old gcc unable to build hidviz, you need to install at least [gcc 5](https://launchpad.net/~ubuntu-toolchain-r).*
 
@@ -38,7 +38,7 @@ sudo apt-get install build-essential qtbase5-dev libprotobuf-dev protobuf-compil
 If you do not have MSYS2 installed, firstly follow this [guide](https://github.com/msys2/msys2/wiki/MSYS2-installation) to install MSYS2.
 
 ```
-pacman -S git mingw-w64-x86_64-cmake mingw-w64-x86_64-qt5 mingw-w64-x86_64-libusb \
+pacman -S git mingw-w64-x86_64-cmake mingw-w64-x86_64-qt6 mingw-w64-x86_64-libusb \
           mingw-w64-x86_64-protobuf mingw-w64-x86_64-protobuf-c mingw-w64-x86_64-toolchain \
           make
 ```
@@ -46,7 +46,7 @@ pacman -S git mingw-w64-x86_64-cmake mingw-w64-x86_64-qt5 mingw-w64-x86_64-libus
 #### 1.1.4) Install prerequsites on MacOS
 _Please not hidviz on macos is not an offically supported platform.  This has been known to work, but your mileage may vary._
 
-You need to install cmake, qt5 and protobuf and libusb via brew.  Please also ensure that if you are using an M1 based mac that youe build envornment matches the host architecture.  I was stumped for a while with a failing build because I was using an x86 version of vscode which caused problems when querying ```arch``` as a part of the build.  Switching to a native terminal fixed the issue for me.
+You need to install cmake, qt6 and protobuf and libusb via brew.  Please also ensure that if you are using an M1 based mac that youe build envornment matches the host architecture.  I was stumped for a while with a failing build because I was using an x86 version of vscode which caused problems when querying ```arch``` as a part of the build.  Switching to a native terminal fixed the issue for me.
 
 ```bash
 brew install cmake qt@5 protobuf libusb
@@ -71,7 +71,7 @@ cmake -G "Unix Makefiles" ..
 ```
 #### 1.2.3) Configuring on MacOS
 ```bash
-cmake .. -DQt5_DIR=$(brew --prefix qt5)/lib/cmake/Qt5 -DCMAKE_PREFIX_PATH=/opt/homebrew
+cmake .. -DQt6_DIR=$(brew --prefix qt6)/lib/cmake/Qt6 -DCMAKE_PREFIX_PATH=/opt/homebrew
 ````
 ### 1.4) Build
 ```
