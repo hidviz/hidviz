@@ -1,6 +1,4 @@
 # Hidviz
-[![Build Status](https://travis-ci.org/ondrejbudai/hidviz.svg?branch=master)](https://travis-ci.org/ondrejbudai/hidviz)
-[![Build status](https://ci.appveyor.com/api/projects/status/8v04qku72xc7sh4t/branch/master?svg=true)](https://ci.appveyor.com/project/ondrejbudai/hidviz/branch/master)
 
 Hidviz is a GUI application for in-depth analysis of USB HID class devices. The 2 main usecases of this application are reverse-engineering existing devices and developing new USB HID devices.
 
@@ -8,11 +6,11 @@ Hidviz is a GUI application for in-depth analysis of USB HID class devices. The 
 joysticks and gamepads. But that's not all! There are more exotic HID devices, e.g. weather stations, medical equipment
 (thermometers, blood pressure monitors) or even simulation devices (think of flight sticks!).*
 
-![Hidviz screenshot](https://github.com/ondrejbudai/hidviz/blob/master/media/screenshot.png?raw=true)
+![Hidviz screenshot](https://github.com/ondrejbudai/hidviz/blob/main/media/screenshot.png?raw=true)
 
 ## 1) Building
 
-Hidviz can be built on various platforms where following prerequisities can be obtained. Currently only Fedora, Ubuntu and MSYS2/Windows are supported and build guide is available for them.  There is also experimental support for MacOS which has currently been tested on an M1 based Mac.
+Hidviz can be built on various platforms where following prerequisites can be obtained. Currently only Fedora, Ubuntu and MSYS2/Windows are supported and build guide is available for them.  There is also experimental support for MacOS which has currently been tested on an M1 based Mac.
 
 ### 1.1) Prerequisities
 - C++ compiler with C++14 support
@@ -23,14 +21,13 @@ Hidviz can be built on various platforms where following prerequisities can be o
 
 #### 1.1.1) Installing prerequisities on Fedora
 ```
-sudo dnf install gcc-c++ gcc qt6-qtbase-devel protobuf-devel libusbx-devel
+sudo dnf install cmake gcc-c++ qt6-qtbase-devel protobuf-devel libusbx-devel asio-devel
 ```
 
 #### 1.1.2) Installing prerequisities on Ubuntu
 ```
 sudo apt-get install build-essential qtbase6-dev libprotobuf-dev protobuf-compiler libusb-1.0-0-dev
 ```
-*Note that Ubuntu 14.04 LTS has old gcc unable to build hidviz, you need to install at least [gcc 5](https://launchpad.net/~ubuntu-toolchain-r).*
 
 #### 1.1.3) Installing prerequisities on MSYS2/Windows
 *Please note hidviz is primarily developed on Linux and we currently don't have Windows CI therefore Windows build can be broken at any time. If you find so, please create an issue.*
@@ -44,9 +41,9 @@ pacman -S git mingw-w64-x86_64-cmake mingw-w64-x86_64-qt6 mingw-w64-x86_64-libus
 ```
 
 #### 1.1.4) Install prerequsites on MacOS
-_Please not hidviz on macos is not an offically supported platform.  This has been known to work, but your mileage may vary._
+_Please not hidviz on macos is not an officially supported platform.  This has been known to work, but your mileage may vary._
 
-You need to install cmake, qt6 and protobuf and libusb via brew.  Please also ensure that if you are using an M1 based mac that youe build envornment matches the host architecture.  I was stumped for a while with a failing build because I was using an x86 version of vscode which caused problems when querying ```arch``` as a part of the build.  Switching to a native terminal fixed the issue for me.
+You need to install cmake, qt6 and protobuf and libusb via brew.  Please also ensure that if you are using an M1 based mac that your build environment matches the host architecture.  I was stumped for a while with a failing build because I was using an x86 version of vscode which caused problems when querying ```arch``` as a part of the build.  Switching to a native terminal fixed the issue for me.
 
 ```bash
 brew install cmake qt@5 protobuf libusb
