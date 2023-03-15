@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Hidviz
+Comment=A tool for in-depth analysis of USB HID devices communication
+Exec=hidviz
+Icon=hidviz
+Terminal=false
+Categories=Development;
