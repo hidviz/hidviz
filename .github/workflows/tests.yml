@@ -13,7 +13,7 @@ jobs:
     name: "▶️ Compile"
     runs-on: ubuntu-latest
     container:
-      image: registry.fedoraproject.org/fedora:37
+      image: registry.fedoraproject.org/fedora
 
     steps:
       - name: Install build dependencies
