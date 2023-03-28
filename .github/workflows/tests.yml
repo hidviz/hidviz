@@ -9,8 +9,8 @@ on:
       - main
 
 jobs:
-  compile:
-    name: "▶️ Compile"
+  compile-fedora:
+    name: "▶️ Compile (Fedora)"
     runs-on: ubuntu-latest
     container:
       image: registry.fedoraproject.org/fedora
@@ -18,6 +18,48 @@ jobs:
     steps:
       - name: Install build dependencies
         run: dnf -y install cmake gcc-c++ qt6-qtbase-devel protobuf-devel libusbx-devel asio-devel
+
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build .
+          cmake --install .
+
+  compile-ubuntu-lts:
+    name: "▶️ Compile (Ubuntu LTS)"
+    runs-on: ubuntu-latest
+    container:
+      image: docker.io/ubuntu:latest
+
+    steps:
+      - name: Install build dependencies
+        run: apt-get update && apt-get -y install build-essential qt6-base-dev libprotobuf-dev protobuf-compiler libusb-1.0-0-dev cmake libgl1-mesa-dev libasio-dev
+
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build .
+          cmake --install .
+
+  compile-ubuntu:
+    name: "▶️ Compile (Ubuntu)"
+    runs-on: ubuntu-latest
+    container:
+      image: docker.io/ubuntu:rolling
+
+    steps:
+      - name: Install build dependencies
+        run: apt-get update && apt-get -y install build-essential qt6-base-dev libprotobuf-dev protobuf-compiler libusb-1.0-0-dev cmake libgl1-mesa-dev libasio-dev
 
       - name: Check out code
         uses: actions/checkout@v3
