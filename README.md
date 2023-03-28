@@ -26,7 +26,7 @@ sudo dnf install cmake gcc-c++ qt6-qtbase-devel protobuf-devel libusbx-devel asi
 
 #### 1.1.2) Installing prerequisities on Ubuntu
 ```
-sudo apt-get install build-essential qt6-base-dev libprotobuf-dev protobuf-compiler libusb-1.0-0-dev
+sudo apt-get install build-essential qt6-base-dev libprotobuf-dev protobuf-compiler libusb-1.0-0-dev libgl1-mesa-dev cmake libasio-dev
 ```
 
 #### 1.1.3) Installing prerequisities on MSYS2/Windows
