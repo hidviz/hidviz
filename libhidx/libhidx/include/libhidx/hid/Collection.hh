@@ -22,6 +22,7 @@
 #define LIBHIDX_COLLECTION_HH
 
 #include "Item.hh"
+#include <cstdint>
 
 namespace libhidx {
     class Parser;
