@@ -23,6 +23,7 @@
 
 #include <vector>
 #include <memory>
+#include <cstdint>
 
 namespace libhidx {
     namespace buffer {
