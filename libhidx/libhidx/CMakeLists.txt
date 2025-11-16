@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.10)
 project(libhidx VERSION 0.0.1 LANGUAGES C CXX)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
