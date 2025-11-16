@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.10)
 project(libhidx_server VERSION 0.0.1 LANGUAGES C CXX)
 
 add_executable(libhidx_server_daemon
