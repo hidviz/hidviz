@@ -92,7 +92,7 @@ namespace libhidx {
         std::string m_socketDir;
 
         /// Asio IO service.
-        asio::io_service m_ioService;
+        asio::io_context m_ioService;
 
         /// Socket used to communicate with helper process.
         std::unique_ptr<asio::generic::stream_protocol::socket> m_socket;

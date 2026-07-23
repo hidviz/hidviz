@@ -374,7 +374,7 @@ namespace server {
 
         std::string sockPath = sockDir + "/" + SOCKET_FILENAME;
 
-        asio::io_service io_service;
+        asio::io_context io_service;
         local::endpoint ep(sockPath);
         local::acceptor acceptor{io_service, ep};
         local::socket localSocket{io_service};
@@ -399,12 +399,12 @@ namespace server {
                 return;
             }
 
-            timer.expires_from_now(500ms);
+            timer.expires_after(500ms);
             timer.async_wait(timerHandler);
         };
 
         if(watchParent) {
-            timer.expires_from_now(500ms);
+            timer.expires_after(500ms);
             timer.async_wait(timerHandler);
         }
 
